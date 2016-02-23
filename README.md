@@ -1,8 +1,7 @@
 Tageler API
------------
-
-## Quickstart
-
+===========
+Quickstart
+----------
 ```bash
 git clone https://github.com/tageler/tageler-api.git
 cd tageler-api
