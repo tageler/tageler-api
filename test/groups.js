@@ -65,27 +65,33 @@ describe('List of groups', function() {
       });
   });
 
-  fixtures({
-    group: [
-      {name: 'XX. Trupp'}
-    ]
-  }, function(err, data) {
-      console.log('dem fixtures');
-    if (err) return done(err);
+  it('reads prexisting groups', function(done) {
+    fixtures({
+      group: [
+        {name: 'XX. Trupp'}
+      ]
+    }, function(err, data) {
+      if (err) return done(err);
 
-    it('reads prexisting groups', function(done) {
-      api.get('/api/groups/')
+      api.get('/api/groups')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
-            console.log('derp');
           if (err) return done(err);
           res.body.should.be.instanceof(Array).and.to.have.lengthOf(1);
           done();
         });
     });
+  });
 
-    it('reads existing groups directly', function(done) {
+  it('reads existing groups directly', function(done) {
+    fixtures({
+      group: [
+        {name: 'XX. Trupp'}
+      ]
+    }, function(err, data) {
+      if (err) return done(err);
+
       api.get('/api/groups/' + data[0][0]._id)
         .expect(200)
         .expect('Content-Type', /json/)
