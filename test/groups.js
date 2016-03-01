@@ -15,8 +15,10 @@ describe('List of groups', function() {
   });
 
   beforeEach(function(done) {
-    mongoose.connection.db.dropDatabase(function(){
-      done();
+    mongoose.connection.db.dropDatabase(function(err, result) {
+      if (err) return done(err);
+      // kludge to let mongodb do its thing before the next test runs
+      setTimeout(done, 1);
     });
   });
 
@@ -52,13 +54,13 @@ describe('List of groups', function() {
       });
   });
 
-  it('sends CORS headers', function() {
+  it('sends CORS headers', function(done) {
     api.get('/api/groups')
       .expect(200)
       .expect('Access-Control-Allow-Methods', 'GET, POST')
-      .expect('Access-Control-Allow-Origin', '')
-      .expect('Access-Control-Expose-Headers', /api-version/)
-      .expect('Access-Control-Allow-Headers', /Accept/)
+      .expect('Access-Control-Allow-Origin', '*')
+      .expect('Access-Control-Expose-Headers', /api-version/i)
+      .expect('Access-Control-Allow-Headers', /accept/i)
       .end(function(err, data) {
           if (err) return done(err);
           done();
