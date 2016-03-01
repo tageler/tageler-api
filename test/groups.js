@@ -1,3 +1,5 @@
+const dbURI = 'mongodb://localhost/test';
+
 const should = require('chai').should();
 const supertest = require('supertest');
 const server = require('../src/server');
@@ -5,13 +7,15 @@ const models = require('../src/models');
 const api = supertest(server);
 const fixtures = require('node-mongoose-fixtures');
 const mongoose = require('mongoose');
-const clearDB = require('mocha-mongoose')();
 
 describe('List of groups', function() {
-  beforeEach(function(done) {
-    clearDB(function(err) {
-      if (err) return done(err);
+  before(function(done) {
+    if (mongoose.connection.db) return done();
+    mongoose.connect(dbURI, done);
+  });
 
+  beforeEach(function(done) {
+    mongoose.connection.db.dropDatabase(function(){
       done();
     });
   });
@@ -48,44 +52,6 @@ describe('List of groups', function() {
       });
   });
 
-  it('reads prexisting groups', function(done) {
-    fixtures({
-      group: [
-        {name: 'XX. Trupp'}
-      ]
-    }, function(err, data) {
-      if (err) return done(err);
-
-      api.get('/api/groups')
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err);
-          res.body.should.be.instanceof(Array).and.to.have.lengthOf(1);
-          done();
-        });
-    });
-  });
-
-  it('reads existing groups directly', function(done) {
-    fixtures({
-      group: [
-        {name: 'XX. Trupp'}
-      ]
-    }, function(err, data) {
-      if (err) return done(err);
-
-      api.get('/api/groups/' + data[0][0]._id)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err);
-          res.body.should.be.instanceof(Object).and.to.have.property('name', 'XX. Trupp');
-          done();
-        });
-    });
-  });
-
   it('sends CORS headers', function() {
     api.get('/api/groups')
       .expect(200)
@@ -98,5 +64,36 @@ describe('List of groups', function() {
           done();
       });
   });
-});
 
+  fixtures({
+    group: [
+      {name: 'XX. Trupp'}
+    ]
+  }, function(err, data) {
+      console.log('dem fixtures');
+    if (err) return done(err);
+
+    it('reads prexisting groups', function(done) {
+      api.get('/api/groups/')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+            console.log('derp');
+          if (err) return done(err);
+          res.body.should.be.instanceof(Array).and.to.have.lengthOf(1);
+          done();
+        });
+    });
+
+    it('reads existing groups directly', function(done) {
+      api.get('/api/groups/' + data[0][0]._id)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) return done(err);
+          res.body.should.be.instanceof(Object).and.to.have.property('name', 'XX. Trupp');
+          done();
+        });
+    });
+  });
+});
