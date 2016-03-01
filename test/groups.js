@@ -85,5 +85,18 @@ describe('List of groups', function() {
         });
     });
   });
+
+  it('sends CORS headers', function() {
+    api.get('/api/groups')
+      .expect(200)
+      .expect('Access-Control-Allow-Methods', 'GET, POST')
+      .expect('Access-Control-Allow-Origin', '')
+      .expect('Access-Control-Expose-Headers', /api-version/)
+      .expect('Access-Control-Allow-Headers', /Accept/)
+      .end(function(err, data) {
+          if (err) return done(err);
+          done();
+      });
+  });
 });
 
