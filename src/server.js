@@ -6,7 +6,10 @@ const models = require('./models');
 
 const server = restify.createServer();
 
-mongoose.connect('localhost', 'test');
+mongoose.connect(
+  process.env.MONGODB_PORT_27017_TCP_ADDR || 'localhost',
+  process.env.MONGODB_DATABASE_NAME || 'tageler'
+);
 
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
