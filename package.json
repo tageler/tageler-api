@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "test": "NODE_ENV=test mocha",
     "coverage": "NODE_ENV=test istanbul cover _mocha",
-    "update-packages": "ncu -u && npm install"
+    "update-packages": "npm install npm-check-updates && ncu -u && npm install"
   },
   "author": "Lucas Bickel",
   "license": "GPL-3.0",
@@ -22,7 +22,6 @@
     "jshint-stylish": "^2.1.0",
     "mocha": "^3.2.0",
     "node-mongoose-fixtures": "^0.2.4",
-    "npm-check-updates": "^2.8.9",
     "supertest": "^2.0.1"
   },
   "dependencies": {
