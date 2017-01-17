@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "NODE_ENV=test mocha",
-    "coverage": "NODE_ENV=test istanbul cover _mocha"
+    "coverage": "NODE_ENV=test istanbul cover _mocha",
+    "update-packages": "ncu -u && npm install"
   },
   "author": "Lucas Bickel",
   "license": "GPL-3.0",
@@ -14,19 +15,20 @@
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.0",
-    "gulp-mocha": "^2.2.0",
+    "gulp-mocha": "^3.0.1",
     "gulp-nodemon": "^2.0.6",
     "istanbul": "^0.4.5",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
-    "mocha": "^2.4.5",
+    "mocha": "^3.2.0",
     "node-mongoose-fixtures": "^0.2.4",
-    "supertest": "^1.2.0"
+    "npm-check-updates": "^2.8.9",
+    "supertest": "^2.0.1"
   },
   "dependencies": {
-    "mongodb": "^2.1.7",
+    "mongodb": "^2.2.19",
     "mongoose": "^4.4.5",
     "restify": "^4.0.4",
-    "restify-mongoose": "^0.2.6"
+    "restify-mongoose": "^1.0.0"
   }
 }
