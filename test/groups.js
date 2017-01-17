@@ -15,11 +15,7 @@ describe('List of groups', function() {
   });
 
   beforeEach(function(done) {
-    mongoose.connection.db.dropDatabase(function(err, result) {
-      if (err) return done(err);
-      // kludge to let mongodb do its thing before the next test runs
-      setTimeout(done, 1);
-    });
+    models.Group.remove({}, done);
   });
 
   it('returns an empty list of groups', function(done) {
