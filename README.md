@@ -1,5 +1,10 @@
 Tageler API
 ===========
+Preconditions
+---
+- Install NodeJS
+- MongoDB is up and running
+
 Quickstart
 ----------
 ```bash
