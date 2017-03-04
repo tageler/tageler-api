@@ -18,6 +18,14 @@ server.use(restify.bodyParser());
 server.pre(restify.CORS());
 server.use(restify.fullResponse());
 
+//TODO HTML with all API methods
+server.get('/', function(req, res) {
+    return res.send("The game is on!");
+});
+server.get('/hello', function(req, res) {
+    return res.send("HELLO WORLD!");
+});
+
 restifyMongoose(models.Group).serve('/api/groups', server);
 
 module.exports = server;
