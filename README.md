@@ -3,7 +3,7 @@ Tageler API
 Preconditions
 ---
 - Install NodeJS
-- MongoDB is up and running
+- Install and run MongoDB
 
 Quickstart
 ----------

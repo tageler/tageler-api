@@ -1,2 +1,10 @@
 node_modules/
 coverage/
+
+.idea/modules.xml
+
+.idea/tageler-api.iml
+
+.idea/vcs.xml
+
+.idea/workspace.xml
