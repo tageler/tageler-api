@@ -1,5 +1,11 @@
 Tageler API
 ===========
+Preconditions
+---
+- Install NodeJS
+- Install and run MongoDB
+- Alternatively: Use [docker](https://github.com/tageler/tageler-docker)
+
 Quickstart
 ----------
 ```bash
