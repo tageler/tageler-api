@@ -2,30 +2,30 @@ function tagelerController() {
     var tageler = require('../models/tagelerModel');
 
     this.createTageler = function (req, res) {
-        var titel = req.params.titel;
-        var einheit = req.params.einheit;
+        var title = req.params.title;
+        var unit = req.params.unit;
         var start = req.params.start;
-        var ende = req.params.ende;
-        var mitnehmen = req.params.mitnehmen;
-        var tenue = req.params.tenue;
-        var bild = req.params.bild;
-        var abmeldefrist = req.params.abmeldefrist;
+        var end = req.params.end;
+        var bring_along = req.params.bring_along;
+        var uniform = req.params.uniform;
+        var picture = req.params.picture;
+        var checkout_deadline = req.params.checkout_deadline;
 
         tageler.create({
-            titel: titel,
-            einheit:einheit,
+            title: title,
+            unit:unit,
             start: start,
-            ende: ende,
-            mitnehmen: mitnehmen,
-            tenue: tenue,
-            bild: bild,
-            abmeldefrist: abmeldefrist
+            end: end,
+            bring_along: bring_along,
+            uniform: uniform,
+            picture: picture,
+            checkout_deadline: checkout_deadline
         },function(err,result){
             if (err) {
                 console.log(err);
                 return res.send({'error':err});
             } else {
-                return res.send({'result': result, 'status': 'u has nu tageler now!'});
+                return res.send({'result': result, 'status': 'New TAGELER has been added!'});
             }
         });
     };
@@ -35,7 +35,7 @@ function tagelerController() {
             if(err){
                 console.log(err);
             }else{
-                return res.send({'tageler name':result});
+                return res.send({'tagelers':result});
             }
         });
     };

@@ -3,17 +3,15 @@ const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 
 module.exports = (function tagelerSchema () {
-
-
     var schema = {
-        titel: {type: String, required: true},
-        einheit: {type: String, required: true},
+        title: {type: String, required: true},
+        unit: {type: String, required: true},
         start: {type: Date, required: true},
-        ende: {type: String, required: true},
-        mitnehmen: {type: String, required: true},
-        tenue: {type: String, required: true},
-        bild: {type: String, required: true},
-        abmeldefrist: {type: String, required: true}
+        end: {type: Date, required: true},
+        bring_along: {type: String, required: true},
+        uniform: {type: String, required: true},
+        picture: {type: String, required: true},
+        checkout_deadline: {type: Date, required: true}
     };
     var collectionName = 'tageler';
     var tagelerSchema = mongoose.Schema(schema);
