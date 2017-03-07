@@ -2,17 +2,16 @@
  * All GET/POST requests will be routed through here
  */
 module.exports = function (server) {
-    var cat = require('./controllers/catController');
+    var tageler = require('./controllers/tagelerController');
 
     //TODO HTML with all API methods
     server.get('/', function (req, res) {
-        return res.send("The f is on!");
+        return res.send("The game is on!");
     });
     server.get('/hello', function (req, res) {
         return res.send("HELLO WORLD!");
     });
 
-    server.post('/createCat', cat.createCat);
-    server.get('/getCat', cat.getCat);
-
+    server.post('/createTageler', tageler.createTageler);
+    server.get('/getTageler', tageler.getTageler);
 };
