@@ -8,7 +8,7 @@ module.exports = (function tagelerSchema () {
     var schema = {
         titel: {type: String, required: true},
         einheit: {type: String, required: true},
-        start: {type: Date, required: true},
+        start: {type: String, required: true},
         ende: {type: String, required: true},
         mitnehmen: {type: String, required: true},
         tenue: {type: String, required: true},
