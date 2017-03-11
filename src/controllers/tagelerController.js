@@ -1,5 +1,6 @@
 function tagelerController() {
     var tageler = require('../models/tagelerModel');
+    var mongo = require('mongodb');
 
     this.createTageler = function (req, res) {
         var title = req.params.title;
@@ -39,7 +40,20 @@ function tagelerController() {
             }
         });
     };
+
+    this.getTagelerById = function(req, res) {
+        tageler.findOne({ "_id": mongo.ObjectId(req.params._id) }, function(err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                return res.send({'tageler': result});
+            }
+        });
+    };
+
     return this;
+
+
 }
 
 module.exports = new tagelerController();

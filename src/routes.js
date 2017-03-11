@@ -14,4 +14,5 @@ module.exports = function (server) {
 
     server.post('/createTageler', tageler.createTageler);
     server.get('/getTageler', tageler.getTageler);
+    server.get('/getTagelerById/:id', tageler.getTagelerById);
 };
