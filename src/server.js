@@ -18,7 +18,9 @@ server.use(restify.bodyParser());
 server.pre(restify.CORS());
 server.use(restify.fullResponse());
 
-restifyMongoose(models.Group).serve('/api/groups', server);
+//restifyMongoose(models.Group).serve('/api/groups', server);
+restifyMongoose(models.Tageler).serve('/api/tagelers', server);
+restifyMongoose(models.Unit).serve('/api/units', server);
 
 module.exports = server;
 

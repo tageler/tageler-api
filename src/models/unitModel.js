@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 //Without next line there will be a deprecated warning
 mongoose.Promise = Promise;
 
+//should be either Meute, Trupp or Equipe
 module.exports = (function unitSchema () {
     var schema = {
-        //should be either Meute, Trupp or Equipe
+        type: {type: String,
+            enum:['Meute','Trupp','Equipe'],
+            default:'Meute',
+            required: true},
         name: {type: String, required: true}
     };
     var collectionName = 'unit';
