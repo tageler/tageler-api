@@ -3,6 +3,7 @@
  */
 module.exports = function (server) {
     var tageler = require('./controllers/tagelerController');
+    var unit = require('./controllers/unitController');
 
     //TODO HTML with all API methods
     server.get('/', function (req, res) {
@@ -15,4 +16,7 @@ module.exports = function (server) {
     server.post('/createTageler', tageler.createTageler);
     server.get('/getTageler', tageler.getTageler);
     server.get('/getTagelerById/:id', tageler.getTagelerById);
+
+    server.post('/createUnit', unit.createUnit);
+    server.get('/getUnit', unit.getUnit);
 };
