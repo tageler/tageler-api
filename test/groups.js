@@ -1,4 +1,4 @@
-const dbURI = 'mongodb://localhost/test';
+/*const dbURI = 'mongodb://localhost/test';
 
 const should = require('chai').should();
 const supertest = require('supertest');
@@ -101,3 +101,4 @@ describe('List of groups', function() {
     });
   });
 });
+*/

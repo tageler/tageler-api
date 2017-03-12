@@ -3,14 +3,17 @@ function unitController() {
     var mongo = require('mongodb');
 
     this.createUnit = function (req, res) {
-        var unit = req.params.unit;
+        var name = req.params.name;
+        var type = req.params.type;
+        console.log('unit: '+ name);
 
         unit.create({
-            unit: unit
+            type: type,
+            name: name
         },function(err,result){
             if (err) {
                 console.log(err);
-                return res.send({'error':err});
+                return res.send({'errors':err});
             } else {
                 return res.send({'result': result, 'status': 'New UNIT has been added!'});
             }
