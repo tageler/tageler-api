@@ -4,6 +4,7 @@ function tagelerController() {
 
     this.createTageler = function (req, res) {
         var title = req.params.title;
+        var date = req.params.date;
         var unit = req.params.unit;
         var start = req.params.start;
         var end = req.params.end;
@@ -14,7 +15,8 @@ function tagelerController() {
 
         tageler.create({
             title: title,
-            unit:unit,
+            date: date,
+            unit: unit,
             start: start,
             end: end,
             bring_along: bring_along,

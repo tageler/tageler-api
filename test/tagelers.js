@@ -55,9 +55,10 @@ describe('List of tageler', function() {
     it('creates some tagelers', function(done) {
         var tageler = [{
             title: 'Megafun im Wald',
+            date: '1.1.2017',
             unit: 'Junglejungs',
-            start:'1.1.2017',
-            end: '1.2.2017',
+            start:'14:00',
+            end: '17:00',
             bring_along:'BMPTNZ',
             uniform:'bruni hosä',
             picture:'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
@@ -65,9 +66,10 @@ describe('List of tageler', function() {
         },
             {
                 title: 'Fürlä',
+                date: '1.7.2017',
                 unit: 'Wondergirls',
-                start:'1.5.2017',
-                end: '1.19.2017',
+                start:'10:00',
+                end: '15:00',
                 bring_along:'Fürzüg u Brönnsprit',
                 uniform:'Fürfeschti häntschä',
                 picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
