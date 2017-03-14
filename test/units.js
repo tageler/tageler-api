@@ -66,7 +66,13 @@ describe('List of units', function() {
             name: 'Obsidian'
         },{
             type: 'Meute',
-            name: 'Baghira'
+            name: 'Raschka'
+        },{
+            type: 'Meute',
+            name: 'Rikki-Tikki'
+        },{
+            type: 'Pio',
+            name: 'Bratwurscht'
         }];
         for (var i = 0; i < units.length; i++){
             api.post('/createUnit')
