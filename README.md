@@ -37,7 +37,7 @@ Websites
 Glossary
 --------
 | Entity | Name in API |
-|----------|-------------|---------|
+|--------|-------------|
 | Titel | `title` |
 | Trupp | `unit` |
 | Antreten | `start` |
