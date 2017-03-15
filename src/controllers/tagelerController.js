@@ -37,6 +37,7 @@ function tagelerController() {
         tageler.find({}, function(err, result){
             if(err){
                 console.log(err);
+                return res.send({'error': err});
             }else{
                 return res.send({'tagelers':result});
             }
@@ -44,18 +45,56 @@ function tagelerController() {
     };
 
     this.getTagelerById = function(req, res) {
-        tageler.findOne({ "_id": mongo.ObjectId(req.params._id) }, function(err, result) {
+        tageler.findOne({ "_id": mongo.ObjectId(req.params._id) }, function(err, data) {
             if (err) {
                 console.log(err);
+                return res.send({'error': err});
             } else {
-                return res.send({'tageler': result});
+                return res.send({'tageler': data});
+            }
+        });
+    };
+
+    this.updateTageler = function (req, res) {
+        tageler.findById(mongo.ObjectId(req.params._id), function (err, tageler) {
+            if (err) {
+                console.log(err);
+                return res.send({'error': err});
+            } else {
+                for(var param in req.params){
+                    tageler[param] = req.params[param];
+                }
+                tageler.save(function (err, updatedData) {
+                    if (err) {
+                        console.log(err);
+                        return res.send({'error': err});
+                    } else {
+                        return res.send({'unit': updatedData});
+                    }
+                });
+            }
+        });
+    };
+
+    this.deleteTageler = function (req, res){
+        tageler.findById(mongo.ObjectId(req.params._id), function (err, tageler) {
+            if (err) {
+                console.log(err);
+                return res.send({'error': err});
+            } else {
+                tageler.remove(function (err, removed) {
+                    if (err) {
+                        console.log(err);
+                        return res.send({'error': err});
+                    } else {
+                        return res.send({'unit': removed});
+                    }
+                });
             }
         });
     };
 
     return this;
-
-
 }
 
 module.exports = new tagelerController();
