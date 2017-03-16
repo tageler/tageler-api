@@ -12,7 +12,7 @@ module.exports = function (server) {
     // tageler requests
     server.post('/createTageler', tageler.createTageler);
     server.get('/getTageler', tageler.getTageler);
-    server.get('/getTagelerById/:id', tageler.getTagelerById);
+    server.get('/getTageler/:id', tageler.getTagelerById);
     server.put('/updateTageler/:id', tageler.updateTageler);
     server.del('/deleteTageler/:id', tageler.deleteTageler);
     // unit requests

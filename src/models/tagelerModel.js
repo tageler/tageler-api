@@ -6,6 +6,9 @@ module.exports = (function tagelerSchema() {
         title: {
             type: String, required: true
         },
+        text: {
+            type: String, required: false
+        },
         date: {
             type: Date, required: true
         },
