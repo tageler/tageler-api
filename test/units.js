@@ -71,7 +71,7 @@ describe('List of units', function() {
             type: 'Meute',
             name: 'Rikki-Tikki'
         },{
-            type: 'Pio',
+            type: 'Meute',
             name: 'Bratwurscht'
         }];
         for (var i = 0; i < units.length; i++){
