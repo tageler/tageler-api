@@ -6,7 +6,7 @@ module.exports = (function unitSchema() {
     var schema = {
         type: {
             type: String,
-            enum: ['Meute', 'Trupp', 'Equipe', 'Pio'],
+            enum: ['Meute', 'Trupp', 'Equipe'],
             default: 'Meute',
             required: true
         },
