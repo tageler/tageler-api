@@ -11,6 +11,7 @@ const models = require('../src/models');
 const api = supertest(server);
 const fixtures = require('node-mongoose-fixtures');
 const mongoose = require('mongoose');
+const faker = require('faker');
 
 describe('List of tageler', function() {
     before(function(done) {
@@ -55,6 +56,7 @@ describe('List of tageler', function() {
     it('creates some tagelers', function(done) {
         var tageler = [{
             title: 'Megafun im Wald',
+            text: 'sdfg',
             date: '1.1.2017',
             unit: 'Junglejungs',
             start:'14:00',
@@ -64,17 +66,35 @@ describe('List of tageler', function() {
             picture:'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
             checkout_deadline:'1.1.2017'
         },
-            {
-                title: 'Fürlä',
-                date: '1.7.2017',
-                unit: 'Wondergirls',
-                start:'10:00',
-                end: '15:00',
-                bring_along:'Fürzüg u Brönnsprit',
-                uniform:'Fürfeschti häntschä',
-                picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
-                checkout_deadline:'3.1.2017'
-            }];
+        {
+            title: 'Fürlä',
+            text: 'adsfdg',
+            date: '1.7.2017',
+            unit: 'Wondergirls',
+            start:'10:00',
+            end: '15:00',
+            bring_along:'Fürzüg u Brönnsprit',
+            uniform:'Fürfeschti häntschä',
+            picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
+            checkout_deadline:'3.1.2017'
+        }];
+
+        for (let i = 2, len = 12; i < len; i++) {
+            tageler[i] = {
+                title: faker.lorem.sentence(3,8),
+                text: faker.hacker.phrase() + ' ' + faker.hacker.phrase(),
+                date: faker.date.future(),
+                unit: faker.hacker.noun(),
+                start:'14:00',
+                end: '17:00',
+                bring_along: faker.lorem.sentence(5,8),
+                uniform:faker.hacker.phrase(),
+                picture:faker.image.image(),
+                checkout_deadline:faker.date.future()
+            };           
+        }
+
+        
         for (var i = 0; i < tageler.length; i++){
             api.post('/createTageler')
                 .send(tageler[i])

@@ -4,6 +4,7 @@ function tagelerController() {
 
     this.createTageler = function (req, res) {
         var title = req.params.title;
+        var text = req.params.text;
         var date = req.params.date;
         var unit = req.params.unit;
         var start = req.params.start;
@@ -15,6 +16,7 @@ function tagelerController() {
 
         tageler.create({
             title: title,
+            text: text,
             date: date,
             unit: unit,
             start: start,
@@ -61,6 +63,7 @@ function tagelerController() {
                 console.log(err);
                 return res.send({'error': err});
             } else {
+                // this.tageler.update();
                 for(var param in req.params){
                     tageler[param] = req.params[param];
                 }
