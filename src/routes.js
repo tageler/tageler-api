@@ -18,6 +18,7 @@ module.exports = function (server) {
     // unit requests
     server.post('/createUnit', unit.createUnit);
     server.get('/getUnit', unit.getUnit);
+    server.get('/getUnit/:id', unit.getUnitById);
     server.put('/updateUnit/:id', unit.updateUnit);
     server.del('/deleteUnit/:id', unit.deleteUnit);
 };

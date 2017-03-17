@@ -30,6 +30,17 @@ function unitController() {
         });
     };
 
+    this.getUnitById = function(req, res) {
+        unit.findOne({ "_id": mongo.ObjectId(req.params._id) }, function(err, data) {
+            if (err) {
+                console.log(err);
+                return res.send({'error': err});
+            } else {
+                return res.send({'unit': data});
+            }
+        });
+    };
+
     this.updateUnit = function (req, res) {
         unit.findById(mongo.ObjectId(req.params._id), function (err, unit) {
             if (err) {
