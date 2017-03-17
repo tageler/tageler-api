@@ -1,33 +1,22 @@
 {
-  "name": "tageler-api",
-  "version": "0.0.0",
-  "description": "The api backend parts of the tageler app.",
-  "main": "src/index.js",
+  "name": "tagelerapp",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "start": "node src/index.js",
-    "test": "NODE_ENV=test mocha",
-    "coverage": "NODE_ENV=test istanbul cover _mocha",
-    "update-packages": "npm install npm-check-updates && ncu -u && npm install"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
   },
-  "author": "Lucas Bickel",
-  "license": "GPL-3.0",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "gulp": "^3.9.1",
-    "gulp-jshint": "^2.0.0",
-    "gulp-mocha": "^3.0.1",
-    "gulp-nodemon": "^2.0.6",
-    "istanbul": "^0.4.5",
-    "jshint": "^2.9.1",
-    "jshint-stylish": "^2.1.0",
-    "mocha": "^3.2.0",
-    "node-mongoose-fixtures": "^0.2.4",
-    "supertest": "^2.0.1"
+  "dependencies":{
+    "express":"4.15.2",
+    "mongoose":"4.8.6",
+    "bcryptjs":"2.4.3",
+    "cors":"2.8.1",
+    "jsonwebtoken":"7.3.0",
+    "body-parser":"1.17.1",
+    "passport":"0.3.2",
+    "passport-jwt":"2.2.1"
   },
-  "dependencies": {
-    "mongodb": "^2.2.19",
-    "mongoose": "^4.4.5",
-    "restify": "^4.0.4",
-    "restify-mongoose": "^1.0.0"
-  }
+  "author": "pse3",
+  "license": "ISC"
 }
