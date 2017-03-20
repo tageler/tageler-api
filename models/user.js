@@ -32,6 +32,7 @@ module.exports.getUserByUsername = function(username, callback){
     User.findOne(query, callback);
 };
 
+// adds the user with a hashed pw to the database
 module.exports.addUser = function(newUser, callback){
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -42,6 +43,7 @@ module.exports.addUser = function(newUser, callback){
     });
 };
 
+// compares a password with the hash
 module.exports.comparePassword = function(candidatePW, hashedPW, callback) {
     bcrypt.compare(candidatePW, hashedPW, (err, isMatch) =>{
         if(err) throw err;

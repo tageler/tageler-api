@@ -40,7 +40,7 @@ const TagelerSchema = mongoose.Schema({
 const Tageler = module.exports = mongoose.model('Tageler', TagelerSchema);
 
 module.exports.getTagelersByUnit = function(unit, callback){
-    Tageler.find({unit: '12345'}, callback);
+    Tageler.find({unit: unit}, callback);
 };
 
 

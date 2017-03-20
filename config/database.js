@@ -1,4 +1,4 @@
 module.exports = {
-    database: 'mongodb://localhost:27017/meanauth',
-    secret: 'yoursecret'
+    database: 'mongodb://localhost:27017/tageler_db',
+    secret: 'pse3'
 }
