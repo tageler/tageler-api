@@ -1,6 +1,7 @@
 function tagelerController() {
     var tageler = require('../models/tagelerModel');
     var mongo = require('mongodb');
+    var startDate = new Date()
 
     this.createTageler = function (req, res) {
         var title = req.params.title;
@@ -36,7 +37,7 @@ function tagelerController() {
     };
 
     this.getTageler = function (req, res) {
-        tageler.find({}, function(err, result){
+        tageler.find({"date" : { $gte: new Date(startDate).toISOString() }}, function(err, result){
             if(err){
                 console.log(err);
                 return res.send({'error': err});
