@@ -35,7 +35,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-app.use('/tagelers', tagelers);
+app.use('/v1/tageler', tagelers);
 
 // Index Route
 app.get('/', (req, res) => {

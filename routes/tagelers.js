@@ -5,7 +5,7 @@ const Tageler = require('../models/tageler');
 
 
 
-router.get('/v1/:unit', (req, res, next) => {
+router.get('/:unit', (req, res, next) => {
 
     let unit = req.params.unit;
     Tageler.getTagelersByUnit(unit, (err, tagelers) => {
@@ -20,7 +20,7 @@ router.get('/v1/:unit', (req, res, next) => {
 //####### ADMIN ########
 
 // Create Tageler
-router.post('/v1/admin/create', (req, res, next) => {
+router.post('/admin/create', (req, res, next) => {
     let newTageler = new Tageler({
         title: req.body.title,
         unit: req.body.unit,
@@ -44,7 +44,7 @@ router.post('/v1/admin/create', (req, res, next) => {
 });
 
 // Update Tageler
-router.post('/v1/admin/update', (req, res, next) => {
+router.post('/admin/update', (req, res, next) => {
     let updatedTageler = {
         title: req.body.title,
         unit: req.body.unit,
@@ -66,7 +66,7 @@ router.post('/v1/admin/update', (req, res, next) => {
 });
 
 // Delete Tageler
-router.post('/v1/admin/delete', (req, res, next) => {
+router.post('/admin/delete', (req, res, next) => {
     let _id = req.body._id;
     Tageler.getTagelerById(_id, (err, tageler) => {
        if(err) {
