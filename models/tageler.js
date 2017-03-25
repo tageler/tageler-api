@@ -47,3 +47,7 @@ module.exports.getTagelersByUnit = function(unit, callback){
 module.exports.addTageler = function(newTageler, callback){
             newTageler.save(callback);
 };
+
+module.exports.getTagelerById = function(_id, callback){
+    Tageler.findOne({_id: _id}, callback);
+};
