@@ -4,13 +4,26 @@ const config = require('../config/database');
 const Tageler = require('../models/tageler');
 
 
-
-router.get('/:unit', (req, res, next) => {
+// Get Tagelers by Unit
+router.get('/getByUnit/:unit', (req, res, next) => {
 
     let unit = req.params.unit;
     Tageler.getTagelersByUnit(unit, (err, tagelers) => {
         if(err){
             res.json({success: false, msg: 'No Tageler found'});
+        } else{
+            res.json(tagelers);
+        }
+    });
+});
+
+// Get Tagelers by ID
+router.get('/getById/:id', (req, res, next) => {
+    let id = req.params.id;
+
+    Tageler.getTagelerById(id, (err, tagelers) => {
+        if(err){
+            res.json({success: false, msg: 'No Tageler found with ID: '+id});
         } else{
             res.json(tagelers);
         }

@@ -8,7 +8,7 @@ const TagelerSchema = mongoose.Schema({
         required: true
     },
     unit: {
-        type: String,
+        type: [String],
         required: true
     },
     start: {
