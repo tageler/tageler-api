@@ -6,7 +6,6 @@ const Tageler = require('../models/tageler');
 
 // Get Tagelers by Unit
 router.get('/getByUnit/:unit', (req, res, next) => {
-
     let unit = req.params.unit;
     Tageler.getTagelersByUnit(unit, (err, tagelers) => {
         if(err){
@@ -20,7 +19,6 @@ router.get('/getByUnit/:unit', (req, res, next) => {
 // Get Tagelers by ID
 router.get('/getById/:id', (req, res, next) => {
     let id = req.params.id;
-
     Tageler.getTagelerById(id, (err, tagelers) => {
         if(err){
             res.json({success: false, msg: 'No Tageler found with ID: '+id});
@@ -57,7 +55,7 @@ router.post('/admin/create', (req, res, next) => {
 });
 
 // Update Tageler
-router.post('/admin/update', (req, res, next) => {
+router.put('/admin/update', (req, res, next) => {
     let updatedTageler = {
         title: req.body.title,
         unit: req.body.unit,
@@ -73,13 +71,13 @@ router.post('/admin/update', (req, res, next) => {
             console.log(err);
             res.json({success: false, msg:'Failed to update Tageler'});
         } else {
-            res.json({success: true, result:tageler, msg:'Tageler registered'});
+            res.json({success: true, result:tageler, msg:'Tageler updated'});
         }
     });
 });
 
 // Delete Tageler
-router.post('/admin/delete', (req, res, next) => {
+router.delete('/admin/delete', (req, res, next) => {
     let _id = req.body._id;
     Tageler.getTagelerById(_id, (err, tageler) => {
        if(err) {
