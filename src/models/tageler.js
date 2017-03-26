@@ -7,6 +7,10 @@ const TagelerSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    text: {
+        type: String,
+        required: false
+    },
     group: {
         type: [String],
         required: true
@@ -50,4 +54,8 @@ module.exports.addTageler = function(newTageler, callback){
 
 module.exports.getTagelerById = function(_id, callback){
     Tageler.findOne({_id: _id}, callback);
+};
+
+module.exports.getTagelers = function(callback){
+  Tageler.find(callback);
 };

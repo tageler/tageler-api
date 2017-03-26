@@ -28,12 +28,24 @@ router.get('/getById/:id', (req, res, next) => {
     });
 });
 
+// Get all Tagelers
+router.get('/getTagelers', (req, res, next) => {
+    Tageler.getTagelers((err, tagelers) => {
+        if(err){
+            res.json({success: false, msg: 'No Tagelers were found'});
+        } else{
+            res.json(tagelers);
+        }
+    });
+});
+
 //####### ADMIN ########
 
 // Create Tageler
 router.post('/admin/create', (req, res, next) => {
     let newTageler = new Tageler({
         title: req.body.title,
+        text: req.body.text,
         group: req.body.group,
         start: req.body.start,
         end: req.body.end,
@@ -58,6 +70,7 @@ router.post('/admin/create', (req, res, next) => {
 router.put('/admin/update', (req, res, next) => {
     let updatedTageler = {
         title: req.body.title,
+        text: req.body.text,
         group: req.body.group,
         start: req.body.start,
         end: req.body.end,
