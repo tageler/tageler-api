@@ -4,10 +4,10 @@ const config = require('../config/database');
 const Tageler = require('../models/tageler');
 
 
-// Get Tagelers by Unit
-router.get('/getByUnit/:unit', (req, res, next) => {
-    let unit = req.params.unit;
-    Tageler.getTagelersByUnit(unit, (err, tagelers) => {
+// Get Tagelers by group
+router.get('/getByGroup/:group', (req, res, next) => {
+    let group = req.params.group;
+    Tageler.getTagelersByGroup(group, (err, tagelers) => {
         if(err){
             res.json({success: false, msg: 'No Tageler found'});
         } else{
@@ -34,7 +34,7 @@ router.get('/getById/:id', (req, res, next) => {
 router.post('/admin/create', (req, res, next) => {
     let newTageler = new Tageler({
         title: req.body.title,
-        unit: req.body.unit,
+        group: req.body.group,
         start: req.body.start,
         end: req.body.end,
         bring_along: req.body.bring_along,
@@ -58,7 +58,7 @@ router.post('/admin/create', (req, res, next) => {
 router.put('/admin/update', (req, res, next) => {
     let updatedTageler = {
         title: req.body.title,
-        unit: req.body.unit,
+        group: req.body.group,
         start: req.body.start,
         end: req.body.end,
         bring_along: req.body.bring_along,

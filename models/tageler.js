@@ -7,7 +7,7 @@ const TagelerSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    unit: {
+    group: {
         type: [String],
         required: true
     },
@@ -39,8 +39,8 @@ const TagelerSchema = mongoose.Schema({
 
 const Tageler = module.exports = mongoose.model('Tageler', TagelerSchema);
 
-module.exports.getTagelersByUnit = function(unit, callback){
-    Tageler.find({unit: unit}, callback);
+module.exports.getTagelersByGroup = function(group, callback){
+    Tageler.find({group: group}, callback);
 };
 
 
