@@ -3,6 +3,19 @@ const router = express.Router();
 const config = require('../config/database');
 const Tageler = require('../models/tageler');
 
+// Multer Middleware
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './src/uploads/pictures')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+const upload = multer({storage:storage});
+
+
 
 // Get Tagelers by group
 router.get('/getByGroup/:group', (req, res, next) => {
@@ -42,7 +55,8 @@ router.get('/getTagelers', (req, res, next) => {
 //####### ADMIN ########
 
 // Create Tageler
-router.post('/admin/create', (req, res, next) => {
+router.post('/admin/create', upload.single('picture'), (req, res, next) => {
+    console.log(req.file);
     let newTageler = new Tageler({
         title: req.body.title,
         text: req.body.text,
@@ -51,10 +65,9 @@ router.post('/admin/create', (req, res, next) => {
         end: req.body.end,
         bring_along: req.body.bring_along,
         uniform: req.body.uniform,
-        picture: req.body.picture,
+        picture: req.file.path,
         checkout_deadline: req.body.checkout_deadline
     });
-
     Tageler.addTageler(newTageler, (err, tageler) => {
         if(err){
             console.log(newTageler);
