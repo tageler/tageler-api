@@ -22,9 +22,6 @@ const app = express();
 
 const tagelers = require('./routes/tagelers');
 
-// Port Number
-const port = 3000;
-
 // CORS Middleware
 app.use(cors());
 
@@ -46,8 +43,4 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 } );
 
-// Start Server
-app.listen(port, () =>{
-    console.log('Server started on port '+port)
-});
-
+module.exports = app;
