@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
 const config = require('../config/database');
 const Tageler = require('../models/tageler');
 const appRoot = require('app-root-path');
@@ -109,11 +110,10 @@ router.delete('/admin/delete', (req, res, next) => {
     let _id = req.body._id;
 
     Tageler.getTagelerById(_id, (err, tageler) => {
+
        if(err) {
            res.json({success: false, msg: 'Failed to delete the Tageler'});
        } else {
-           fs.unlink(appRoot + tageler.picture, (err) => {
-               if(err) throw err;
                Tageler.remove(tageler, (err) => {
                    if(err){
                        res.json({success: false, msg: 'Failed to delete the Tageler'});
@@ -121,7 +121,6 @@ router.delete('/admin/delete', (req, res, next) => {
                        res.json({success: true, msg:'Tageler deleted'});
                    }
                });
-           });
        }
     });
 });
