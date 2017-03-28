@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/database');
 const Tageler = require('../models/tageler');
+const appRoot = require('app-root-path');
+
 
 // Multer Middleware
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './src/uploads/pictures')
+        cb(null, './src/public/uploads/pictures')
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now())
@@ -119,5 +121,6 @@ router.delete('/admin/delete', (req, res, next) => {
        }
     });
 });
+
 
 module.exports = router;

@@ -35,10 +35,24 @@ const TagelerSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    checkout_deadline: {
-        type: Date,
-        required: false
-    }
+    checkout: [{
+        checkout_deadline: {
+            type: Date,
+            required: false
+        },
+        checkout_contact: {
+            type: String,
+            required: false,
+        },
+        checkout_date: {
+            type: Date,
+            required: false
+        },
+        checkout_phone: {
+            type: String,
+            required: false
+        }
+    }]
 });
 
 const Tageler = module.exports = mongoose.model('Tageler', TagelerSchema);
