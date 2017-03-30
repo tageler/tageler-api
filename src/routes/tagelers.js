@@ -59,7 +59,7 @@ router.get('/getTagelers', (req, res, next) => {
 
 // Create Tageler
 router.post('/admin/create', upload.single('picture'), (req, res, next) => {
-    console.log(req.file);
+    console.log(req.checkout);
     let newTageler = new Tageler({
         title: req.body.title,
         text: req.body.text,
@@ -67,9 +67,9 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         start: req.body.start,
         end: req.body.end,
         bring_along: req.body.bring_along,
-        uniform: req.body.uniform,
-        picture: req.file.pathu
-        checkout_deadline: req.body.checkout_deadline
+        uniform: req.body.uniform
+        // picture: req.file.path,
+        // checkout_deadline: req.body.checkout_deadline
     });
     Tageler.addTageler(newTageler, (err, tageler) => {
         if(err){
