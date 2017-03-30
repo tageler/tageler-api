@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 
 app.use('/v1/tageler', tagelers);
-app.use('/v1/tageler', groups);
+app.use('/v1/group', groups);
 
 // Index Route
 app.get('/', (req, res) => {

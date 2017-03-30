@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const config = require('../config/database');
-const Tageler = require('../models/group');
+const Group = require('../models/group');
 const appRoot = require('app-root-path');
 
 
@@ -17,9 +17,9 @@ router.get('/getById/:id', (req, res, next) => {
     });
 });
 
-// Get all Tagelers
+// Get all Groups
 router.get('/getGroups', (req, res, next) => {
-    Tageler.getGroups((err, tagelers) => {
+    Group.getGroups((err, tagelers) => {
         if(err){
             res.json({success: false, msg: 'No Groups were found'});
         } else{
@@ -28,77 +28,56 @@ router.get('/getGroups', (req, res, next) => {
     });
 });
 
-//####### ADMIN ########
-
-// Create Tageler
-router.post('/admin/create', upload.single('picture'), (req, res, next) => {
-    console.log(req.file);
-    let newTageler = new Tageler({
-        title: req.body.title,
-        text: req.body.text,
-        group: req.body.group,
-        start: req.body.start,
-        end: req.body.end,
-        bring_along: req.body.bring_along,
-        uniform: req.body.uniform,
-        picture: req.file.path,
-        checkout_deadline: req.body.checkout_deadline
+// Create group
+router.post('/admin/create', (req, res, next) => {
+    console.log("blabl " + req.body.type);
+    let newGroup = new Group({
+        type: req.body.type,
+        name: req.body.name
     });
-    Tageler.addTageler(newTageler, (err, tageler) => {
+    Group.addGroup(newGroup, (err, group) => {
         if(err){
-            console.log(newTageler);
+            console.log(newGroup);
             console.log(err);
-            res.json({success: false, msg:'Failed to register Tageler'});
+            res.json({success: false, msg:'Failed to register Group '+err});
         } else {
-            res.json({result:tageler, success: true, msg:'Tageler registered'});
+            res.json({result:group, success: true, msg:'Group registered'});
         }
     });
 });
 
-// Update Tageler
+// Update Group
 router.put('/admin/update', (req, res, next) => {
-    let updatedTageler = {
-        title: req.body.title,
-        text: req.body.text,
-        group: req.body.group,
-        start: req.body.start,
-        end: req.body.end,
-        bring_along: req.body.bring_along,
-        uniform: req.body.uniform,
-        picture: req.body.picture,
-        checkout_deadline: req.body.checkout_deadline
+    let updatedGroup = {
+        type: req.body.type,
+        name: req.body.name
     };
-    Tageler.findOneAndUpdate(req.body._id, updatedTageler, (err, tageler) => {
+    Group.findOneAndUpdate(req.body._id, updatedGroup, (err, group) => {
         if (err) {
             console.log(err);
-            res.json({success: false, msg:'Failed to update Tageler'});
+            res.json({success: false, msg:'Failed to update group'});
         } else {
-            res.json({success: true, result:tageler, msg:'Tageler updated'});
+            res.json({success: true, result:group, msg:'Group updated'});
         }
     });
 });
 
-// Delete Tageler
+// Delete Group
 router.delete('/admin/delete', (req, res, next) => {
     let _id = req.body._id;
-
-    Tageler.getTagelerById(_id, (err, tageler) => {
+    Group.getGroupById(_id, (err, tageler) => {
        if(err) {
-           res.json({success: false, msg: 'Failed to delete the Tageler'});
+           res.json({success: false, msg: 'Failed to delete the Group'});
        } else {
-           fs.unlink(appRoot + tageler.picture, (err) => {
-               if(err) throw err;
-               Tageler.remove(tageler, (err) => {
-                   if(err){
-                       res.json({success: false, msg: 'Failed to delete the Tageler'});
-                   } else {
-                       res.json({success: true, msg:'Tageler deleted'});
-                   }
-               });
-           });
+           Group.remove(tageler, (err) => {
+                if(err){
+                    res.json({success: false, msg: 'Failed to delete the Group'});
+                } else {
+                    res.json({success: true, msg:'Group deleted'});
+                }
+            });
        }
     });
 });
-
 
 module.exports = router;

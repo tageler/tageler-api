@@ -6,20 +6,18 @@ const GroupSchema = mongoose.Schema({
     type: {
         type: String,
         enum: ['Meute','Trupp', 'Equipe'],
-        default: 'Meute',
         required: true
-    },
-    name: {
+    },  name: {
         type: String,
-        required: false
+        required: true
     }
 });
 
 const Group = module.exports = mongoose.model('Group', GroupSchema);
 
-module.exports.addGroup = function(newGroup, callback){
-            newGroup.save(callback);
-};
+// module.exports.addGroup = function(newGroup, callback){
+//     Group.save(callback);
+// };
 
 module.exports.getGroupById = function(_id, callback){
     Group.findOne({_id: _id}, callback);
@@ -28,3 +26,10 @@ module.exports.getGroupById = function(_id, callback){
 module.exports.getGroups = function(callback){
   Group.find(callback);
 };
+
+// module.exports.updateGroup = function(_id,callback){
+//   Group.find(callback);
+// };
+// module.exports.deleteGroup = function(_id,callback){
+//   Group.find(callback);
+// };
