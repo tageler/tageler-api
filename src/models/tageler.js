@@ -36,11 +36,11 @@ const TagelerSchema = mongoose.Schema({
         required: false
     },
     checkout: {
-        checkout_deadline: {
+        deadline: {
             type: Date,
             required: false
         },
-        checkout_contact: [{
+        contact: [{
             name:{
                 type: String,
                 required: false
