@@ -69,7 +69,6 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         bring_along: req.body.bring_along,
         uniform: req.body.uniform,
         checkout_deadline: req.body.checkout_deadline
-        checkout
     });
     if (typeof req.file !== "undefined") {
         newTageler.picture = req.file.path;
