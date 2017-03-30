@@ -67,7 +67,7 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         end: req.body.end,
         bring_along: req.body.bring_along,
         uniform: req.body.uniform,
-        picture: req.file.path,
+        picture: req.file.pathu
         checkout_deadline: req.body.checkout_deadline
     });
     Tageler.addTageler(newTageler, (err, tageler) => {
