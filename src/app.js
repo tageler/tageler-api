@@ -21,6 +21,7 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 
 const tagelers = require('./routes/tagelers');
+const groups = require('./routes/groups');
 
 // CORS Middleware
 app.use(cors());
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 
 
 app.use('/v1/tageler', tagelers);
+app.use('/v1/tageler', groups);
 
 // Index Route
 app.get('/', (req, res) => {

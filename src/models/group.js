@@ -17,3 +17,14 @@ const GroupSchema = mongoose.Schema({
 
 const Group = module.exports = mongoose.model('Group', GroupSchema);
 
+module.exports.addGroup = function(newGroup, callback){
+            newGroup.save(callback);
+};
+
+module.exports.getGroupById = function(_id, callback){
+    Group.findOne({_id: _id}, callback);
+};
+
+module.exports.getGroups = function(callback){
+  Group.find(callback);
+};
