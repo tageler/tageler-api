@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/routes/tagelers.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/routes</a> tagelers.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.11% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>6/54</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.11% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>6/54</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
+const router = express.Router();
+const fs = require('fs');
+const config = require('../config/database');
+const Tageler = require('../models/tageler');
+const appRoot = require('app-root-path');
+&nbsp;
+&nbsp;
+// Multer Middleware
+const multer = <span class="cstat-no" title="statement not covered" >require('multer');</span>
+const storage = <span class="cstat-no" title="statement not covered" >multer.diskStorage({</span>
+    destination: <span class="fstat-no" title="function not covered" >fu</span>nction (req, file, cb) {
+<span class="cstat-no" title="statement not covered" >        cb(null, './src/public/uploads/pictures')</span>
+    },
+    filename: <span class="fstat-no" title="function not covered" >fu</span>nction (req, file, cb) {
+<span class="cstat-no" title="statement not covered" >        cb(null, file.fieldname + '-' + Date.now())</span>
+    }
+});
+const upload = <span class="cstat-no" title="statement not covered" >multer({storage:storage});</span>
+&nbsp;
+&nbsp;
+&nbsp;
+// Get Tagelers by group
+<span class="cstat-no" title="statement not covered" >router.get('/getByGroup/:group', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {</span>
+    let group = <span class="cstat-no" title="statement not covered" >req.params.group;</span>
+<span class="cstat-no" title="statement not covered" >    Tageler.getTagelersByGroup(group, <span class="fstat-no" title="function not covered" >(e</span>rr, tagelers) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            res.json({success: false, msg: 'No Tageler found'});</span>
+        } else{
+<span class="cstat-no" title="statement not covered" >            res.json(tagelers);</span>
+        }
+    });
+});
+&nbsp;
+// Get Tagelers by ID
+<span class="cstat-no" title="statement not covered" >router.get('/getById/:id', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {</span>
+    let id = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
+<span class="cstat-no" title="statement not covered" >    Tageler.getTagelerById(id, <span class="fstat-no" title="function not covered" >(e</span>rr, tagelers) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            res.json({success: false, msg: 'No Tageler found with ID: '+id});</span>
+        } else{
+<span class="cstat-no" title="statement not covered" >            res.json(tagelers);</span>
+        }
+    });
+});
+&nbsp;
+// Get all Tagelers
+<span class="cstat-no" title="statement not covered" >router.get('/getTagelers', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    Tageler.getTagelers(<span class="fstat-no" title="function not covered" >(e</span>rr, tagelers) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            res.json({success: false, msg: 'No Tagelers were found'});</span>
+        } else{
+<span class="cstat-no" title="statement not covered" >            res.json(tagelers);</span>
+        }
+    });
+});
+&nbsp;
+//####### ADMIN ########
+&nbsp;
+// Create Tageler
+<span class="cstat-no" title="statement not covered" >router.post('/admin/create', upload.single('picture'), <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    console.log(req.checkout);</span>
+    let newTageler = <span class="cstat-no" title="statement not covered" >new Tageler({</span>
+        title: req.body.title,
+        text: req.body.text,
+        group: req.body.group,
+        start: req.body.start,
+        end: req.body.end,
+        bring_along: req.body.bring_along,
+        uniform: req.body.uniform,
+        picture: req.file.path,
+        checkout_deadline: req.body.checkout_deadline
+    });
+<span class="cstat-no" title="statement not covered" >    Tageler.addTageler(newTageler, <span class="fstat-no" title="function not covered" >(e</span>rr, tageler) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            console.log(newTageler);</span>
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            res.json({success: false, msg:'Failed to register Tageler'});</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            res.json({result:tageler, success: true, msg:'Tageler registered'});</span>
+        }
+    });
+});
+&nbsp;
+// Update Tageler
+<span class="cstat-no" title="statement not covered" >router.put('/admin/update', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {</span>
+    let updatedTageler = <span class="cstat-no" title="statement not covered" >{</span>
+        title: req.body.title,
+        text: req.body.text,
+        group: req.body.group,
+        start: req.body.start,
+        end: req.body.end,
+        bring_along: req.body.bring_along,
+        uniform: req.body.uniform,
+        picture: req.body.picture,
+        checkout_deadline: req.body.checkout_deadline
+    };
+<span class="cstat-no" title="statement not covered" >    Tageler.findOneAndUpdate(req.body._id, updatedTageler, <span class="fstat-no" title="function not covered" >(e</span>rr, tageler) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            res.json({success: false, msg:'Failed to update Tageler'});</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            res.json({success: true, result:tageler, msg:'Tageler updated'});</span>
+        }
+    });
+});
+&nbsp;
+// Delete Tageler
+<span class="cstat-no" title="statement not covered" >router.delete('/admin/delete', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {</span>
+    let _id = <span class="cstat-no" title="statement not covered" >req.body._id;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    Tageler.getTagelerById(_id, <span class="fstat-no" title="function not covered" >(e</span>rr, tageler) =&gt; {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >       if(err) {</span>
+<span class="cstat-no" title="statement not covered" >           res.json({success: false, msg: 'Failed to delete the Tageler'});</span>
+       } else {
+<span class="cstat-no" title="statement not covered" >               Tageler.remove(tageler, <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                   if(err){</span>
+<span class="cstat-no" title="statement not covered" >                       res.json({success: false, msg: 'Failed to delete the Tageler'});</span>
+                   } else {
+<span class="cstat-no" title="statement not covered" >                       res.json({success: true, msg:'Tageler deleted'});</span>
+                   }
+               });
+       }
+    });
+});
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >module.exports = router;</span></pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 30 2017 19:58:29 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
