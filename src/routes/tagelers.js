@@ -68,7 +68,7 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         end: req.body.end,
         bring_along: req.body.bring_along,
         uniform: req.body.uniform,
-        checkout_deadline: req.body.checkout_deadline
+        checkout: req.body.checkout
     });
     if (typeof req.file !== "undefined") {
         newTageler.picture = req.file.path;
@@ -95,7 +95,7 @@ router.put('/admin/update', (req, res, next) => {
         bring_along: req.body.bring_along,
         uniform: req.body.uniform,
         picture: req.body.picture,
-        checkout_deadline: req.body.checkout_deadline
+        checkout: req.body.checkout
     };
     Tageler.findOneAndUpdate(req.body._id, updatedTageler, (err, tageler) => {
         if (err) {

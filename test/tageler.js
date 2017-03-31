@@ -88,40 +88,61 @@ describe('List of tageler', function() {
         var tageler = [{
             title: 'Megafun im Wald',
             text: 'sdfg',
-            date: '1.1.2017',
             group: 'Junglejungs',
             start:'2016-06-03T10:34',
             end: '2016-06-04T10:34',
             bring_along:'BMPTNZ',
             uniform:'bruni hosä',
-            picture:'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
-            checkout_deadline:'1.1.2017'
+            //picture:'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
+            checkout: {
+                deadline: '2016-06-03',
+                contact: {
+                    name: 'Hans Hansenstein',
+                    phone: '123456',
+                    mail: 'hans@hans.hans',
+                    other: ':)'
+                }
+            }
         },
             {
                 title: 'Fürlä',
                 text: 'adsfdg',
-                date: '1.7.2017',
                 group: 'Wondergirls',
                 start:'2016-06-03T10:34',
                 end: '2016-06-04T10:34',
                 bring_along:'Fürzüg u Brönnsprit',
                 uniform:'Fürfeschti häntschä',
-                picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
-                checkout_deadline:'3.1.2017'
+                //picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
+                checkout: {
+                    deadline: '2017-01-02',
+                    contact: {
+                        name: 'Ben Zin',
+                        phone: '0333333333',
+                        mail: 'ben.zin@pfadi.ch',
+                        other: ''
+                    }
+                }
             }];
 
         for (let i = 2, len = 12; i < len; i++) {
             tageler[i] = {
                 title: faker.lorem.sentence(3,8),
                 text: faker.hacker.phrase() + ' ' + faker.hacker.phrase(),
-                date: faker.date.future(),
                 group: faker.hacker.noun(),
-                start:'2016-06-03T10:34',
-                end: '2016-06-04T10:34',
+                start: faker.date.future(),
+                end: faker.date.future(),
                 bring_along: faker.lorem.sentence(5,8),
                 uniform:faker.hacker.phrase(),
-                picture:faker.image.image(),
-                checkout_deadline:faker.date.future()
+                //picture:faker.image.image(),
+                checkout: {
+                    deadline: faker.date.future(),
+                    contact: {
+                        name: faker.name.findName(),
+                        phone: faker.phone.phoneNumber(),
+                        mail: faker.internet.email(),
+                        other: faker.hacker.phrase()
+                    }
+                }
             };
         }
 
