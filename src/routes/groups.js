@@ -4,6 +4,18 @@ const config = require('../config/database');
 const Group = require('../models/group');
 const appRoot = require('app-root-path');
 
+// Multer Middleware
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './src/public/uploads/pictures/group_pictures')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+const upload = multer({storage:storage});
+
 
 // Get Group by ID
 router.get('/getById/:id', (req, res, next) => {
@@ -29,12 +41,15 @@ router.get('/getGroups', (req, res, next) => {
 });
 
 // Create group
-router.post('/admin/create', (req, res, next) => {
+router.post('/admin/create', upload.single('picture'), (req, res, next) => {
     console.log("blabl " + req.body.type);
     let newGroup = new Group({
         type: req.body.type,
         name: req.body.name
     });
+    if (typeof req.file !== "undefined") {
+        newGroup.picture = req.file.path;
+    }
     Group.addGroup(newGroup, (err, group) => {
         if(err){
             console.log(newGroup);

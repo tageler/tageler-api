@@ -7,9 +7,14 @@ const GroupSchema = mongoose.Schema({
         type: String,
         enum: ['Meute','Trupp', 'Equipe'],
         required: true
-    },  name: {
+    },
+    name: {
         type: String,
         required: true
+    },
+    picture: {
+        type: String,
+        required: false
     }
 });
 
