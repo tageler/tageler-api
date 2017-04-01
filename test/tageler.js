@@ -26,7 +26,9 @@ describe('List of tageler', function() {
     before(function(done) {
         // Connect To Database
         if(mongoose.connection.db){
-            console.log('tagelers:'+mongoose.connection.toLocaleString())
+            mongoose.connection.collections["tagelers"].drop(function(err){
+                console.log(err);
+            });
         }else{
             mongoose.connect(config.database);
         }
@@ -36,54 +38,12 @@ describe('List of tageler', function() {
                 console.log(err);
             });
         });
-
-
-        /*if (mongoose.connection.db) {
-            console.log('tagelers: '+mongoose.connection);
-        }else{
-            mongoose.connect(dbURI, done);
-        }
-        mongoose.connection.on('open',function(){
-            mongoose.connection.db.dropDatabase(function(err){
-                console.log(err);
-            });
-            /*mongoose.connection.db.listCollections({name: 'tagelers'})
-             .next(function(err, collinfo) {
-             console.log('colInfTagelers:'+ collinfo);
-             if (collinfo) {
-             mongoose.connection.db.dropCollection('tagelers',function(err, p){
-             if(err){
-             console.log('tagelers-collection could not be deletd');
-             } else{
-             console.log('tagelers collection droped');
-             }
-             return;
-             });
-             }
-             });* /
-        });*/
         return done();
     });
     beforeEach(function(done) {
         done();
-        /*        models.Tageler.remove(function(err, p){
-         if(err){
-         throw err;
-         } else{
-         console.log('No Of Documents deleted:' + p);
-         done();
-         }
-         });*/
 
     });
-    /*after(function(done){
-        var server = app.listen(3000);
-
-        var handler = function() {
-            server.close();
-            done();
-        };
-    });*/
     it('creates some tagelers', function(done) {
         var tageler = [{
             title: 'Megafun im Wald',
@@ -145,7 +105,14 @@ describe('List of tageler', function() {
                 }
             };
         }
-
+        var cnt = 0;
+        function Processed(msg ) {
+             cnt++;
+             console.log(msg + " " + cnt);
+             if (cnt==tageler.length){
+                 done();
+             }
+        }
 
         for (var i = 0; i < tageler.length; i++){
             api.post('/api/v1/tageler/admin/create')
@@ -153,18 +120,11 @@ describe('List of tageler', function() {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function(err, res) {
-                    console.log(res.toString());
+                    if (err){
+                        console.log("Could not create Tageler: " + i + err.toString());
+                    }
+                    Processed("Created tageler");
                 });
-
-            // wait for mongodb to save the entries
-            if (i === (tageler.length-1)){
-                var delayMillis = 1000; //1 second
-                setTimeout(function() {
-                    done();
-                }, delayMillis);
-            }
-
         }
-
     });
 });
