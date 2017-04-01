@@ -17,47 +17,23 @@ const config = require('../src/config/database');
 
 
 
-describe('List of units', function() {
+describe('List of groups', function() {
     before(function(done) {
         if (mongoose.connection.db) {
-            console.log('units: '+mongoose.connection);
+            mongoose.connection.collections["groups"].drop(function(err){
+                console.log(err);
+            });
         }else{
             mongoose.connect(dbURI, done);
         }
-        /*
-        mongoose.connection.on('connected',function() {
-            mongoose.connection.db.listCollections({name: 'units'})
-                .next(function (err, collinfo) {
-                    console.log('colInfTagelers:' + collinfo);
-                    if (collinfo) {
-                        mongoose.connection.db.dropCollection('units', function (err, p) {
-                            if (err) {
-                                console.log('tagelers-collection could not be deletd');
-                            } else {
-                                console.log('tagelers collection droped');
-                            }
-                            return;
-                        });
-                    }
-                });
-        });*/
         return done();
     });
 
     beforeEach(function(done) {
-
         done();
-        /*        models.Tageler.remove(function(err, p){
-         if(err){
-         throw err;
-         } else{
-         console.log('No Of Documents deleted:' + p);
-         done();
-         }
-         });*/
     });
-    it('creates some units', function(done) {
-        var units = [{
+    it('creates some groups', function(done) {
+        var groups = [{
             type: 'Meute',
             name: 'Baghira'
         },{
@@ -79,16 +55,25 @@ describe('List of units', function() {
             type: 'Meute',
             name: 'Bratwurscht'
         }];
-        for (var i = 0; i < units.length; i++){
-            api.post('/createUnit')
-                .send(units[i])
+        var cnt = 0;
+        function Processed(msg ) {
+             cnt++;
+             console.log(msg + " " + cnt);
+             if (cnt==groups.length){
+                 done();
+             }
+        }
+        for (var i = 0; i < groups.length; i++){
+            api.post('/api/v1/group/admin/create')
+                .send(groups[i])
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function(err, res) {
-                    console.log(res.toString());
+                    if (err){
+                        console.log("failed creating groups "+err.toString());
+                    }
+                    Processed("Created group");
                 });
         }
-
-        done();
     });
 });

@@ -42,7 +42,6 @@ router.get('/getGroups', (req, res, next) => {
 
 // Create group
 router.post('/admin/create', upload.single('picture'), (req, res, next) => {
-    console.log("blabl " + req.body.type);
     let newGroup = new Group({
         type: req.body.type,
         name: req.body.name
@@ -52,7 +51,6 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
     }
     Group.addGroup(newGroup, (err, group) => {
         if(err){
-            console.log(newGroup);
             console.log(err);
             res.json({success: false, msg:'Failed to register Group '+err});
         } else {

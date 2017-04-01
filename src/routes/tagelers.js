@@ -59,7 +59,7 @@ router.get('/getTagelers', (req, res, next) => {
 
 // Create Tageler
 router.post('/admin/create', upload.single('picture'), (req, res, next) => {
-    console.log(req.checkout);
+    // console.log(req.checkout);
     let newTageler = new Tageler({
         title: req.body.title,
         text: req.body.text,
@@ -75,7 +75,6 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
     }
     Tageler.addTageler(newTageler, (err, tageler) => {
         if(err){
-            console.log(newTageler);
             console.log(err);
             res.json({success: false, msg:'Failed to register Tageler'});
         } else {
