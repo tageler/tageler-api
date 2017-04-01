@@ -113,7 +113,7 @@ router.delete('/admin/delete', (req, res, next) => {
 
     Tageler.getTagelerById(_id, (err, tageler) => {
 
-       if(err) {
+       if(err || tageler == null) {
            res.json({success: false, msg: 'Failed to delete the Tageler'});
        } else {
                Tageler.remove(tageler, (err) => {
