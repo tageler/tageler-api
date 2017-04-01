@@ -20,22 +20,22 @@ const upload = multer({storage:storage});
 // Get Group by ID
 router.get('/getById/:id', (req, res, next) => {
     let id = req.params.id;
-    Group.getGroupById(id, (err, tagelers) => {
+    Group.getGroupById(id, (err, groups) => {
         if(err){
             res.json({success: false, msg: 'No Group found with ID: '+id});
         } else{
-            res.json(tagelers);
+            res.json(groups);
         }
     });
 });
 
 // Get all Groups
 router.get('/getGroups', (req, res, next) => {
-    Group.getGroups((err, tagelers) => {
+    Group.getGroups((err, groups) => {
         if(err){
             res.json({success: false, msg: 'No Groups were found'});
         } else{
-            res.json(tagelers);
+            res.json(groups);
         }
     });
 });
@@ -80,11 +80,11 @@ router.put('/admin/update', (req, res, next) => {
 // Delete Group
 router.delete('/admin/delete', (req, res, next) => {
     let _id = req.body._id;
-    Group.getGroupById(_id, (err, tageler) => {
-       if(err) {
+    Group.getGroupById(_id, (err, group) => {
+       if(err || group == null) {
            res.json({success: false, msg: 'Failed to delete the Group'});
        } else {
-           Group.remove(tageler, (err) => {
+           Group.remove(group, (err) => {
                 if(err){
                     res.json({success: false, msg: 'Failed to delete the Group'});
                 } else {
