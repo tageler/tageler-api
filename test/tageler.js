@@ -154,8 +154,11 @@ describe('List of tageler', function() {
                 .expect('Content-Type', /json/)
                 .end(function(err, res) {
                     console.log(res.toString());
+                    if (i == tageler.length-1){
+                        done();
+                    }
                 });
         }
-        done();
+
     });
 });
