@@ -155,9 +155,15 @@ describe('List of tageler', function() {
                 .end(function(err, res) {
                     console.log(res.toString());
                 });
+
+            // wait for mongodb to save the entries
             if (i === (tageler.length-1)){
-                done();
+                var delayMillis = 1000; //1 second
+                setTimeout(function() {
+                    done();
+                }, delayMillis);
             }
+
         }
 
     });
