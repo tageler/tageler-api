@@ -148,7 +148,7 @@ describe('List of tageler', function() {
 
 
         for (var i = 0; i < tageler.length; i++){
-            api.post('/v1/tageler/admin/create')
+            api.post('/api/v1/tageler/admin/create')
                 .send(tageler[i])
                 .expect(200)
                 .expect('Content-Type', /json/)
