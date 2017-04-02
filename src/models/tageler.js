@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const config = require('../config/database');
-
 // Tageler Schema
 const TagelerSchema = mongoose.Schema({
     title: {
@@ -69,7 +68,11 @@ module.exports.getTagelersByGroup = function(group, callback){
 
 
 module.exports.addTageler = function(newTageler, callback){
-            newTageler.save(callback);
+    if (newTageler.picture){
+        console.log("pic-url: " + 
+        JSON.stringify(newTageler, null, 4));
+    }
+    newTageler.save(callback);
 };
 
 module.exports.getTagelerById = function(_id, callback){

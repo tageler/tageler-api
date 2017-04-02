@@ -4,6 +4,7 @@ const fs = require('fs');
 const config = require('../config/database');
 const Tageler = require('../models/tageler');
 const appRoot = require('app-root-path');
+const picture_downloader = require('./picture_downloader')
 
 
 // Multer Middleware
@@ -59,7 +60,7 @@ router.get('/getTagelers', (req, res, next) => {
 
 // Create Tageler
 router.post('/admin/create', upload.single('picture'), (req, res, next) => {
-    // console.log(req.checkout);
+    console.log("req: " +JSON.stringify(req.body));
     let newTageler = new Tageler({
         title: req.body.title,
         text: req.body.text,
@@ -70,9 +71,18 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         uniform: req.body.uniform,
         checkout: req.body.checkout
     });
+    console.log("file: " +(req.file));
     if (typeof req.file !== "undefined") {
         newTageler.picture = req.file.path;
-    }
+        console.log("file present");
+    }else{
+        newTageler.picture = req.body.picture;
+        //does not work right now...
+        // console.log("picUrl: " +newTageler.picture);
+        // var fName ='./public/uploads/pictures/tageler_pictures/' + "url_picture" + '-' + Date.now()+".jpg"
+        // picture_downloader(newTageler.picture,fName);
+        // newTageler.picture =  fName;
+    }    
     Tageler.addTageler(newTageler, (err, tageler) => {
         if(err){
             console.log(err);
@@ -84,7 +94,7 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
 });
 
 // Update Tageler
-router.put('/admin/update', (req, res, next) => {
+router.put('/admin/update', upload.single('picture'), (req, res, next) => {
     let updatedTageler = {
         title: req.body.title,
         text: req.body.text,
@@ -96,6 +106,14 @@ router.put('/admin/update', (req, res, next) => {
         picture: req.body.picture,
         checkout: req.body.checkout
     };
+    if (typeof req.file !== "undefined") {
+        updatedTageler.picture = 'http://localhost:3000/public/uploads/pictures/tageler_pictures/'+req.file.filename;
+    }else{
+        updatedTageler.picture = req.body.picture;
+    }
+    console.log("updated-tageler\n: " + 
+        JSON.stringify(updatedTageler, null, 4));
+    
     Tageler.findOneAndUpdate(req.body._id, updatedTageler, (err, tageler) => {
         if (err) {
             console.log(err);

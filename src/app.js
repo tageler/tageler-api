@@ -36,6 +36,8 @@ app.use(bodyParser.json());
 app.use('/api/v1/tageler', tagelers);
 app.use('/api/v1/group', groups);
 
+app.use('/public',express.static(__dirname + '/public'));
+
 // Index Route
 app.get('/', (req, res) => {
     res.send('The game is on!');
@@ -44,5 +46,6 @@ app.get('/', (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 } );
+
 
 module.exports = app;

@@ -23,7 +23,8 @@
     "gulp-eslint": "^3.0.1",
     "lodash": "^4.17.4",
     "mongoose": "4.8.6",
-    "multer": "^1.3.0"
+    "multer": "^1.3.0",
+    "img-crawler":"^0.0.2"
   },
   "author": "pse3",
   "license": "ISC",
