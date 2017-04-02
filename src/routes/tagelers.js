@@ -96,31 +96,37 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
 
 // Update Tageler
 router.put('/admin/update', upload.single('picture'), (req, res, next) => {
-    let updatedTageler = {
-        title: req.body.title,
-        text: req.body.text,
-        group: req.body.group,
-        start: req.body.start,
-        end: req.body.end,
-        bring_along: req.body.bring_along,
-        uniform: req.body.uniform,
-        picture: req.body.picture,
-        checkout: req.body.checkout
-    };
-    console.log("req-file: " + req.file + "ID: "+req.body._id);
-    if (typeof req.file !== "undefined") {
-        updatedTageler.picture = 'http://localhost:3000/public/uploads/pictures/tageler_pictures/'+req.file.filename;
-    }
-    
-    console.log("updated-tageler:\n " + 
-        JSON.stringify(updatedTageler, null, 4));
-    
-    Tageler.findOneAndUpdate(req.body._id, updatedTageler, (err, tageler) => {
-        if (err) {
-            console.log(err);
-            res.json({success: false, msg:'Failed to update Tageler'});
+    let id = req.body.id;
+    Tageler.findOne({_id: id}, (err, tagelerToUpdate) => {
+        if (err || tagelerToUpdate == null) {
+            res.json({
+                success: false,
+                msg: 'Failed to find the Tageler with ID: ' + id,
+                foundTageler: tagelerToUpdate,
+                error: err
+            });
         } else {
-            res.json({success: true, result:tageler, msg:'Tageler updated'});
+            for (let param in req.body) {
+                tagelerToUpdate[param] = req.body[param];
+            }
+            Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, (err, tageler) => {
+                if (err || tageler == null) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to update Tageler with ID: ' + id,
+                        foundTageler: tageler,
+                        error: err
+                    });
+                } else {
+                    res.json({
+                        success: true,
+                        // TODO change from result to updatedTageler, for consistency in naming conventions
+                        result: tageler,
+                        updatedTageler: tagelerToUpdate,
+                        msg: 'Tageler updated'
+                    });
+                }
+            });
         }
     });
 });
