@@ -53,7 +53,7 @@ describe('List of tageler', function() {
             end: '2016-06-04T10:34',
             bring_along:'BMPTNZ',
             uniform:'bruni hosä',
-            //picture:'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
+            picture:'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
             checkout: {
                 deadline: '2016-06-03',
                 contact: {
@@ -72,7 +72,7 @@ describe('List of tageler', function() {
                 end: '2016-06-04T10:34',
                 bring_along:'Fürzüg u Brönnsprit',
                 uniform:'Fürfeschti häntschä',
-                //picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
+                picture:'http://s1.1zoom.me/big3/877/390221-svetik.jpg',
                 checkout: {
                     deadline: '2017-01-02',
                     contact: {
@@ -93,7 +93,7 @@ describe('List of tageler', function() {
                 end: faker.date.future(),
                 bring_along: faker.lorem.sentence(5,8),
                 uniform:faker.hacker.phrase(),
-                //picture:faker.image.image(),
+                picture:'http://www.centurysquare.com.sg/media/4943/merchantimage673.png',//faker.image.image(),
                 checkout: {
                     deadline: faker.date.future(),
                     contact: {
