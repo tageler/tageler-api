@@ -94,7 +94,7 @@ describe('List of tageler', function() {
                 end: faker.date.future(),
                 bring_along: faker.lorem.sentence(5,8),
                 uniform:faker.hacker.phrase(),
-                picture:'http://www.centurysquare.com.sg/media/4943/merchantimage673.png',//faker.image.image(),
+                picture:faker.image.image(),
                 checkout: {
                     deadline: faker.date.future(),
                     contact: {
