@@ -4,20 +4,21 @@ const fs = require('fs');
 const config = require('../config/database');
 const Tageler = require('../models/tageler');
 const appRoot = require('app-root-path');
-const picture_downloader = require('./picture_downloader')
+const picture_downloader = require('./picture_downloader');
+const upload = require('./picture_service');
 
 
 // Multer Middleware
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './src/public/uploads/pictures/tageler_pictures')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
-const upload = multer({storage:storage});
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './src/public/uploads/pictures/tageler_pictures')
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+// const upload = multer({storage:storage});
 
 
 
@@ -106,12 +107,12 @@ router.put('/admin/update', upload.single('picture'), (req, res, next) => {
         picture: req.body.picture,
         checkout: req.body.checkout
     };
+    console.log("req-file: " + req.file + "ID: "+req.body._id);
     if (typeof req.file !== "undefined") {
         updatedTageler.picture = 'http://localhost:3000/public/uploads/pictures/tageler_pictures/'+req.file.filename;
-    }else{
-        updatedTageler.picture = req.body.picture;
     }
-    console.log("updated-tageler\n: " + 
+    
+    console.log("updated-tageler:\n " + 
         JSON.stringify(updatedTageler, null, 4));
     
     Tageler.findOneAndUpdate(req.body._id, updatedTageler, (err, tageler) => {
@@ -126,8 +127,12 @@ router.put('/admin/update', upload.single('picture'), (req, res, next) => {
 
 // Delete Tageler
 router.delete('/admin/delete', (req, res, next) => {
+    let _id_param = req.param("_id"); 
     let _id = req.body._id;
+    if (typeof _id == 'undefined')
+        _id = _id_param;
 
+    console.log("delete: " + _id);
     Tageler.getTagelerById(_id, (err, tageler) => {
 
        if(err || tageler == null) {
