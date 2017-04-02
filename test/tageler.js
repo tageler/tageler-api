@@ -14,6 +14,7 @@ const api = supertest(app);
 const fixtures = require('node-mongoose-fixtures');
 //const mongoose = require('mongoose');
 const faker = require('faker');
+var _ = require('lodash');
 
 const express = require('express');
 // const path = require('path');
@@ -48,7 +49,7 @@ describe('List of tageler', function() {
         var tageler = [{
             title: 'Megafun im Wald',
             text: 'sdfg',
-            group: 'Junglejungs',
+            group: 'Baghira',
             start:'2016-06-03T10:34',
             end: '2016-06-04T10:34',
             bring_along:'BMPTNZ',
@@ -67,7 +68,7 @@ describe('List of tageler', function() {
             {
                 title: 'Fürlä',
                 text: 'adsfdg',
-                group: 'Wondergirls',
+                group: 'Tschil',
                 start:'2016-06-03T10:34',
                 end: '2016-06-04T10:34',
                 bring_along:'Fürzüg u Brönnsprit',
@@ -88,7 +89,7 @@ describe('List of tageler', function() {
             tageler[i] = {
                 title: faker.lorem.sentence(3,8),
                 text: faker.hacker.phrase() + ' ' + faker.hacker.phrase(),
-                group: faker.hacker.noun(),
+                group: _.sample(['Baghira', 'Tschil', 'Turmalin', 'Obsidian', 'Raschka', 'Rikki-Tikki', 'Bratwurscht']),
                 start: faker.date.future(),
                 end: faker.date.future(),
                 bring_along: faker.lorem.sentence(5,8),
