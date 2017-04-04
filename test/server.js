@@ -4,7 +4,7 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const api = supertest(app);
 
-describe('index', function () {
+describe('server', function () {
     it('/', function (done) {
         api.get('/')
             .set('Accept', 'application/json')

@@ -28,7 +28,7 @@ gulp.task('test', function() {
 
 gulp.task('default', ['lint', 'test'], function () {
     nodemon({
-        script: 'src/index.js',
+        script: 'src/server.js',
         ext: 'js',
         env: { 'NODE_ENV': 'development' },
         tasks: ['lint', 'test'],
