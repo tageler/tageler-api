@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../config/database');
+
 // Tageler Schema
 const TagelerSchema = mongoose.Schema({
     title: {
@@ -40,21 +40,21 @@ const TagelerSchema = mongoose.Schema({
             required: false
         },
         contact: [{
-            name:{
+            name: {
                 type: String,
                 required: false
             },
-            phone:{
-                type: String,
-                required:false
-            },
-            mail:{
+            phone: {
                 type: String,
                 required: false
             },
-            other:{
+            mail: {
                 type: String,
-                required:false
+                required: false
+            },
+            other: {
+                type: String,
+                required: false
             }
         }]
     }
@@ -62,23 +62,23 @@ const TagelerSchema = mongoose.Schema({
 
 const Tageler = module.exports = mongoose.model('Tageler', TagelerSchema);
 
-module.exports.getTagelersByGroup = function(group, callback){
+/** TODO: SHOULDN'T THIS BE IN CONTROLLER? **/
+module.exports.getTagelersByGroup = function (group, callback) {
     Tageler.find({group: group}, callback);
 };
 
-
-module.exports.addTageler = function(newTageler, callback){
-    if (newTageler.picture){
-        console.log("pic-url: " + 
-        JSON.stringify(newTageler, null, 4));
-    }
+module.exports.addTageler = function (newTageler, callback) {
+    // if (newTageler.picture){
+    //     console.log("pic-url: " +
+    //     JSON.stringify(newTageler, null, 4));
+    // }
     newTageler.save(callback);
 };
 
-module.exports.getTagelerById = function(_id, callback){
+module.exports.getTagelerById = function (_id, callback) {
     Tageler.findOne({_id: _id}, callback);
 };
 
-module.exports.getTagelers = function(callback){
-  Tageler.find(callback);
+module.exports.getTagelers = function (callback) {
+    Tageler.find(callback);
 };
