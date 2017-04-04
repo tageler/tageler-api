@@ -40,7 +40,7 @@ app.use('/public',express.static(__dirname + '/public'));
 
 // Index Route
 app.get('/', (req, res) => {
-    res.send('The game is on!');
+    res.json('The game is on!');
 });
 
 app.get('*', (req, res) => {
