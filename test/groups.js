@@ -24,6 +24,9 @@ describe('Fill MongoDB with Groups entries', function () {
     beforeEach(function (done) {
         done();
     });
+    afterEach(function() {
+        mongoose.connection.close();
+    });
     it('creates some groups', function (done) {
         const groups = [
             {

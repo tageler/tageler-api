@@ -29,7 +29,9 @@ describe('Fill MongoDB with Tageler entries', function () {
     });
     beforeEach(function (done) {
         done();
-
+    });
+    afterEach(function() {
+        mongoose.connection.close();
     });
     it('creates some tagelers', function (done) {
         var tageler = [{
@@ -104,7 +106,7 @@ describe('Fill MongoDB with Tageler entries', function () {
                         console.log("Could not create Tageler: " + i + err.toString());
                     }
                     cnt++;
-                    console.log('Created tageler' + " " + cnt);
+                    // console.log('Created tageler' + " " + cnt);
                     if (cnt == tageler.length) {
                         done();
                     }
