@@ -1,103 +1,75 @@
-const dbURI = 'mongodb://localhost/test';
-
-const should = require('chai').should();
 const supertest = require('supertest');
-const server = require('../src/server');
-const models = require('../src/models');
-const api = supertest(server);
+const app = require('../src/app');
+const api = supertest(app);
 const fixtures = require('node-mongoose-fixtures');
+const faker = require('faker');
+const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
+const config = require('../src/config/database');
 
-describe('List of groups', function() {
-  before(function(done) {
-    if (mongoose.connection.db) return done();
-    mongoose.connect(dbURI, done);
-  });
-
-  beforeEach(function(done) {
-    models.Group.remove({}, done);
-  });
-
-  it('returns an empty list of groups', function(done) {
-    api.get('/api/groups')
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err);
-        res.body.should.be.instanceof(Array).and.to.have.lengthOf(0);
-        done();
-      });
-  });
-
-  it('returns an error if an invalid group is accessed', function(done) {
-    api.get('/api/groups/56ccdd2070be1923d5091c7b')
-      .expect(404)
-      .end(function(err, res) {
-        if (err) return done(err);
-        done();
-      });
-  });
-
-  it('creates a new group', function(done) {
-    var group = {id: 'xix', name: 'XIX. Trupp'};
-
-    api.post('/api/groups')
-      .send(group)
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        done();
-      });
-  });
-
-  it('sends CORS headers', function(done) {
-    api.get('/api/groups')
-      .expect(200)
-      .expect('Access-Control-Allow-Methods', 'GET, POST')
-      .expect('Access-Control-Allow-Origin', '*')
-      .expect('Access-Control-Expose-Headers', /api-version/i)
-      .expect('Access-Control-Allow-Headers', /accept/i)
-      .end(function(err, data) {
-          if (err) return done(err);
-          done();
-      });
-  });
-
-  it('reads prexisting groups', function(done) {
-    fixtures({
-      group: [
-        {name: 'XX. Trupp'}
-      ]
-    }, function(err, data) {
-      if (err) return done(err);
-
-      api.get('/api/groups')
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err);
-          res.body.should.be.instanceof(Array).and.to.have.lengthOf(1);
-          done();
-        });
+describe('Fill MongoDB with Groups entries', function () {
+    before(function (done) {
+        if (mongoose.connection.db) {
+            mongoose.connection.collections['groups'].drop(function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        } else {
+            mongoose.connect(config.database, done);
+        }
+        return done();
     });
-  });
-
-  it('reads existing groups directly', function(done) {
-    fixtures({
-      group: [
-        {name: 'XX. Trupp'}
-      ]
-    }, function(err, data) {
-      if (err) return done(err);
-
-      api.get('/api/groups/' + data[0][0]._id)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err);
-          res.body.should.be.instanceof(Object).and.to.have.property('name', 'XX. Trupp');
-          done();
-        });
+    beforeEach(function (done) {
+        done();
     });
-  });
+    afterEach(function() {
+        mongoose.connection.close();
+    });
+    it('creates some groups', function (done) {
+        const groups = [
+            {
+                type: 'Meute',
+                name: 'Baghira'
+            }, {
+                type: 'Meute',
+                name: 'Tschil'
+            }, {
+                type: 'Trupp',
+                name: 'Turmalin'
+            }, {
+                type: 'Trupp',
+                name: 'Obsidian'
+            }, {
+                type: 'Meute',
+                name: 'Raschka'
+            }, {
+                type: 'Meute',
+                name: 'Rikki-Tikki'
+            }, {
+                type: 'Meute',
+                name: 'Bratwurscht'
+            }
+        ];
+
+        let cnt = 0;
+
+        for (let i = 0; i < groups.length; i++) {
+            api.post('/api/v1/group/admin/create')
+                .send(groups[i])
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function (err, res)  {
+                    if (err) {
+                        console.log('failed creating groups ' + err.toString());
+                    }
+                    cnt++;
+                    // console.log('Created group' + ' ' + cnt);
+                    if (cnt == groups.length) {
+                        done();
+                    }
+                });
+        }
+    });
 });
