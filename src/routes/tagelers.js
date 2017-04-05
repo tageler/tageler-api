@@ -55,7 +55,7 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         uniform: req.body.uniform,
         checkout: req.body.checkout
     });
-    console.log('file: ' + (req.file));
+    // console.log('file: ' + (req.file));
     if (typeof req.file === 'undefined') {
         newTageler.picture = req.body.picture;
         // TODO does not work right now...

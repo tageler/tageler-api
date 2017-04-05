@@ -4,53 +4,53 @@ const app = require('../src/app');
 const api = supertest(app);
 const mongoose = require('mongoose');
 
-describe('group', () => {
+describe('group', function () {
     // TODO
-    it('/getGroups', (done) => {
+    it('/getGroups', function (done) {
         api.get('/')
             .set('Accept', 'application/json')
             .expect(200)
-            .end((err, res) => {
+            .end(function (err, res) {
                 expect(res.body).to.equal('The game is on!');
                 done();
             });
     });
     // TODO
-    it('/getById', (done) => {
+    it('/getById', function (done) {
         api.get('/')
             .set('Accept', 'application/json')
             .expect(200)
-            .end((err, res) => {
+            .end(function (err, res) {
                 expect(res.body).to.equal('The game is on!');
                 done();
             });
     });
     // TODO
-    it('/admin/create', (done) => {
+    it('/admin/create', function (done) {
         api.get('/')
             .set('Accept', 'application/json')
             .expect(200)
-            .end((err, res) => {
+            .end(function (err, res) {
                 expect(res.body).to.equal('The game is on!');
                 done();
             });
     });
     // TODO
-    it('/admin/update', (done) => {
+    it('/admin/update', function (done) {
         api.get('/')
             .set('Accept', 'application/json')
             .expect(200)
-            .end((err, res) => {
+            .end(function (err, res) {
                 expect(res.body).to.equal('The game is on!');
                 done();
             });
     });
     // TODO
-    it('/admin/delete', (done) => {
+    it('/admin/delete', function (done) {
         api.get('/')
             .set('Accept', 'application/json')
             .expect(200)
-            .end((err, res) => {
+            .end(function (err, res) {
                 expect(res.body).to.equal('The game is on!');
                 done();
             });

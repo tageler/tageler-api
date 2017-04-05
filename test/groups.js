@@ -1,4 +1,3 @@
-const dbURI = 'mongodb://localhost:3000';
 const supertest = require('supertest');
 const app = require('../src/app');
 const api = supertest(app);
@@ -9,10 +8,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('../src/config/database');
 
-describe('Fill MongoDB with Groups entries', () => {
-    before((done) => {
+describe('Fill MongoDB with Groups entries', function () {
+    before(function (done) {
         if (mongoose.connection.db) {
-            mongoose.connection.collections['groups'].drop((err) => {
+            mongoose.connection.collections['groups'].drop(function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -22,10 +21,10 @@ describe('Fill MongoDB with Groups entries', () => {
         }
         return done();
     });
-    beforeEach((done) => {
+    beforeEach(function (done) {
         done();
     });
-    it('creates some groups', (done) => {
+    it('creates some groups', function (done) {
         const groups = [
             {
                 type: 'Meute',
@@ -58,7 +57,7 @@ describe('Fill MongoDB with Groups entries', () => {
                 .send(groups[i])
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .end((err, res) => {
+                .end(function (err, res)  {
                     if (err) {
                         console.log('failed creating groups ' + err.toString());
                     }
