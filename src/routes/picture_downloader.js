@@ -44,17 +44,14 @@
 // const downloadImage = require('download-image')
 
 const crawler = require('img-crawler');
-const PictureDownload = module.exports =  function(url, dest) {
-  
+const PictureDownload  = (url, dest) => {
     const opts = {
         url: url,
         dist: dest
     };
-    
-    crawler.crawl(opts, function(err, data) {
+    crawler.crawl(opts, (err, data) => {
         console.log('Downloaded %d from %s', data.imgs.length, opts.url);
-    }); 
+    });
 };
-// downloadImage('lorempixel.com/g/400/200/', `./image2.jpg`)
-
- 
+module.exports = PictureDownload;
+// downloadImage('lorempixel.com/g/400/200/', `./image2.jpg`);

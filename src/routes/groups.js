@@ -2,28 +2,27 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/database');
 const Group = require('../models/group');
-const appRoot = require('app-root-path');
 
 // Multer Middleware
 const multer = require('multer');
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: (req, file, cb) => {
         cb(null, './src/public/uploads/pictures/group_pictures')
     },
-    filename: function (req, file, cb) {
+    filename: (req, file, cb) => {
         cb(null, file.fieldname + '-' + Date.now())
     }
 });
-const upload = multer({storage:storage});
+const upload = multer({storage: storage});
 
-
+/************* UNRESTRICTED *************/
 // Get Group by ID
 router.get('/getById/:id', (req, res, next) => {
     let id = req.params.id;
     Group.getGroupById(id, (err, groups) => {
-        if(err){
-            res.json({success: false, msg: 'No Group found with ID: '+id});
-        } else{
+        if (err) {
+            res.json({success: false, msg: 'No Group found with ID: ' + id});
+        } else {
             res.json(groups);
         }
     });
@@ -32,64 +31,85 @@ router.get('/getById/:id', (req, res, next) => {
 // Get all Groups
 router.get('/getGroups', (req, res, next) => {
     Group.getGroups((err, groups) => {
-        if(err){
+        if (err) {
             res.json({success: false, msg: 'No Groups were found'});
-        } else{
+        } else {
             res.json(groups);
         }
     });
 });
 
+/************* ADMIN *************/
 // Create group
 router.post('/admin/create', upload.single('picture'), (req, res, next) => {
     let newGroup = new Group({
         type: req.body.type,
         name: req.body.name
     });
-    if (typeof req.file !== "undefined") {
+    if (typeof req.file !== 'undefined') {
         newGroup.picture = req.file.path;
     }
     Group.addGroup(newGroup, (err, group) => {
-        if(err){
+        if (err) {
             console.log(err);
-            res.json({success: false, msg:'Failed to register Group '+err});
+            res.json({success: false, msg: 'Failed to register Group ' + err});
         } else {
-            res.json({result:group, success: true, msg:'Group registered'});
+            res.json({result: group, success: true, msg: 'Group registered'});
         }
     });
 });
 
 // Update Group
 router.put('/admin/update', (req, res, next) => {
-    let updatedGroup = {
-        type: req.body.type,
-        name: req.body.name
-    };
-    Group.findOneAndUpdate(req.body._id, updatedGroup, (err, group) => {
-        if (err) {
-            console.log(err);
-            res.json({success: false, msg:'Failed to update group'});
+    let id = req.body.id;
+    Group.findOne({_id: id}, (err, groupToUpdate) => {
+        if (err || groupToUpdate === null) {
+            res.json({
+                success: false,
+                msg: 'Failed to find the Group with ID: ' + id,
+                foundGroup: groupToUpdate,
+                error: err
+            });
         } else {
-            res.json({success: true, result:group, msg:'Group updated'});
+            for (let param in req.body) {
+                groupToUpdate[param] = req.body[param];
+            }
+            Group.findOneAndUpdate({_id: id}, groupToUpdate, (err, group) => {
+                if (err || group === null) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to update Group with ID: ' + id,
+                        foundGroup: group,
+                        error: err
+                    });
+                } else {
+                    res.json({
+                        success: true,
+                        oldGroup: group,
+                        updatedGroup: groupToUpdate,
+                        msg: 'Group updated'
+                    });
+                }
+            });
         }
     });
 });
 
 // Delete Group
 router.delete('/admin/delete', (req, res, next) => {
-    let _id = req.body._id;
-    Group.getGroupById(_id, (err, group) => {
-       if(err || group == null) {
-           res.json({success: false, msg: 'Failed to delete the Group'});
-       } else {
-           Group.remove(group, (err) => {
-                if(err){
+    let id = req.body._id;
+    Group.getGroupById(id, (err, group) => {
+        if (err || group === null) {
+            res.json({success: false, msg: 'Failed to delete the Group'});
+        } else {
+            Group.remove(group, (err) => {
+                if (err) {
                     res.json({success: false, msg: 'Failed to delete the Group'});
                 } else {
-                    res.json({success: true, msg:'Group deleted'});
+                    res.json({success: true, msg: 'Group deleted'});
                 }
             });
-       }
+        }
     });
 });
 

@@ -22,7 +22,7 @@ const TagelerSchema = mongoose.Schema({
         type: Date,
         required: false
     },
-    bring_along: {
+    bringAlong: {
         type: String,
         required: true
     },
@@ -60,14 +60,15 @@ const TagelerSchema = mongoose.Schema({
     }
 });
 
-const Tageler = module.exports = mongoose.model('Tageler', TagelerSchema);
+const Tageler = mongoose.model('Tageler', TagelerSchema);
+module.exports = Tageler;
 
 /** TODO: SHOULDN'T THIS BE IN CONTROLLER? **/
-module.exports.getTagelersByGroup = function (group, callback) {
+module.exports.getTagelersByGroup = (group, callback) => {
     Tageler.find({group: group}, callback);
 };
 
-module.exports.addTageler = function (newTageler, callback) {
+module.exports.addTageler = (newTageler, callback) => {
     // if (newTageler.picture){
     //     console.log("pic-url: " +
     //     JSON.stringify(newTageler, null, 4));
@@ -75,10 +76,10 @@ module.exports.addTageler = function (newTageler, callback) {
     newTageler.save(callback);
 };
 
-module.exports.getTagelerById = function (_id, callback) {
+module.exports.getTagelerById = (_id, callback) => {
     Tageler.findOne({_id: _id}, callback);
 };
 
-module.exports.getTagelers = function (callback) {
+module.exports.getTagelers = (callback) => {
     Tageler.find(callback);
 };

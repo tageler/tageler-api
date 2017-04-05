@@ -17,17 +17,17 @@ const GroupSchema = mongoose.Schema({
     }
 });
 
-/** TODO: SHOULDN'T THIS BE IN CONTROLLER? **/
-const Group = module.exports = mongoose.model('Group', GroupSchema);
+const Group = mongoose.model('Group', GroupSchema);
+module.exports = Group;
 
-module.exports.addGroup = function (newGroup, callback) {
+module.exports.addGroup = (newGroup, callback) => {
     newGroup.save(callback);
 };
 
-module.exports.getGroupById = function (_id, callback) {
+module.exports.getGroupById = (_id, callback) => {
     Group.findOne({_id: _id}, callback);
 };
 
-module.exports.getGroups = function (callback) {
+module.exports.getGroups = (callback) => {
     Group.find(callback);
 };
