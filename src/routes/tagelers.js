@@ -53,7 +53,8 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         end: req.body.end,
         bringAlong: req.body.bringAlong,
         uniform: req.body.uniform,
-        checkout: req.body.checkout
+        checkout: req.body.checkout,
+        free: req.body.free
     });
     // console.log('file: ' + (req.file));
     if (typeof req.file === 'undefined') {

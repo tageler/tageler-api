@@ -30,29 +30,31 @@ describe('Fill MongoDB with Tageler entries', function () {
     beforeEach(function (done) {
         done();
     });
-    afterEach(function() {
+    afterEach(function () {
         mongoose.connection.close();
     });
     it('creates some tagelers', function (done) {
-        var tageler = [{
-            title: 'Megafun im Wald',
-            text: 'sdfg',
-            group: 'Baghira',
-            start: '2016-06-03T10:34',
-            end: '2016-06-04T10:34',
-            bring_along: 'BMPTNZ',
-            uniform: 'bruni hosä',
-            picture: 'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
-            checkout: {
-                deadline: '2016-06-03',
-                contact: {
-                    name: 'Hans Hansenstein',
-                    phone: '123456',
-                    mail: 'hans@hans.hans',
-                    other: ':)'
-                }
-            }
-        },
+        var tageler = [
+            {
+                title: 'Megafun im Wald',
+                text: 'sdfg',
+                group: 'Baghira',
+                start: '2016-06-03T10:34',
+                end: '2016-06-04T10:34',
+                bring_along: 'BMPTNZ',
+                uniform: 'bruni hosä',
+                picture: 'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg',
+                checkout: {
+                    deadline: '2016-06-03',
+                    contact: {
+                        name: 'Hans Hansenstein',
+                        phone: '123456',
+                        mail: 'hans@hans.hans',
+                        other: ':)'
+                    }
+                },
+                free: false
+            },
             {
                 title: 'Fürlä',
                 text: 'adsfdg',
@@ -70,7 +72,8 @@ describe('Fill MongoDB with Tageler entries', function () {
                         mail: 'ben.zin@pfadi.ch',
                         other: ''
                     }
-                }
+                },
+                free: false
             }];
 
         for (let i = 2, len = 12; i < len; i++) {
@@ -91,7 +94,8 @@ describe('Fill MongoDB with Tageler entries', function () {
                         mail: faker.internet.email(),
                         other: faker.hacker.phrase()
                     }
-                }
+                },
+                free: false
             };
         }
         let cnt = 0;

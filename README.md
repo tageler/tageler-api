@@ -48,3 +48,4 @@ Glossary
 | Bild | `picture` |
 | Abmelden | `checkout` |
 | Abmelden bis | `checkout.deadline` |
+| Übungsfrei | `free` |

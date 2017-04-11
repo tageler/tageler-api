@@ -57,6 +57,10 @@ const TagelerSchema = mongoose.Schema({
                 required: false
             }
         }]
+    },
+    free: {
+        type: Boolean,
+        required: true
     }
 });
 
