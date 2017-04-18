@@ -24,8 +24,9 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 // CORS Middleware
 app.use(cors());
-// Body Parser Middleware
-app.use(bodyParser.json());
+// Body Parser Middleware, extended limit because picture
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 // Set needed routes
 const tagelers = require('./routes/tagelers');
 const groups = require('./routes/groups');
