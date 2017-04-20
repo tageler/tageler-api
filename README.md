@@ -14,6 +14,20 @@ cd tageler-api
 npm install
 gulp
 ```
+
+Run Tests
+----------
+Run tests with
+```mocha```
+or
+```bash ./node_modules/mocha/bin/mocha``` if in package.json the script 
+```bash
+"scripts": {
+    "test": "mocha"
+  }
+```
+is missing
+
 Configuration
 -------------
 
