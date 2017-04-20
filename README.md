@@ -18,7 +18,7 @@ gulp
 Run Tests
 ----------
 Run tests with
-```mocha```
+```npm test```
 or
 ```bash ./node_modules/mocha/bin/mocha``` if in package.json the script 
 ```bash
