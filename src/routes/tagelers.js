@@ -3,7 +3,6 @@ const router = express.Router();
 const fs = require('fs');
 const config = require('../config/database');
 const Tageler = require('../models/tageler');
-const upload = require('./picture_service');
 
 /************* UNRESTRICTED *************/
 // Get Tagelers by group
@@ -43,7 +42,7 @@ router.get('/getTagelers', (req, res, next) => {
 
 /************* ADMIN *************/
 // Create Tageler
-router.post('/admin/create', upload.single('picture'), (req, res, next) => {
+router.post('/admin/create', (req, res) => {
     // console.log('req: ' + JSON.stringify(req.body));
     let newTageler = new Tageler({
         title: req.body.title,
@@ -53,32 +52,23 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
         end: req.body.end,
         bringAlong: req.body.bringAlong,
         uniform: req.body.uniform,
+        picture: req.body.picture,
         checkout: req.body.checkout,
         free: req.body.free
     });
-    // console.log('file: ' + (req.file));
-    if (typeof req.file === 'undefined') {
-        newTageler.picture = req.body.picture;
-        // TODO does not work right now...
-        // console.log("picUrl: " +newTageler.picture);
-        // var fName ='./public/uploads/pictures/tageler_pictures/' + "url_picture" + '-' + Date.now()+".jpg"
-        // pictureDownloader(newTageler.picture,fName);
-        // newTageler.picture =  fName;
-    } else {
-        newTageler.picture = req.file.path;
-        console.log('file present');
-    }
     Tageler.addTageler(newTageler, (err, tageler) => {
         if (err) {
+            console.log("error on tagelercreation " + err.toString() )
             res.json({success: false, msg: 'Failed to register Tageler', error: err});
         } else {
+            // console.log("tageler registered " )
             res.json({result: tageler, success: true, msg: 'Tageler registered'});
         }
     });
 });
 
 // Update Tageler
-router.put('/admin/update/:id', upload.single('picture'), (req, res, next) => {
+router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
     Tageler.findOne({_id: id}, (err, tagelerToUpdate) => {
         if (err || tagelerToUpdate === null) {
