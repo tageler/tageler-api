@@ -73,10 +73,6 @@ module.exports.getTagelersByGroup = (group, callback) => {
 };
 
 module.exports.addTageler = (newTageler, callback) => {
-    // if (newTageler.picture){
-    //     console.log("pic-url: " +
-    //     JSON.stringify(newTageler, null, 4));
-    // }
     newTageler.save(callback);
 };
 
