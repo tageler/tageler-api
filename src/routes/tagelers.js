@@ -78,8 +78,8 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
 });
 
 // Update Tageler
-router.put('/admin/update', upload.single('picture'), (req, res, next) => {
-    let id = req.body.id;
+router.put('/admin/update/:id', upload.single('picture'), (req, res, next) => {
+    let id = req.params.id;
     Tageler.findOne({_id: id}, (err, tagelerToUpdate) => {
         if (err || tagelerToUpdate === null) {
             res.json({
@@ -114,14 +114,14 @@ router.put('/admin/update', upload.single('picture'), (req, res, next) => {
 });
 
 // Delete Tageler
-router.delete('/admin/delete', (req, res, next) => {
-    let id = req.body._id;
-    Tageler.getTagelerById(id, (err, tageler) => {
+router.delete('/admin/delete/:id', (req, res) => {
+    let id = req.params.id;
+    Tageler.findById({_id: id}, (err, tagelerToDelete) => {
 
-        if (err || tageler === null) {
-            res.json({success: false, msg: 'Failed to delete the Tageler'});
+        if (err || tagelerToDelete === null) {
+            res.json({success: false, msg: 'Failed to delete the Tageler, tageler is null'});
         } else {
-            Tageler.remove(tageler, (err) => {
+            Tageler.remove(tagelerToDelete, (err) => {
                 if (err) {
                     res.json({success: false, msg: 'Failed to delete the Tageler'});
                 } else {
