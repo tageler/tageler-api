@@ -18,8 +18,10 @@ const GroupSchema = mongoose.Schema({
 });
 
 const Group = mongoose.model('Group', GroupSchema);
+
 module.exports = Group;
 
+// MongoDB logic
 module.exports.addGroup = (newGroup, callback) => {
     newGroup.save(callback);
 };

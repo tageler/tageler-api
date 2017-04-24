@@ -58,10 +58,8 @@ router.post('/admin/create', (req, res) => {
     });
     Tageler.addTageler(newTageler, (err, tageler) => {
         if (err) {
-            console.log("error on tagelercreation " + err.toString() )
             res.json({success: false, msg: 'Failed to register Tageler', error: err});
         } else {
-            // console.log("tageler registered " )
             res.json({result: tageler, success: true, msg: 'Tageler registered'});
         }
     });

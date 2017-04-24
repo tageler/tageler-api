@@ -2,7 +2,7 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const api = supertest(app);
 const faker = require('faker');
-var _ = require('lodash');
+const _ = require('lodash');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -10,18 +10,18 @@ const config = require('../src/config/database');
 const async = require('async');
 const base64 = require('node-base64-image'); // ES5
 
-var NUM_OF_TAGELERS = 20;
+const NUM_OF_TAGELERS = 20;
 
-describe('Fill MongoDB with Tageler entries', function () {
-    before(function (done) {
+describe('Fill MongoDB with Tageler entries', () => {
+    before(done => {
         config.openConnectionAndDropCollection('tagelers', () => {
             return done();
         });
     });
-    beforeEach(function (done) {
+    beforeEach(done => {
         done();
     });
-    afterEach(function () {
+    afterEach(() => {
         mongoose.connection.close();
     });
     it('creates some tagelers', function (done) {
@@ -38,8 +38,8 @@ describe('Fill MongoDB with Tageler entries', function () {
         base64images = [];
 
         async.forEachOf(urls,
-            function (url, ind, callback) {
-                base64.encode(url, { string: true }, (err, image) => {
+            (url, ind, callback) => {
+                base64.encode(url, {string: true}, (err, image) => {
                     if (err) {
                         console.log('Error!! ' + err.toString());
                         return callback(err);
@@ -48,7 +48,7 @@ describe('Fill MongoDB with Tageler entries', function () {
                     callback();
                 });
             },
-            function (err) {
+            err => {
                 if (err) {
                     console.log('Fuckin error');
                     return done();
@@ -116,7 +116,7 @@ describe('Fill MongoDB with Tageler entries', function () {
                     };
                 }
                 async.forEachOf(tagelers,
-                    function (tageler, ind, callback) {
+                    (tageler, ind, callback) => {
                         postTageler(tageler, (err, res) => {
                             if (err) {
                                 console.log('Error!! ' + err.toString());
@@ -126,7 +126,7 @@ describe('Fill MongoDB with Tageler entries', function () {
                             callback();
                         });
                     },
-                    function (err) {
+                    err => {
                         if (err) {
                             console.log('error in posting tagelers: ' + err.toString());
                         }
@@ -142,7 +142,7 @@ function postTageler(tageler, callback) {
         .send(tageler)
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function (err, res) {
+        .end((err, res) => {
             callback(err, res);
         });
 }

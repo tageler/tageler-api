@@ -8,19 +8,19 @@ const mongoose = require('mongoose');
 const config = require('../src/config/database');
 const async = require('async');
 
-describe('Fill MongoDB with Groups entries', function () {
-    before(function (done) {
+describe('Fill MongoDB with Groups entries', () => {
+    before(done => {
         config.openConnectionAndDropCollection('groups', () => {
             return done();
         });
     });
-    beforeEach(function (done) {
+    beforeEach(done => {
         done();
     });
-    afterEach(function () {
+    afterEach(() => {
         mongoose.connection.close();
     });
-    it('creates some groups', function (done) {
+    it('creates some groups', done => {
         const groups = [
             {
                 type: 'Meute',
@@ -47,7 +47,7 @@ describe('Fill MongoDB with Groups entries', function () {
         ];
 
         async.forEachOf(groups,
-            function (group, ind, callback) {
+            (group, ind, callback) => {
                 postGroup(group, (err, res) => {
                     if (err) {
                         console.log('Error!! ' + err.toString());
@@ -57,7 +57,7 @@ describe('Fill MongoDB with Groups entries', function () {
                     callback();
                 });
             },
-            function (err) {
+            err => {
                 if (err) {
                     console.log('error in posting groups: ' + err.toString());
                 }
@@ -72,7 +72,7 @@ function postGroup(group, callback) {
         .send(group)
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function (err, res) {
+        .end((err, res) => {
             callback(err, res);
         });
 }

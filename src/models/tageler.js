@@ -65,9 +65,10 @@ const TagelerSchema = mongoose.Schema({
 });
 
 const Tageler = mongoose.model('Tageler', TagelerSchema);
+
 module.exports = Tageler;
 
-/** TODO: SHOULDN'T THIS BE IN CONTROLLER? **/
+// MongoDB logic
 module.exports.getTagelersByGroup = (group, callback) => {
     Tageler.find({group: group}, callback);
 };
