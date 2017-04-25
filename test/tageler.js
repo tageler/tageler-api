@@ -223,7 +223,7 @@ describe('Fill MongoDB with Tageler entries', () => {
     afterEach(() => {
         mongoose.connection.close();
     });
-    it('creates some tagelers', function (done) {
+    it('creates some tagelers', function(done) {
         /* give this test a bit more time to fill the db... may has to be increased on slow pc's*/
         this.timeout(10000);
         setTimeout(done, 10000);
@@ -249,7 +249,7 @@ describe('Fill MongoDB with Tageler entries', () => {
             },
             err => {
                 if (err) {
-                    console.log('Fuckin error');
+                    console.log('Error');
                     return done();
                 }
                 tagelers[0] = {

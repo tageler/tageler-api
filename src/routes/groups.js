@@ -59,7 +59,7 @@ router.put('/admin/update/:id', (req, res) => {
         } else {
             let oldGroup = JSON.parse(JSON.stringify(groupToUpdate));
             for (let param in req.body) {
-                if(req.body[param]){
+                if (req.body[param]) {
                     groupToUpdate[param] = req.body[param];
                 }
             }

@@ -25,7 +25,7 @@ const app = express();
 app.use(cors());
 // Body Parser Middleware, extended limit because picture
 app.use(bodyParser.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 // Set needed routes
 const tagelers = require('./routes/tagelers');
 const groups = require('./routes/groups');
