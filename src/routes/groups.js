@@ -6,7 +6,7 @@ const Group = require('../models/group');
 
 /************* UNRESTRICTED *************/
 // Get Group by ID
-router.get('/getById/:id', (req, res, next) => {
+router.get('/getById/:id', (req, res) => {
     let id = req.params.id;
     Group.getGroupById(id, (err, groups) => {
         if (err) {
@@ -18,7 +18,7 @@ router.get('/getById/:id', (req, res, next) => {
 });
 
 // Get all Groups
-router.get('/getGroups', (req, res, next) => {
+router.get('/getGroups', (req, res) => {
     Group.getGroups((err, groups) => {
         if (err) {
             res.json({success: false, msg: 'No Groups were found'});
@@ -30,7 +30,7 @@ router.get('/getGroups', (req, res, next) => {
 
 /************* ADMIN *************/
 // Create group
-router.post('/admin/create', (req, res, next) => {
+router.post('/admin/create', (req, res) => {
     let newGroup = new Group({
         type: req.body.type,
         name: req.body.name,
@@ -46,7 +46,7 @@ router.post('/admin/create', (req, res, next) => {
 });
 
 // Update Group
-router.put('/admin/update/:id', (req, res, next) => {
+router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
     Group.findOne({_id: id}, (err, groupToUpdate) => {
         if (err || groupToUpdate === null) {
@@ -85,7 +85,7 @@ router.put('/admin/update/:id', (req, res, next) => {
 });
 
 // Delete Group
-router.delete('/admin/delete/:id', (req, res, next) => {
+router.delete('/admin/delete/:id', (req, res) => {
     let id = req.params.id;
     Group.getGroupById({_id: id}, (err, groupToDelete) => {
         if (err || groupToDelete === null) {

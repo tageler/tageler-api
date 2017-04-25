@@ -6,7 +6,7 @@ const Tageler = require('../models/tageler');
 
 /************* UNRESTRICTED *************/
 // Get Tagelers by group
-router.get('/getByGroup/:group', (req, res, next) => {
+router.get('/getByGroup/:group', (req, res) => {
     let group = req.params.group;
     Tageler.getTagelersByGroup(group, (err, tagelers) => {
         if (err) {
@@ -18,7 +18,7 @@ router.get('/getByGroup/:group', (req, res, next) => {
 });
 
 // Get Tagelers by ID
-router.get('/getById/:id', (req, res, next) => {
+router.get('/getById/:id', (req, res) => {
     let id = req.params.id;
     Tageler.getTagelerById(id, (err, tagelers) => {
         if (err) {
@@ -30,7 +30,7 @@ router.get('/getById/:id', (req, res, next) => {
 });
 
 // Get all Tagelers
-router.get('/getTagelers', (req, res, next) => {
+router.get('/getTagelers', (req, res) => {
     Tageler.getTagelers((err, tagelers) => {
         if (err) {
             res.json({success: false, msg: 'No Tagelers were found'});

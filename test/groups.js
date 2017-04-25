@@ -87,10 +87,9 @@ describe('group', () => {
             });
     });
     it('/api/v1/group/admin/update', done => {
-        api.put('/api/v1/group/admin/update')
+        api.put('/api/v1/group/admin/update/' + group1._id)
             .send(
                 {
-                    id: group1._id,
                     name: 'new group name'
                 })
             .end((err, res) => {
@@ -114,19 +113,13 @@ describe('group', () => {
             });
     });
     it('/api/v1/group/admin/delete', done => {
-        api.del('/api/v1/group/admin/delete').send(
-            {
-                _id: group1._id
-            })
+        api.del('/api/v1/group/admin/delete/' + group1._id)
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
                 expect(res.body.success).to.equal(true);
             });
-        api.del('/api/v1/group/admin/delete').send(
-            {
-                _id: group2._id
-            })
+        api.del('/api/v1/group/admin/delete/' + group2._id)
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
