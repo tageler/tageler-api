@@ -9,6 +9,81 @@ const mongoose = require('mongoose');
 const config = require('../src/config/database');
 const async = require('async');
 const base64 = require('node-base64-image'); // ES5
+const expect = require('chai').expect;
+
+describe('tageler', () => {
+    before(done => {
+        config.openConnectionAndDropCollection('groups', () => {
+            return done();
+        });
+    });
+    after(() => {
+    });
+    beforeEach(() => {
+    });
+    afterEach(() => {
+    });
+    // TODO
+    it('/getTagelers', done => {
+        api.get('/')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).to.equal('The game is on!');
+                done();
+            });
+    });
+    // TODO
+    it('/getById', done => {
+        api.get('/')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).to.equal('The game is on!');
+                done();
+            });
+    });
+    // TODO
+    it('/getByGroup', done => {
+        api.get('/')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).to.equal('The game is on!');
+                done();
+            });
+    });
+    // TODO
+    it('/admin/create', done => {
+        api.get('/')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).to.equal('The game is on!');
+                done();
+            });
+    });
+    // TODO
+    it('/admin/update', done => {
+        api.get('/')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).to.equal('The game is on!');
+                done();
+            });
+    });
+    //TODO
+    it('/admin/delete', done => {
+        api.get('/')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).to.equal('The game is on!');
+                done();
+            });
+    });
+});
 
 const NUM_OF_TAGELERS = 20;
 
