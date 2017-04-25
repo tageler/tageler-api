@@ -148,7 +148,6 @@ describe('tageler', () => {
                 done();
             });
     });
-    // TODO
     it('/api/v1/tageler/admin/update', done => {
         api.put('/api/v1/tageler/admin/update/' + tageler2._id)
             .send(
@@ -202,7 +201,7 @@ describe('tageler', () => {
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
-                // TODO: Why do we still get all tagler here, after deletion?
+                // TODO: Why do we still get all tageler here, after deletion?
                 // console.log(res.body);
                 // expect(res.body.length === 0).to.equal(true);
                 done();
@@ -228,14 +227,14 @@ describe('Fill MongoDB with Tageler entries', () => {
         /* give this test a bit more time to fill the db... may has to be increased on slow pc's*/
         this.timeout(10000);
         setTimeout(done, 10000);
-        var tagelers = [];
-        var url_gruenwald = 'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg';
-        var url_feuerwald = 'http://s1.1zoom.me/big3/877/390221-svetik.jpg';
-        var urls = [url_gruenwald, url_feuerwald];
+        let tagelers = [];
+        let urlGruenwald = 'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg';
+        let urlFeuerwald = 'http://s1.1zoom.me/big3/877/390221-svetik.jpg';
+        let urls = [urlGruenwald, urlFeuerwald];
         for (let i = 2, len = NUM_OF_TAGELERS; i < len; i++) {
             urls[i] = faker.image.image();
         }
-        base64images = [];
+        let base64images = [];
 
         async.forEachOf(urls,
             (url, ind, callback) => {
@@ -292,7 +291,7 @@ describe('Fill MongoDB with Tageler entries', () => {
                         }
                     },
                     free: false
-                }
+                };
                 for (let i = 2, len = NUM_OF_TAGELERS; i < len; i++) {
                     tagelers[i] = {
                         title: faker.lorem.sentence(3, 8),

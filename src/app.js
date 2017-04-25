@@ -34,7 +34,7 @@ app.use('/api/v1/group', groups);
 
 // TODO: No idea what this does
 app.use('/public', express.static(__dirname + '/public'));
-// TODO: No idea what this does
+// Redirects all unknown routes to our 'index'
 app.get('*', (req, res) => {
     res.json('The game is on!').end();
 });
