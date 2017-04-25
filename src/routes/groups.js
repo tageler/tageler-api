@@ -3,17 +3,6 @@ const router = express.Router();
 const config = require('../config/database');
 const Group = require('../models/group');
 
-// Multer Middleware
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './src/public/uploads/pictures/group_pictures')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
-const upload = multer({storage: storage});
 
 /************* UNRESTRICTED *************/
 // Get Group by ID
@@ -41,14 +30,12 @@ router.get('/getGroups', (req, res, next) => {
 
 /************* ADMIN *************/
 // Create group
-router.post('/admin/create', upload.single('picture'), (req, res, next) => {
+router.post('/admin/create', (req, res, next) => {
     let newGroup = new Group({
         type: req.body.type,
-        name: req.body.name
+        name: req.body.name,
+        picture: req.body.picture
     });
-    if (typeof req.file !== 'undefined') {
-        newGroup.picture = req.file.path;
-    }
     Group.addGroup(newGroup, (err, group) => {
         if (err) {
             res.json({success: false, msg: 'Failed to register Group ' + err});
@@ -59,8 +46,8 @@ router.post('/admin/create', upload.single('picture'), (req, res, next) => {
 });
 
 // Update Group
-router.put('/admin/update', (req, res, next) => {
-    let id = req.body.id;
+router.put('/admin/update/:id', (req, res, next) => {
+    let id = req.params.id;
     Group.findOne({_id: id}, (err, groupToUpdate) => {
         if (err || groupToUpdate === null) {
             res.json({
@@ -70,22 +57,25 @@ router.put('/admin/update', (req, res, next) => {
                 error: err
             });
         } else {
+            let oldGroup = JSON.parse(JSON.stringify(groupToUpdate));
             for (let param in req.body) {
-                groupToUpdate[param] = req.body[param];
+                if(req.body[param]){
+                    groupToUpdate[param] = req.body[param];
+                }
             }
-            Group.findOneAndUpdate({_id: id}, groupToUpdate, (err, group) => {
-                if (err || group === null) {
+            Group.findOneAndUpdate({_id: id}, groupToUpdate, {new: true}, (err, updatedGroup) => {
+                if (err || updatedGroup === null) {
                     res.json({
                         success: false,
                         msg: 'Failed to update Group with ID: ' + id,
-                        foundGroup: group,
+                        foundGroup: updatedGroup,
                         error: err
                     });
                 } else {
                     res.json({
                         success: true,
-                        oldGroup: group,
-                        updatedGroup: groupToUpdate,
+                        oldGroup: oldGroup,
+                        updatedGroup: updatedGroup,
                         msg: 'Group updated'
                     });
                 }
@@ -95,13 +85,13 @@ router.put('/admin/update', (req, res, next) => {
 });
 
 // Delete Group
-router.delete('/admin/delete', (req, res, next) => {
-    let id = req.body._id;
-    Group.getGroupById(id, (err, group) => {
-        if (err || group === null) {
+router.delete('/admin/delete/:id', (req, res, next) => {
+    let id = req.params.id;
+    Group.getGroupById({_id: id}, (err, groupToDelete) => {
+        if (err || groupToDelete === null) {
             res.json({success: false, msg: 'Failed to delete the Group'});
         } else {
-            Group.remove(group, (err) => {
+            Group.remove(groupToDelete, (err) => {
                 if (err) {
                     res.json({success: false, msg: 'Failed to delete the Group'});
                 } else {

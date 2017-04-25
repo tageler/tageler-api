@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -30,16 +29,14 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 // Set needed routes
 const tagelers = require('./routes/tagelers');
 const groups = require('./routes/groups');
-const index = require('./routes/index');
 app.use('/api/v1/tageler', tagelers);
 app.use('/api/v1/group', groups);
-app.use('/', index);
 
 // TODO: No idea what this does
 app.use('/public', express.static(__dirname + '/public'));
 // TODO: No idea what this does
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
+    res.json('The game is on!').end();
 });
 
 module.exports = app;
