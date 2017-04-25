@@ -79,11 +79,11 @@ router.put('/admin/update/:id', (req, res) => {
         } else {
             let oldTageler = JSON.parse(JSON.stringify(tagelerToUpdate));
             for (let param in req.body) {
-                if(req.body[param]){
+                if (req.body[param]) {
                     tagelerToUpdate[param] = req.body[param];
                 }
             }
-            Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new:true}, (err, updatedTageler) => {
+            Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true}, (err, updatedTageler) => {
                 if (err || updatedTageler === null) {
                     res.json({
                         success: false,

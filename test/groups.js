@@ -16,12 +16,6 @@ describe('group', () => {
             return done();
         });
     });
-    after(() => {
-    });
-    beforeEach(() => {
-    });
-    afterEach(() => {
-    });
 
     let group1;
     let group2;
@@ -44,21 +38,16 @@ describe('group', () => {
                 expect(res.body.result.name).to.equal(name);
                 group1 = res.body.result;
             });
-        // Successful creation 2
-        const type2 = _.sample(['Meute', 'Trupp', 'Equipe']);
-        const name2 = faker.lorem.word();
-
+        // Successful creation 2 for getGroups unit test
         api.post('/api/v1/group/admin/create')
             .send(
                 {
-                    type: type2,
-                    name: name2
+                    type: _.sample(['Meute', 'Trupp', 'Equipe']),
+                    name: faker.lorem.word()
                 })
             .expect(200)
             .expect('Content-Type', /json/)
             .end((err, res) => {
-                expect(res.body.result.type).to.equal(type2);
-                expect(res.body.result.name).to.equal(name2);
                 group2 = res.body.result;
             });
         // Unsuccessful creation
@@ -80,9 +69,7 @@ describe('group', () => {
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
-                // TODO: Why do we not get all groups here?
-                // console.log(res.body);
-                // expect(res.body.length > 1).to.equal(true);
+                // expect(res.body.length === 2).to.equal(true);
                 done();
             });
     });
