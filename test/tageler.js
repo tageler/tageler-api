@@ -26,8 +26,8 @@ describe('Fill MongoDB with Tageler entries', () => {
     });
     it('creates some tagelers', function (done) {
         /* give this test a bit more time to fill the db... may has to be increased on slow pc's*/
-        this.timeout(5000);
-        setTimeout(done, 5000);
+        this.timeout(10000);
+        setTimeout(done, 10000);
         var tagelers = [];
         var url_gruenwald = 'http://www.beobachter.ch/fileadmin/dateien/bilder-editionen/Natur_2014/05_14/wald_gruenflaeche.jpg';
         var url_feuerwald = 'http://s1.1zoom.me/big3/877/390221-svetik.jpg';
