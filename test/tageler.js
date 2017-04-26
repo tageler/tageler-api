@@ -165,10 +165,7 @@ describe('tageler', () => {
             .end((err, res) => {
                 expect(res.body[0].title).to.equal(tageler2.title);
                 expect(res.body[0].text).to.equal(tageler2.text);
-                // TODO: What's the difference?
-                // console.log(res.body[0].group);
-                // console.log(tageler2.group);
-                // expect(res.body[0].group).to.equal(tageler2.group);
+                expect(JSON.stringify(res.body[0].group)).to.equal('["foobar"]');
                 // TODO: Date format isn't correct yet
                 // expect(res.body[0].start).to.equal(tageler2.start);
                 // expect(res.body[0].end).to.equal(tageler2.end);
@@ -223,7 +220,7 @@ describe('Fill MongoDB with Tageler entries', () => {
     afterEach(() => {
         mongoose.connection.close();
     });
-    it('creates some tagelers', function(done) {
+    it('creates some tagelers', function (done) {
         /* give this test a bit more time to fill the db... may has to be increased on slow pc's*/
         this.timeout(10000);
         setTimeout(done, 10000);
