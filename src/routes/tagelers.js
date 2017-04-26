@@ -69,7 +69,7 @@ router.post('/admin/create', (req, res) => {
 router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
     Tageler.findOne({_id: id}, (err, tagelerToUpdate) => {
-        if (err || tagelerToUpdate === null) {
+        if (err) {
             res.json({
                 success: false,
                 msg: 'Failed to find the Tageler with ID: ' + id,
@@ -84,7 +84,7 @@ router.put('/admin/update/:id', (req, res) => {
                 }
             }
             Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true}, (err, updatedTageler) => {
-                if (err || updatedTageler === null) {
+                if (err) {
                     res.json({
                         success: false,
                         msg: 'Failed to update Tageler with ID: ' + id,
@@ -109,7 +109,7 @@ router.delete('/admin/delete/:id', (req, res) => {
     let id = req.params.id;
     Tageler.findById({_id: id}, (err, tagelerToDelete) => {
 
-        if (err || tagelerToDelete === null) {
+        if (err) {
             res.json({success: false, msg: 'Failed to delete the Tageler, tageler is null'});
         } else {
             Tageler.remove(tagelerToDelete, (err) => {

@@ -49,7 +49,7 @@ router.post('/admin/create', (req, res) => {
 router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
     Group.findOne({_id: id}, (err, groupToUpdate) => {
-        if (err || groupToUpdate === null) {
+        if (err) {
             res.json({
                 success: false,
                 msg: 'Failed to find the Group with ID: ' + id,
@@ -64,7 +64,7 @@ router.put('/admin/update/:id', (req, res) => {
                 }
             }
             Group.findOneAndUpdate({_id: id}, groupToUpdate, {new: true}, (err, updatedGroup) => {
-                if (err || updatedGroup === null) {
+                if (err) {
                     res.json({
                         success: false,
                         msg: 'Failed to update Group with ID: ' + id,
@@ -88,7 +88,7 @@ router.put('/admin/update/:id', (req, res) => {
 router.delete('/admin/delete/:id', (req, res) => {
     let id = req.params.id;
     Group.getGroupById({_id: id}, (err, groupToDelete) => {
-        if (err || groupToDelete === null) {
+        if (err) {
             res.json({success: false, msg: 'Failed to delete the Group'});
         } else {
             Group.remove(groupToDelete, (err) => {

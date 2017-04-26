@@ -81,6 +81,8 @@ describe('group', () => {
                 })
             .end((err, res) => {
                 // TODO: Travis fails here, why?
+                console.log(res.body.success);
+                console.log(res.body.success === true);
                 expect(res.body.success).to.equal(true);
                 expect(res.body.updatedGroup._id).to.equal(group1._id);
                 expect(res.body.updatedGroup.type).to.equal(group1.type);
