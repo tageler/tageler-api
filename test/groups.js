@@ -67,18 +67,20 @@ describe('group', () => {
     it('/api/v1/group/getGroups', done => {
         api.get('/api/v1/group/getGroups')
             .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res) => {
                 // expect(res.body.length === 2).to.equal(true);
                 done();
             });
     });
-    it('/api/v1/group/admin/update', done => {
+    it('/api/v1/group/admin/update, expecting no error', done => {
         api.put('/api/v1/group/admin/update/' + group1._id)
             .send(
                 {
                     name: 'new group name'
                 })
+            .expect('Content-Type', /json/)
             .end((err, res) => {
                 expect(res.body.success).to.equal(true);
                 expect(res.body.updatedGroup._id).to.equal(group1._id);
@@ -87,9 +89,36 @@ describe('group', () => {
                 done();
             });
     });
-    it('/api/v1/group/getById/', done => {
+    it('/api/v1/group/admin/update, wrong ID', done => {
+        api.put('/api/v1/group/admin/update/' + '12345nananaBatmanIdToForceErr')
+            .send(
+                {
+                    name: 'new group name'
+                })
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                expect(res.body.success).to.equal(false);
+                expect(res.body.msg).to.equal('Failed to find the Group with ID: '+'12345nananaBatmanIdToForceErr');
+                done();
+            });
+    });
+    it('/api/v1/group/admin/update, mongoose validation for update', done => {
+        api.put('/api/v1/group/admin/update/' + group1._id)
+            .send(
+                {
+                    type: 'Kevin123niveK',
+                })
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                expect(res.body.success).to.equal(false);
+                expect(res.body.msg).to.equal('Failed to update Group with ID: ' + group1._id);
+                done();
+            });
+    });
+    it('/api/v1/group/getById/:id', done => {
         api.get('/api/v1/group/getById/' + group2._id)
             .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res) => {
                 expect(res.body._id).to.equal(group2._id);
@@ -98,20 +127,41 @@ describe('group', () => {
                 done();
             });
     });
+    it('/api/v1/group/getById/:id, wrong ID', done => {
+        api.get('/api/v1/group/getById/' + '12345nananaBatmanIdToForceErr')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                expect(res.body.success).to.equal(false);
+                done();
+            });
+    });
+    it('/api/v1/group/admin/delete, wrong ID', done => {
+        api.del('/api/v1/group/admin/delete/' + '12345nananaBatmanIdToForceErr')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                expect(res.body.success).to.equal(false);
+                done();
+            });
+    });
     it('/api/v1/group/admin/delete', done => {
         api.del('/api/v1/group/admin/delete/' + group1._id)
             .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res) => {
                 expect(res.body.success).to.equal(true);
             });
         api.del('/api/v1/group/admin/delete/' + group2._id)
             .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res) => {
                 expect(res.body.success).to.equal(true);
+
             });
-        api.get('/api/v1/group/getGroups')
+        /*api.get('/api/v1/group/getGroups')
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
@@ -120,7 +170,21 @@ describe('group', () => {
                 // expect(res.body.length === 0).to.equal(true);
                 done();
             });
+         */
+        done();
     });
+    // must run after all groups are deleted
+    it('/api/v1/group/getGroups, no groups in DB', done => {
+        api.get('/api/v1/group/getGroups')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                expect(res.body.success).to.equal(false);
+                expect(res.body.msg).to.equal('No Groups found');
+                done();
+            });
+    });
+
 });
 
 describe('Fill MongoDB with Groups entries', () => {

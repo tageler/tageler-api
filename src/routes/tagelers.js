@@ -35,7 +35,11 @@ router.get('/getTagelers', (req, res) => {
         if (err) {
             res.json({success: false, msg: 'No Tagelers were found'});
         } else {
-            res.json(tagelers);
+            if(tagelers === undefined || tagelers.length == 0){
+                res.json({success: false, msg: 'No Groups found'});
+            } else{
+                res.json(tagelers);
+            }
         }
     });
 });
@@ -83,7 +87,7 @@ router.put('/admin/update/:id', (req, res) => {
                     tagelerToUpdate[param] = req.body[param];
                 }
             }
-            Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true}, (err, updatedTageler) => {
+            Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true, runValidators: true}, (err, updatedTageler) => {
                 if (err) {
                     res.json({
                         success: false,

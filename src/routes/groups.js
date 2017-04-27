@@ -21,9 +21,13 @@ router.get('/getById/:id', (req, res) => {
 router.get('/getGroups', (req, res) => {
     Group.getGroups((err, groups) => {
         if (err) {
-            res.json({success: false, msg: 'No Groups were found'});
+            res.json({success: false, msg: 'mongoose error while finding groups'});
         } else {
-            res.json(groups);
+            if(groups === undefined || groups.length == 0){
+                res.json({success: false, msg: 'No Groups found'});
+            } else{
+                res.json(groups);
+            }
         }
     });
 });
@@ -63,7 +67,7 @@ router.put('/admin/update/:id', (req, res) => {
                     groupToUpdate[param] = req.body[param];
                 }
             }
-            Group.findOneAndUpdate({_id: id}, groupToUpdate, {new: true}, (err, updatedGroup) => {
+            Group.findOneAndUpdate({_id: id}, groupToUpdate, {new: true, runValidators: true}, (err, updatedGroup) => {
                 if (err) {
                     res.json({
                         success: false,
@@ -93,7 +97,7 @@ router.delete('/admin/delete/:id', (req, res) => {
         } else {
             Group.remove(groupToDelete, (err) => {
                 if (err) {
-                    res.json({success: false, msg: 'Failed to delete the Group'});
+                    res.json({success: false, msg: 'mongoose error while deleting the group'});
                 } else {
                     res.json({success: true, msg: 'Group deleted'});
                 }
