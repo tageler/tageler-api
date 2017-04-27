@@ -23,7 +23,8 @@ router.get('/getGroups', (req, res) => {
         if (err) {
             res.json({success: false, msg: 'mongoose error while finding groups'});
         } else {
-            if(groups === undefined || groups.length == 0){
+            console.log(groups);
+            if(groups === undefined || groups.length === 0){
                 res.json({success: false, msg: 'No Groups found'});
             } else{
                 res.json(groups);

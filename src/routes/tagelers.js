@@ -35,7 +35,7 @@ router.get('/getTagelers', (req, res) => {
         if (err) {
             res.json({success: false, msg: 'No Tagelers were found'});
         } else {
-            if(tagelers === undefined || tagelers.length == 0){
+            if(tagelers === undefined || tagelers.length === 0){
                 res.json({success: false, msg: 'No Groups found'});
             } else{
                 res.json(tagelers);
