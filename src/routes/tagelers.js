@@ -10,9 +10,13 @@ router.get('/getByGroup/:group', (req, res) => {
     let group = req.params.group;
     Tageler.getTagelersByGroup(group, (err, tagelers) => {
         if (err) {
-            res.json({success: false, msg: 'No Tageler found'});
+            res.json({success: false, msg: 'mongoose error while finding tagelers'});
         } else {
-            res.json(tagelers);
+            if(tagelers === undefined || tagelers.length === 0){
+                res.json({success: false, msg: 'No Tagelers found'});
+            } else{
+                res.json(tagelers);
+            }
         }
     });
 });
@@ -24,7 +28,7 @@ router.get('/getById/:id', (req, res) => {
         if (err) {
             res.json({success: false, msg: 'No Tageler found with ID: ' + id});
         } else {
-            res.json(tagelers);
+                res.json(tagelers);
         }
     });
 });
@@ -33,10 +37,10 @@ router.get('/getById/:id', (req, res) => {
 router.get('/getTagelers', (req, res) => {
     Tageler.getTagelers((err, tagelers) => {
         if (err) {
-            res.json({success: false, msg: 'No Tagelers were found'});
+            res.json({success: false, msg: 'mongoose error while finding tagelers'});
         } else {
             if(tagelers === undefined || tagelers.length === 0){
-                res.json({success: false, msg: 'No Groups found'});
+                res.json({success: false, msg: 'No Tagelers found'});
             } else{
                 res.json(tagelers);
             }
@@ -118,7 +122,7 @@ router.delete('/admin/delete/:id', (req, res) => {
         } else {
             Tageler.remove(tagelerToDelete, (err) => {
                 if (err) {
-                    res.json({success: false, msg: 'Failed to delete the Tageler'});
+                    res.json({success: false, msg: 'mongoose error while deleting the tageler'});
                 } else {
                     res.json({success: true, msg: 'Tageler deleted'});
                 }
