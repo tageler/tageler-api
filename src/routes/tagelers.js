@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Tageler = require('../models/tageler');
+const ical = require('ical-generator');
+const iCalService = require('../services/iCalService');
 
 
 /************* UNRESTRICTED *************/
@@ -44,6 +46,61 @@ router.get('/getTagelers', (req, res) => {
             res.json(allTagelers);
         }
     });
+});
+
+/************* iCal *************/
+// Get iCal for one Tageler, service handles the response
+router.get('/calForTageler/:id', (req, res) => {
+    let id = req.params.id;
+    Tageler.getOneTagelerById(id,(err, tageler) => {
+        if(err){
+            res.json({success: false, msg: 'No Tageler found with ID: ' + id, error: err});
+        } else if (!tageler){
+            res.json({success: false, msg: 'No Tageler found with ID: ' + id});
+        } else {
+            iCalService.createAndSendTagelerICal(tageler, res);
+        }
+    });
+});
+
+// Alternative to handle the response here
+router.get('/selfCalForTageler/:id', (req, res) => {
+    let id = req.params.id;
+    Tageler.getOneTagelerById(id,(err, tageler) => {
+        if(err){
+            res.json({success: false, msg: 'No Tageler found with ID: ' + id, error: err});
+        } else if (!tageler){
+            res.json({success: false, msg: 'No Tageler found with ID: ' + id});
+        } else {
+            iCalService.createTagelerICal(tageler, (err, cal) => {
+                if(err){
+                    res.json({success: false, error: err});
+                } else {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/calendar; charset=utf-8',
+                        'Content-Disposition': 'attachment; filename="' + 'needToRename.ics'+ '"'
+                    });
+                    res.end(cal);
+                }
+            });
+        }
+    });
+});
+
+// Get iCal for all Tagelers of a group
+// needs to be implemented :)
+router.get('/calForGroup/:group', (req, res) => {
+    Tageler.getTagelersByGroup(group, (err, tagelers) => {
+        if (err) {
+            res.json({success: false, msg: 'No Tagelers found for Group: ' + group, error: err});
+        } else if(!tagelers.length) {
+            res.json({success: false, msg: 'No Tagelers found for Group: ' + group});
+        } else{
+            //iCalService.createAndSendGroupICal(tagelers, res);
+            res.end('to be implemented');
+        }
+    });
+
 });
 
 /************* ADMIN *************/

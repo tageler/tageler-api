@@ -20,9 +20,10 @@
     "cors": "2.8.1",
     "express": "4.15.2",
     "gulp-eslint": "^3.0.1",
+    "ical-generator": "^0.2.9",
+    "img-crawler": "^0.0.2",
     "lodash": "^4.17.4",
-    "mongoose": "4.8.6",
-    "img-crawler": "^0.0.2"
+    "mongoose": "4.8.6"
   },
   "author": "pse3",
   "license": "ISC",
