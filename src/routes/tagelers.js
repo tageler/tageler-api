@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const config = require('../config/database');
 const Tageler = require('../models/tageler');
 
 
@@ -10,40 +9,39 @@ router.get('/getByGroup/:group', (req, res) => {
     let group = req.params.group;
     Tageler.getTagelersByGroup(group, (err, tagelers) => {
         if (err) {
-            res.json({success: false, msg: 'mongoose error while finding tagelers'});
-        } else {
-            if(tagelers === undefined || tagelers.length === 0){
-                res.json({success: false, msg: 'No Tagelers found'});
-            } else{
-                res.json(tagelers);
-            }
+            res.json({success: false, msg: 'No Tagelers found for Group: ' + group, error: err});
+        } else if(!tagelers.length) {
+            res.json({success: false, msg: 'No Tagelers found for Group: ' + group});
+        } else{
+            res.json(tagelers);
         }
     });
 });
 
+
 // Get Tagelers by ID
 router.get('/getById/:id', (req, res) => {
     let id = req.params.id;
-    Tageler.getTagelerById(id, (err, tagelers) => {
+    Tageler.getOneTagelerById(id, (err, tagelers) => {
         if (err) {
+            res.json({success: false, msg: 'No Tageler found with ID: ' + id, error: err});
+        } else if(!tagelers) {
             res.json({success: false, msg: 'No Tageler found with ID: ' + id});
         } else {
-                res.json(tagelers);
+            res.json(tagelers);
         }
     });
 });
 
 // Get all Tagelers
 router.get('/getTagelers', (req, res) => {
-    Tageler.getTagelers((err, tagelers) => {
+    Tageler.getAllTagelers((err, allTagelers) => {
         if (err) {
-            res.json({success: false, msg: 'mongoose error while finding tagelers'});
-        } else {
-            if(tagelers === undefined || tagelers.length === 0){
-                res.json({success: false, msg: 'No Tagelers found'});
-            } else{
-                res.json(tagelers);
-            }
+            res.json({success: false, msg: 'No Tagelers found', error: err});
+        } else if(!allTagelers.length) {
+            res.json({success: false, msg: 'No Tagelers found'});
+        } else{
+            res.json(allTagelers);
         }
     });
 });
@@ -64,11 +62,12 @@ router.post('/admin/create', (req, res) => {
         checkout: req.body.checkout,
         free: req.body.free
     });
-    Tageler.addTageler(newTageler, (err, tageler) => {
+    Tageler.saveOneTageler(newTageler, (err, savedTageler) => {
         if (err) {
             res.json({success: false, msg: 'Failed to register Tageler', error: err});
         } else {
-            res.json({result: tageler, success: true, msg: 'Tageler registered'});
+            // should we send the full tageler as result ? (maybe without picture ?)
+            res.json({success: true, msg: 'Tageler registered', result: savedTageler});
         }
     });
 });
@@ -76,36 +75,24 @@ router.post('/admin/create', (req, res) => {
 // Update Tageler
 router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
-    Tageler.findOne({_id: id}, (err, tagelerToUpdate) => {
+    Tageler.getOneTagelerById(id, (err, tagelerToUpdate) => {
         if (err) {
-            res.json({
-                success: false,
-                msg: 'Failed to find the Tageler with ID: ' + id,
-                foundTageler: tagelerToUpdate,
-                error: err
-            });
+            res.json({success: false, msg: 'Failed to find the Tageler with ID: ' + id, error: err});
+        } else if(!tagelerToUpdate){
+            res.json({success: false, msg: 'Failed to find the Tageler with ID: ' + id});
         } else {
             let oldTageler = JSON.parse(JSON.stringify(tagelerToUpdate));
             for (let param in req.body) {
-                if (req.body[param] !== null && req.body[param] !== "") {
+                // should it be possible to clear unrequired fields ?
+                //if (req.body[param] !== null && req.body[param] !== "")
                     tagelerToUpdate[param] = req.body[param];
-                }
             }
-            Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true, runValidators: true}, (err, updatedTageler) => {
+            Tageler.updateOneTagelerById(id, tagelerToUpdate, (err, updatedTageler) => {
                 if (err) {
-                    res.json({
-                        success: false,
-                        msg: 'Failed to update Tageler with ID: ' + id,
-                        foundTageler: updatedTageler,
-                        error: err
-                    });
+                    res.json({success: false, msg: 'Failed to update Tageler with ID: ' + id});
                 } else {
-                    res.json({
-                        success: true,
-                        oldTageler: oldTageler,
-                        updatedTageler: updatedTageler,
-                        msg: 'Tageler updated'
-                    });
+                    // should we send the full tagelers ? (maybe without picture ?)
+                    res.json({success: true, msg: 'Tageler updated', oldTageler: oldTageler, updatedTageler: updatedTageler});
                 }
             });
         }
@@ -115,18 +102,13 @@ router.put('/admin/update/:id', (req, res) => {
 // Delete Tageler
 router.delete('/admin/delete/:id', (req, res) => {
     let id = req.params.id;
-    Tageler.findById({_id: id}, (err, tagelerToDelete) => {
-
+    Tageler.deleteOneTagelerById(id, (err,deletedTageler) => {
         if (err) {
-            res.json({success: false, msg: 'Failed to delete the Tageler, tageler is null'});
+            res.json({success: false, msg: 'Failed to delete Tageler with ID: ' + id, error: err});
+        } else if(!deletedTageler){
+            res.json({success: false, msg: 'Failed to delete Tageler with ID: ' + id});
         } else {
-            Tageler.remove(tagelerToDelete, (err) => {
-                if (err) {
-                    res.json({success: false, msg: 'mongoose error while deleting the tageler'});
-                } else {
-                    res.json({success: true, msg: 'Tageler deleted'});
-                }
-            });
+            res.json({success: true, msg: 'Tageler deleted', deletedTageler: deletedTageler});
         }
     });
 });

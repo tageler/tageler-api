@@ -68,19 +68,40 @@ const Tageler = mongoose.model('Tageler', TagelerSchema);
 
 module.exports = Tageler;
 
-// MongoDB logic
+// ###MongoDB###
+/*
+*  result on no matches:
+*  findOne(): result == null
+*  find(): result == []
+*/
+// get
+module.exports.getAllTagelers = (callback) => {
+    Tageler.find(callback);
+};
+
 module.exports.getTagelersByGroup = (group, callback) => {
     Tageler.find({group: group}, callback);
 };
 
-module.exports.addTageler = (newTageler, callback) => {
-    newTageler.save(callback);
-};
-
-module.exports.getTagelerById = (_id, callback) => {
+module.exports.getOneTagelerById = (_id, callback) => {
     Tageler.findOne({_id: _id}, callback);
 };
 
-module.exports.getTagelers = (callback) => {
-    Tageler.find(callback);
+// save
+module.exports.saveOneTageler = (tagelerToSave, callback) => {
+    tagelerToSave.save(callback);
 };
+
+// delete
+module.exports.deleteOneTagelerById = (_id, callback) => {
+    Tageler.findOneAndRemove({_id: _id}, callback);
+}
+
+module.exports.deleteOneTageler = (tagelerToDelete, callback) => {
+    Tageler.remove(tagelerToDelete, callback);
+}
+
+// update
+module.exports.updateOneTagelerById = (id, tagelerToUpdate, callback) => {
+    Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true, runValidators: true}, callback);
+}

@@ -276,16 +276,23 @@ describe('tageler', () => {
                 .expect(200)
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('No Tagelers found');
+                    expect(res.body.msg).to.equal('No Tagelers found for Group: nanananaBatman123456');
                     done();
                 });
         });
-        it('/api/v1/tageler/admin/delete, wrong ID', done => {
+        it('/api/v1/tageler/admin/delete, wrong ID: should fail and not delete the collection', done => {
             api.del('/api/v1/tageler/admin/delete/' + '12345nananaBatmanIdToForceErr')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
+                });
+            // providing wrong ID should not delete the tageler collection
+            api.get('/api/v1/tageler/getTagelers')
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .end((err,res) => {
+                    expect(res.body !== 0);
                     done();
                 });
         });
