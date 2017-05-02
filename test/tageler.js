@@ -321,7 +321,7 @@ describe('tageler', () => {
         });
         // ####################
         // must run after all tagelelers are deleted
-        it('/api/v1/tageler/getTagelers, no tagelers in DB', done => {
+        /*it('/api/v1/tageler/getTagelers, no tagelers in DB', done => {
             api.get('/api/v1/tageler/getTagelers')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
@@ -330,7 +330,7 @@ describe('tageler', () => {
                 expect(res.body.msg).to.equal('No Tagelers found');
                 done();
                 });
-        });
+        });*/
 
 });
 
