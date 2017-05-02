@@ -174,7 +174,7 @@ describe('group', () => {
         done();
     });
     // must run after all groups are deleted
-    it('/api/v1/group/getGroups, no groups in DB', done => {
+    /*it('/api/v1/group/getGroups, no groups in DB', done => {
         api.get('/api/v1/group/getGroups')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -183,7 +183,7 @@ describe('group', () => {
                 expect(res.body.msg).to.equal('No Groups found');
                 done();
             });
-    });
+    });*/
 
 });
 
