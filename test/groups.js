@@ -136,12 +136,19 @@ describe('group', () => {
                 done();
             });
     });
-    it('/api/v1/group/admin/delete, wrong ID', done => {
+    // must run when there is at least one entry in the group collection
+    it('/api/v1/group/admin/delete, wrong ID: should fail and not delete the group collection', done => {
         api.del('/api/v1/group/admin/delete/' + '12345nananaBatmanIdToForceErr')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .end((err, res) => {
                 expect(res.body.success).to.equal(false);
+            });
+        api.get('/api/v1/group/getGroups')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .end((err,res) => {
+                expect(res.body !== 0);
                 done();
             });
     });
@@ -174,7 +181,7 @@ describe('group', () => {
         done();
     });
     // must run after all groups are deleted
-    /*it('/api/v1/group/getGroups, no groups in DB', done => {
+    it('/api/v1/group/getGroups, no groups in DB', done => {
         api.get('/api/v1/group/getGroups')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -183,7 +190,7 @@ describe('group', () => {
                 expect(res.body.msg).to.equal('No Groups found');
                 done();
             });
-    });*/
+    });
 
 });
 

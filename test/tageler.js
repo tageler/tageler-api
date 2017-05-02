@@ -280,7 +280,8 @@ describe('tageler', () => {
                     done();
                 });
         });
-        it('/api/v1/tageler/admin/delete, wrong ID: should fail and not delete the collection', done => {
+        // must run if there is at least one entry in the tageler collection
+        it('/api/v1/tageler/admin/delete, wrong ID: should fail and not delete the tageler collection', done => {
             api.del('/api/v1/tageler/admin/delete/' + '12345nananaBatmanIdToForceErr')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
@@ -321,7 +322,7 @@ describe('tageler', () => {
         });
         // ####################
         // must run after all tagelelers are deleted
-        /*it('/api/v1/tageler/getTagelers, no tagelers in DB', done => {
+        it('/api/v1/tageler/getTagelers, no tagelers in DB', done => {
             api.get('/api/v1/tageler/getTagelers')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
@@ -330,7 +331,7 @@ describe('tageler', () => {
                 expect(res.body.msg).to.equal('No Tagelers found');
                 done();
                 });
-        });*/
+        });
 
 });
 

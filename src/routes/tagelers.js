@@ -22,13 +22,13 @@ router.get('/getByGroup/:group', (req, res) => {
 // Get Tagelers by ID
 router.get('/getById/:id', (req, res) => {
     let id = req.params.id;
-    Tageler.getOneTagelerById(id, (err, tagelers) => {
+    Tageler.getOneTagelerById(id, (err, tageler) => {
         if (err) {
             res.json({success: false, msg: 'No Tageler found with ID: ' + id, error: err});
-        } else if(!tagelers) {
+        } else if(!tageler) {
             res.json({success: false, msg: 'No Tageler found with ID: ' + id});
         } else {
-            res.json(tagelers);
+            res.json(tageler);
         }
     });
 });
@@ -50,7 +50,7 @@ router.get('/getTagelers', (req, res) => {
 // Create Tageler
 router.post('/admin/create', (req, res) => {
     // console.log('req: ' + JSON.stringify(req.body));
-    let newTageler = new Tageler({
+    let tagelerToSave = new Tageler({
         title: req.body.title,
         text: req.body.text,
         group: req.body.group,
@@ -62,7 +62,7 @@ router.post('/admin/create', (req, res) => {
         checkout: req.body.checkout,
         free: req.body.free
     });
-    Tageler.saveOneTageler(newTageler, (err, savedTageler) => {
+    Tageler.saveOneTageler(tagelerToSave, (err, savedTageler) => {
         if (err) {
             res.json({success: false, msg: 'Failed to register Tageler', error: err});
         } else {

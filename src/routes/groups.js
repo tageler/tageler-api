@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const config = require('../config/database');
 const Group = require('../models/group');
 
 
@@ -8,27 +7,26 @@ const Group = require('../models/group');
 // Get Group by ID
 router.get('/getById/:id', (req, res) => {
     let id = req.params.id;
-    Group.getGroupById(id, (err, groups) => {
+    Group.getOneGroupById(id, (err, group) => {
         if (err) {
+            res.json({success: false, msg: 'No Group found with ID: ' + id, error: err});
+        } else if (!group){
             res.json({success: false, msg: 'No Group found with ID: ' + id});
         } else {
-            res.json(groups);
+            res.json(group);
         }
     });
 });
 
 // Get all Groups
 router.get('/getGroups', (req, res) => {
-    Group.getGroups((err, groups) => {
+    Group.getAllGroups((err, allGroups) => {
         if (err) {
-            res.json({success: false, msg: 'mongoose error while finding groups'});
+            res.json({success: false, msg: 'No Groups found', error: err});
+        } else if(!allGroups.length){
+            res.json({success: false, msg: 'No Groups found'});
         } else {
-            console.log(groups);
-            if(groups === undefined || groups.length === 0){
-                res.json({success: false, msg: 'No Groups found'});
-            } else{
-                res.json(groups);
-            }
+            res.json(allGroups);
         }
     });
 });
@@ -36,16 +34,16 @@ router.get('/getGroups', (req, res) => {
 /************* ADMIN *************/
 // Create group
 router.post('/admin/create', (req, res) => {
-    let newGroup = new Group({
+    let groupToSave = new Group({
         type: req.body.type,
         name: req.body.name,
         picture: req.body.picture
     });
-    Group.addGroup(newGroup, (err, group) => {
+    Group.saveOneGroup(groupToSave, (err, savedGroup) => {
         if (err) {
             res.json({success: false, msg: 'Failed to register Group ' + err});
         } else {
-            res.json({result: group, success: true, msg: 'Group registered'});
+            res.json({success: true, msg: 'Group registered', result: savedGroup});
         }
     });
 });
@@ -53,36 +51,24 @@ router.post('/admin/create', (req, res) => {
 // Update Group
 router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
-    Group.findOne({_id: id}, (err, groupToUpdate) => {
+    Group.getOneGroupById(id, (err, groupToUpdate) => {
         if (err) {
-            res.json({
-                success: false,
-                msg: 'Failed to find the Group with ID: ' + id,
-                foundGroup: groupToUpdate,
-                error: err
-            });
+            res.json({success: false, msg: 'Failed to find the Group with ID: ' + id, error: err});
+        } else if(!groupToUpdate) {
+            res.json({success: false, msg: 'Failed to find the Group with ID: ' + id});
         } else {
             let oldGroup = JSON.parse(JSON.stringify(groupToUpdate));
             for (let param in req.body) {
-                if (req.body[param] !== null && req.body[param] !== "") {
+                // should it be possible to clear unrequired fields ?
+                //if (req.body[param] !== null && req.body[param] !== "")
                     groupToUpdate[param] = req.body[param];
-                }
             }
-            Group.findOneAndUpdate({_id: id}, groupToUpdate, {new: true, runValidators: true}, (err, updatedGroup) => {
+            Group.updateOneGroupById(id, groupToUpdate, (err, updatedGroup) => {
                 if (err) {
-                    res.json({
-                        success: false,
-                        msg: 'Failed to update Group with ID: ' + id,
-                        foundGroup: updatedGroup,
-                        error: err
-                    });
+                    res.json({success: false, msg: 'Failed to update Group with ID: ' + id, error: err});
                 } else {
-                    res.json({
-                        success: true,
-                        oldGroup: oldGroup,
-                        updatedGroup: updatedGroup,
-                        msg: 'Group updated'
-                    });
+                    // should we send full groups ? (maybe without picture?)
+                    res.json({success: true, msg: 'Group updated', oldGroup: oldGroup, updatedGroup: updatedGroup});
                 }
             });
         }
@@ -92,17 +78,13 @@ router.put('/admin/update/:id', (req, res) => {
 // Delete Group
 router.delete('/admin/delete/:id', (req, res) => {
     let id = req.params.id;
-    Group.getGroupById({_id: id}, (err, groupToDelete) => {
+    Group.deleteOneGroupById(id, (err, deletedGroup) => {
         if (err) {
+            res.json({success: false, msg: 'Failed to delete the Group', error: err});
+        } else if(!deletedGroup){
             res.json({success: false, msg: 'Failed to delete the Group'});
         } else {
-            Group.remove(groupToDelete, (err) => {
-                if (err) {
-                    res.json({success: false, msg: 'mongoose error while deleting the group'});
-                } else {
-                    res.json({success: true, msg: 'Group deleted'});
-                }
-            });
+            res.json({success: true, msg: 'Group deleted'});
         }
     });
 });
