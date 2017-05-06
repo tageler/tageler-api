@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const sharp = require('sharp');
 
 // Tageler Schema
 const TagelerSchema = mongoose.Schema({
@@ -31,6 +32,10 @@ const TagelerSchema = mongoose.Schema({
         required: true
     },
     picture: {
+        type: String,
+        required: false
+    },
+    pictureSmall: {
         type: String,
         required: false
     },
@@ -76,25 +81,81 @@ module.exports = Tageler;
 */
 // get
 module.exports.getAllTagelers = (callback) => {
-    Tageler.find(callback);
+    Tageler.aggregate(
+        [
+            {
+                $addFields: {
+                    picture: "$pictureSmall"
+                }
+            }, {
+                $project: {
+                    pictureSmall: 0
+                }
+            }
+        ]
+    ).exec(callback);
+    // Tageler.find(callback);
 };
 
 module.exports.getTagelersByGroup = (group, callback) => {
-    Tageler.find({group: group}, callback);
+    let grnam = group.toString();
+    console.log("group: " + grnam);
+    Tageler.aggregate(
+        [
+            {
+                $match: {
+                    group: "$grnam"
+                }
+            }, {
+                $addFields: {
+                    picture: "$pictureSmall"
+                }
+            }, {
+                $project: {
+                    pictureSmall: 0
+                }
+            }
+        ]
+    ).exec(callback);
 };
 
 module.exports.getOneTagelerById = (_id, callback) => {
-    Tageler.findOne({_id: _id}, callback);
+    Tageler.findOne({ _id: _id }, callback);
 };
 
 // save
 module.exports.saveOneTageler = (tagelerToSave, callback) => {
-    tagelerToSave.save(callback);
+    if (tagelerToSave.picture != null) {
+        // console.log(tagelerToSave.picture)
+        let img = Buffer.from(tagelerToSave.picture, 'base64');
+        if (img.byteLength == 3) {
+            console.log("toSave: " + tagelerToSave.picture);
+        }
+        sharp(img)
+            .resize(200)
+            .toBuffer()
+            .then(data => {
+                // console.log("success!!! converting image: ");
+                tagelerToSave.pictureSmall = data.toString('base64');
+                tagelerToSave.save(callback);
+            }
+            )
+            .catch(
+            err => {
+                // console.log("error");
+                tagelerToSave.pictureSmall = tagelerToSave.picture;
+                tagelerToSave.save(callback);
+            }
+            )
+    } else {
+        tagelerToSave.pictureSmall = tagelerToSave.picture;
+        tagelerToSave.save(callback);
+    }
 };
 
 // delete
 module.exports.deleteOneTagelerById = (_id, callback) => {
-    Tageler.findOneAndRemove({_id: _id}, callback);
+    Tageler.findOneAndRemove({ _id: _id }, callback);
 }
 
 module.exports.deleteOneTageler = (tagelerToDelete, callback) => {
@@ -103,5 +164,5 @@ module.exports.deleteOneTageler = (tagelerToDelete, callback) => {
 
 // update
 module.exports.updateOneTagelerById = (id, tagelerToUpdate, callback) => {
-    Tageler.findOneAndUpdate({_id: id}, tagelerToUpdate, {new: true, runValidators: true}, callback);
+    Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
 }
