@@ -250,7 +250,7 @@ describe('tageler', () => {
     });
     */
     //SHOULD FIX THIS TEST - NO GROUP FOOBAR THERE!
-  /*  it('/api/v1/tageler/getByGroup/', done => {
+    /*it('/api/v1/tageler/getByGroup/', done => {
         api.get('/api/v1/tageler/getByGroup/foobar')
             .set('Accept', 'application/json')
             .expect(200)

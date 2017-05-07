@@ -164,5 +164,27 @@ module.exports.deleteOneTageler = (tagelerToDelete, callback) => {
 
 // update
 module.exports.updateOneTagelerById = (id, tagelerToUpdate, callback) => {
-    Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
+    if (tagelerToUpdate.picture != null) {
+        // console.log(tagelerToSave.picture)
+        let img = Buffer.from(tagelerToUpdate.picture, 'base64');
+        sharp(img)
+            .resize(200)
+            .toBuffer()
+            .then(data => {
+                // console.log("success!!! converting image: ");
+                tagelerToUpdate.pictureSmall = data.toString('base64');
+                Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
+            }
+            )
+            .catch(
+            err => {
+                // console.log("error");
+                tagelerToUpdate.pictureSmall = tagelerToSave.picture;
+                Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
+            }
+            )
+    } else {
+        tagelerToUpdate.pictureSmall = tagelerToSave.picture;
+        Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
+    }
 }
