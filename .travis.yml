@@ -2,11 +2,19 @@ language: node_js
 node_js:
 - node
 - 6
-
 env:
   - CXX=g++-4.8
+  global:
+    - MONGODB_VERSION=3.4
+
 before_install:
   - npm install -g npm@latest
+  - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
+  - tar xfz mongodb-linux-x86_64-$MONGODB_VERSION.tgz
+  - export PATH=`pwd`/mongodb-linux-x86_64-$MONGODB_VERSION/bin:$PATH
+  - mkdir -p data/db
+  - mongod --dbpath=data/db &
+  - sleep 3
 
 install:
   - export CXX="g++-4.8"
@@ -17,9 +25,11 @@ services:
 addons:
   apt:
     sources:
-    - mongodb-3.4-precise
-    - ubuntu-toolchain-r-test
+    - mongodb-3.4
+    # - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
     - mongodb-org-server
+before script:
+  - mongo --version
 script: npm run coverage
