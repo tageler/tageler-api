@@ -16,9 +16,9 @@ services:
 addons:
   apt:
     sources:
-    - mongodb-3.4.4-precise
+    # - mongodb-3.4.4-precise
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - mongodb-org-server
+    # - mongodb-org-server
 script: npm run coverage
