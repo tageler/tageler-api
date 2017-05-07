@@ -103,11 +103,11 @@ module.exports.getTagelersByGroup = (group, callback) => {
                 $match: {
                     group: group
                 }
-            } ,{
+            }, {
                 $addFields: {
                     picture: "$pictureSmall"
                 }
-            } , {
+            }, {
                 $project: {
                     pictureSmall: 0
                 }
@@ -122,32 +122,9 @@ module.exports.getOneTagelerById = (_id, callback) => {
 
 // save
 module.exports.saveOneTageler = (tagelerToSave, callback) => {
-    if (tagelerToSave.picture != null) {
-        // console.log(tagelerToSave.picture)
-        let img = Buffer.from(tagelerToSave.picture, 'base64');
-        if (img.byteLength == 3) {
-            console.log("toSave: " + tagelerToSave.picture);
-        }
-        sharp(img)
-            .resize(200)
-            .toBuffer()
-            .then(data => {
-                // console.log("success!!! converting image: ");
-                tagelerToSave.pictureSmall = data.toString('base64');
-                tagelerToSave.save(callback);
-            }
-            )
-            .catch(
-            err => {
-                // console.log("error");
-                tagelerToSave.pictureSmall = tagelerToSave.picture;
-                tagelerToSave.save(callback);
-            }
-            )
-    } else {
-        tagelerToSave.pictureSmall = tagelerToSave.picture;
-        tagelerToSave.save(callback);
-    }
+    resizeImageAndMigrate(tagelerToSave,
+        (resTageler, callback) => { resTageler.save(callback) },
+        callback);
 };
 
 // delete
@@ -161,27 +138,28 @@ module.exports.deleteOneTageler = (tagelerToDelete, callback) => {
 
 // update
 module.exports.updateOneTagelerById = (id, tagelerToUpdate, callback) => {
-    if (tagelerToUpdate.picture != null) {
-        // console.log(tagelerToSave.picture)
-        let img = Buffer.from(tagelerToUpdate.picture, 'base64');
+    resizeImageAndMigrate(tagelerToUpdate,
+        (resTageler, callback) => {
+            Tageler.findOneAndUpdate({ _id: id }, resTageler, { new: true, runValidators: true }, callback)
+        },
+        callback);
+}
+
+function resizeImageAndMigrate(tageler, dbFunction, callback) {
+    if (tageler.picture != null) {
+        let img = Buffer.from(tageler.picture, 'base64');
         sharp(img)
             .resize(200)
             .toBuffer()
             .then(data => {
-                // console.log("success!!! converting image: ");
-                tagelerToUpdate.pictureSmall = data.toString('base64');
-                Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
-            }
-            )
-            .catch(
-            err => {
-                // console.log("error");
-                tagelerToUpdate.pictureSmall = tagelerToSave.picture;
-                Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
-            }
-            )
+                tageler.pictureSmall = data.toString('base64');
+                dbFunction(tageler, callback);
+            }).catch(err => {
+                tageler.pictureSmall = tageler.picture;
+                dbFunction(tageler, callback);
+            })
     } else {
-        tagelerToUpdate.pictureSmall = tagelerToSave.picture;
-        Tageler.findOneAndUpdate({ _id: id }, tagelerToUpdate, { new: true, runValidators: true }, callback);
+        tageler.pictureSmall = tageler.picture;
+        dbFunction(tageler, callback);
     }
 }
