@@ -6,15 +6,8 @@ env:
   global:
     - CXX=g++-4.8
     - MONGODB_VERSION=3.4.4
-sudo: false
 before_install:
   - npm install -g npm@latest
-  - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
-  - tar xfz mongodb-linux-x86_64-$MONGODB_VERSION.tgz
-  - export PATH=`pwd`/mongodb-linux-x86_64-$MONGODB_VERSION/bin:$PATH
-  - mkdir -p data/db
-  - mongod --dbpath=data/db &
-  - sleep 3
 
 install:
   - export CXX="g++-4.8"
@@ -30,6 +23,11 @@ addons:
     packages:
     - g++-4.8
     # - mongodb-org-server
-before script:
+before script:  
+  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+  - echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+  - sudo apt-get update
+  - sudo apt-get install -y mongodb-org=3.4.4 mongodb-org-server=3.4.4 mongodb-org-shell=3.4.4 mongodb-org-mongos=3.4.4 mongodb-org-tools=3.4.4
+  - sleep 15 #mongo may not respond immediatly
   - mongo --version
 script: npm run coverage
