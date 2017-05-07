@@ -149,7 +149,8 @@ function resizeImageAndMigrate(tageler, dbFunction, callback) {
     if (tageler.picture != null) {
         let img = Buffer.from(tageler.picture, 'base64');
         sharp(img)
-            .resize(200)
+            .resize(318)
+            .withoutEnlargement(true)
             .toBuffer()
             .then(data => {
                 tageler.pictureSmall = data.toString('base64');
