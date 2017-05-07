@@ -94,23 +94,20 @@ module.exports.getAllTagelers = (callback) => {
             }
         ]
     ).exec(callback);
-    // Tageler.find(callback);
 };
 
 module.exports.getTagelersByGroup = (group, callback) => {
-    let grnam = group.toString();
-    console.log("group: " + grnam);
     Tageler.aggregate(
         [
             {
                 $match: {
-                    group: "$grnam"
+                    group: group
                 }
-            }, {
+            } ,{
                 $addFields: {
                     picture: "$pictureSmall"
                 }
-            }, {
+            } , {
                 $project: {
                     pictureSmall: 0
                 }
