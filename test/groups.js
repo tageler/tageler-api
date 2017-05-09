@@ -227,7 +227,7 @@ describe('Fill MongoDB with Groups entries', () => {
                 type: 'Meute',
                 name: 'Rikki-Tikki'
             }, {
-                type: 'Meute',
+                type: 'Equipe',
                 name: 'Bratwurscht'
             }
         ];

@@ -354,6 +354,8 @@ describe('tageler', () => {
 const NUM_OF_TAGELERS = 20;
 
 describe('Fill MongoDB with Tageler entries', () => {
+    this.timeout(10000);
+    setTimeout(done, 10000);
     before(done => {
         dbService.openConnectionAndDropCollection('tagelers', () => {
             return done();
