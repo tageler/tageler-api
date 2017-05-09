@@ -17,7 +17,7 @@ services:
 addons:
   apt:
     sources:
-    - mongodb-3.4.4
+    - mongodb-3.2-precise
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8

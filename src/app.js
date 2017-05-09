@@ -2,22 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const config = require('./config/database');
+const dbService = require('./services/database');
 
-/** CONNECT TO MONGOOSE **/
-// Mongoose default promise library is deprecated
-mongoose.Promise = global.Promise;
-// Connect To Database
-mongoose.connect(config.database);
-// On Connection
-mongoose.connection.on('connected', () => {
-    console.log('Connected to database ' + config.database);
-});
-// On Error
-mongoose.connection.on('error', (err) => {
-    console.log('Error connecting to Database: ' + err);
-});
-
+dbService.connectMongoose();
 /** SET UP API **/
 // Set app
 const app = express();

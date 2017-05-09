@@ -5,14 +5,14 @@ const faker = require('faker');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const config = require('../src/config/database');
+const dbService = require('../src/services/database');
 const async = require('async');
 const expect = require('chai').expect;
 const _ = require('lodash');
 
 describe('group', () => {
     before(done => {
-        config.openConnectionAndDropCollection('groups', () => {
+        dbService.openConnectionAndDropCollection('groups', () => {
             return done();
         });
     });
@@ -196,7 +196,7 @@ describe('group', () => {
 
 describe('Fill MongoDB with Groups entries', () => {
     before(done => {
-        config.openConnectionAndDropCollection('groups', () => {
+        dbService.openConnectionAndDropCollection('groups', () => {
             return done();
         });
     });

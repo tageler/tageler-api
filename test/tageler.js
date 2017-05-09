@@ -6,7 +6,7 @@ const _ = require('lodash');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const config = require('../src/config/database');
+const dbService = require('../src/services/database');
 const async = require('async');
 const base64 = require('node-base64-image'); // ES5
 const expect = require('chai').expect;
@@ -15,7 +15,7 @@ const picture = fs.readFileSync(require('path').resolve(__dirname, 'testImgBase6
 
 describe('tageler', () => {
     before(done => {
-        config.openConnectionAndDropCollection('tagelers', () => {
+        dbService.openConnectionAndDropCollection('tagelers', () => {
             return done();
         });
     });
@@ -160,13 +160,18 @@ describe('tageler', () => {
             });
     });
     it('/api/v1/tageler/getTagelers', done => {
-        api.get('/api/v1/tageler/getTagelers')
-            .set('Accept', 'application/json')
-            .expect(200)
-            .end((err, res) => {
-                expect(res.body.length === 2).to.equal(true);
-                done();
-            });
+        if (dbService.MONGODB_VERSION >= '3.4') {
+            // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
+            api.get('/api/v1/tageler/getTagelers')
+                .set('Accept', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.body.length === 2).to.equal(true);
+                    done();
+                });
+        } else {
+            done();
+        }
     });
     it('/api/v1/tageler/getById', done => {
         api.get('/api/v1/tageler/getById/' + tageler1._id)
@@ -248,32 +253,36 @@ describe('tageler', () => {
             });
     });
     */
-    //SHOULD FIX THIS TEST - NO GROUP FOOBAR THERE!
     it('/api/v1/tageler/getByGroup/', done => {
-        api.get('/api/v1/tageler/getByGroup/foobar')
-            .set('Accept', 'application/json')
-            .expect(200)
-            .end((err, res) => {
-                // console.log(JSON.stringify(res.body));
-                expect(res.body[0].title).to.equal(tageler2.title);
-                expect(res.body[0].text).to.equal(tageler2.text);
-                // expect(JSON.stringify(res.body[0].group)).to.equal('["foobar"]');
-                // TODO: Date format isn't correct yet
-                // expect(res.body[0].start).to.equal(tageler2.start);
-                // expect(res.body[0].end).to.equal(tageler2.end);
-                expect(res.body[0].bringAlong).to.equal(tageler2.bringAlong);
-                expect(res.body[0].uniform).to.equal(tageler2.uniform);
-                // expect(res.body[0].picture).to.equal(tageler2.picture);
-                expect(res.body[0].picture.length).to.above(200);
-                expect(res.body[0].picture.length).to.below(tageler2.picture.length);
-                // expect(res.body[0].checkout.deadline).to.equal(tageler2.checkoutDeadline);
-                expect(res.body[0].checkout.contact[0].name).to.equal(tageler2.checkout.contact[0].name);
-                expect(res.body[0].checkout.contact[0].phone).to.equal(tageler2.checkout.contact[0].phone);
-                expect(res.body[0].checkout.contact[0].mail).to.equal(tageler2.checkout.contact[0].mail);
-                expect(res.body[0].checkout.contact[0].other).to.equal(tageler2.checkout.contact[0].other);
-                expect(res.body[0].free).to.equal(tageler2.free);
-                done();
-            });
+        if (dbService.MONGODB_VERSION >= '3.4') {
+            // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
+            api.get('/api/v1/tageler/getByGroup/foobar')
+                .set('Accept', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    // console.log(JSON.stringify(res.body));
+                    expect(res.body[0].title).to.equal(tageler2.title);
+                    expect(res.body[0].text).to.equal(tageler2.text);
+                    // expect(JSON.stringify(res.body[0].group)).to.equal('["foobar"]');
+                    // TODO: Date format isn't correct yet
+                    expect(res.body[0].start).to.equal(tageler2.start);
+                    expect(res.body[0].end).to.equal(tageler2.end);
+                    expect(res.body[0].bringAlong).to.equal(tageler2.bringAlong);
+                    expect(res.body[0].uniform).to.equal(tageler2.uniform);
+                    // expect(res.body[0].picture).to.equal(tageler2.picture);
+                    expect(res.body[0].picture.length).to.above(200);
+                    expect(res.body[0].picture.length).to.below(tageler2.picture.length);
+                    // expect(res.body[0].checkout.deadline).to.equal(tageler2.checkoutDeadline);
+                    expect(res.body[0].checkout.contact[0].name).to.equal(tageler2.checkout.contact[0].name);
+                    expect(res.body[0].checkout.contact[0].phone).to.equal(tageler2.checkout.contact[0].phone);
+                    expect(res.body[0].checkout.contact[0].mail).to.equal(tageler2.checkout.contact[0].mail);
+                    expect(res.body[0].checkout.contact[0].other).to.equal(tageler2.checkout.contact[0].other);
+                    expect(res.body[0].free).to.equal(tageler2.free);
+                    done();
+                });
+        } else {
+            done();
+        }
     });
     it('/api/v1/tageler/getByGroup/, wrong groupname', done => {
         api.get('/api/v1/tageler/getByGroup/nanananaBatman123456')
@@ -346,7 +355,7 @@ const NUM_OF_TAGELERS = 20;
 
 describe('Fill MongoDB with Tageler entries', () => {
     before(done => {
-        config.openConnectionAndDropCollection('tagelers', () => {
+        dbService.openConnectionAndDropCollection('tagelers', () => {
             return done();
         });
     });
@@ -358,7 +367,7 @@ describe('Fill MongoDB with Tageler entries', () => {
     });
     it('creates some tagelers', function (done) {
         var json = require('./tagelers.json');
-        console.log("length: " + json.length);
+        console.log("Finally fill db with " + json.length + " tagelers");
         async.forEachOf(json, (taglr, ind, callback) => {
             postTageler(taglr, (err, res) => {
                 if (err) {
