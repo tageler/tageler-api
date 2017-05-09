@@ -354,8 +354,6 @@ describe('tageler', () => {
 const NUM_OF_TAGELERS = 20;
 
 describe('Fill MongoDB with Tageler entries', () => {
-    this.timeout(10000);
-    setTimeout(done, 10000);
     before(done => {
         dbService.openConnectionAndDropCollection('tagelers', () => {
             return done();
@@ -368,6 +366,8 @@ describe('Fill MongoDB with Tageler entries', () => {
         mongoose.connection.close();
     });
     it('creates some tagelers', function (done) {
+        this.timeout(10000);
+        setTimeout(done, 10000);
         var json = require('./tagelers.json');
         console.log("Finally fill db with " + json.length + " tagelers");
         async.forEachOf(json, (taglr, ind, callback) => {
