@@ -26,7 +26,7 @@ module.exports.createTagelerICal = (tageler, callback) => {
         cal.createEvent({
             start: tageler.start,
             end: tageler.end,
-            summary: 'Pfadi Event',
+            summary: tageler.title,
             description: tageler.text
         });
         callback(null, cal.toString());
@@ -35,6 +35,27 @@ module.exports.createTagelerICal = (tageler, callback) => {
     }
 };
 
+
+module.exports.createGroupICal = (group, tagelers, callback) => {
+    try {
+        let cal = ical({
+            domain: 'Pfadi Patria',
+            name: group + ' Tageler'
+        });
+
+        for (i = 0; i < tagelers.length; i++) {
+            cal.createEvent({
+                start: tagelers[i].start,
+                end: tagelers[i].end,
+                summary: tagelers[i].title,
+                description: tagelers[i].text
+            });
+        }
+        callback(null, cal.toString());
+    } catch(err){
+        callback(err);
+    }
+};
 
 /*this.serve = function(response, filename) {
  response.writeHead(200, {

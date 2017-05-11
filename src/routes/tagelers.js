@@ -50,7 +50,7 @@ router.get('/getTagelers', (req, res) => {
 
 /************* iCal *************/
 // Get iCal for one Tageler, service handles the response
-router.get('/calForTageler/:id', (req, res) => {
+/*router.get('/calForTageler/:id', (req, res) => {
     let id = req.params.id;
     Tageler.getOneTagelerById(id,(err, tageler) => {
         if(err){
@@ -62,9 +62,10 @@ router.get('/calForTageler/:id', (req, res) => {
         }
     });
 });
+*/
 
 // Alternative to handle the response here
-router.get('/selfCalForTageler/:id', (req, res) => {
+router.get('/calForTageler/:id', (req, res) => {
     let id = req.params.id;
     Tageler.getOneTagelerById(id,(err, tageler) => {
         if(err){
@@ -78,7 +79,7 @@ router.get('/selfCalForTageler/:id', (req, res) => {
                 } else {
                     res.writeHead(200, {
                         'Content-Type': 'text/calendar; charset=utf-8',
-                        'Content-Disposition': 'attachment; filename="' + 'needToRename.ics'+ '"'
+                        'Content-Disposition': 'attachment; filename="' + tageler.title +'.ics'+ '"'
                     });
                     res.end(cal);
                 }
@@ -88,20 +89,29 @@ router.get('/selfCalForTageler/:id', (req, res) => {
 });
 
 // Get iCal for all Tagelers of a group
-// needs to be implemented :)
 router.get('/calForGroup/:group', (req, res) => {
+    let group = req.params.group;
     Tageler.getTagelersByGroup(group, (err, tagelers) => {
         if (err) {
             res.json({success: false, msg: 'No Tagelers found for Group: ' + group, error: err});
-        } else if(!tagelers.length) {
+        } else if (!tagelers.length) {
             res.json({success: false, msg: 'No Tagelers found for Group: ' + group});
-        } else{
-            //iCalService.createAndSendGroupICal(tagelers, res);
-            res.end('to be implemented');
+        } else {
+            iCalService.createGroupICal(group, tagelers, (err, cal) => {
+                if (err) {
+                    res.json({success: false, error: err});
+                } else {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/calendar; charset=utf-8',
+                        'Content-Disposition': 'attachment; filename="' + group +'Tageler.ics' + '"'
+                    });
+                    res.end(cal);
+                }
+            });
         }
     });
-
 });
+
 
 /************* ADMIN *************/
 // Create Tageler
