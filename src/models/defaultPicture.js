@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const DefaultPictureSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     // e.g. forest, ..., maybe enum ?
     category: {
@@ -36,16 +37,16 @@ module.exports.getOnePictureById = (id, callback) => {
     DefaultPicture.findOne({_id: id}, callback);
 };
 
+module.exports.getOnePictureByName = (name, callback) => {
+    DefaultPicture.findOne({name: name}, callback);
+};
+
 module.exports.getPicturesByCategory = (category, callback) => {
     DefaultPicture.find({category: category}, callback);
 };
 
 module.exports.getPicturesByGroup = (group, callback) => {
     DefaultPicture.find({group: group}, callback);
-};
-
-module.exports.getOnePictureByGroup = (category, callback) => {
-    DefaultPicture.findOne({category: category}, callback);
 };
 
 module.exports.getAllPictures = (callback) => {
@@ -65,4 +66,7 @@ module.exports.deleteOnePictureById = (id, callback) => {
 //update
 module.exports.updateOnePictureById = (id, pictureToUpdate, callback) => {
     DefaultPicture.findOneAndUpdate({_id: id}, pictureToUpdate, {new: true, runValidators: true}, callback);
+};
+module.exports.updateOnePictureByName = (name, pictureToUpdate, callback) => {
+    DefaultPicture.findOneAndUpdate({name: name}, pictureToUpdate, {new: true, runValidators: true}, callback);
 };

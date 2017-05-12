@@ -17,6 +17,19 @@ router.get('/getById/:id', (req, res) => {
         }
     });
 });
+// Get one Picture by Name
+router.get('/getByName/:name', (req, res) => {
+    let name = req.params.name;
+    Picture.getOnePictureByName(name, (err, picture) => {
+        if (err) {
+            res.json({success: false, msg: 'No Picture found with Name: ' + name, error: err});
+        } else if (!picture){
+            res.json({success: false, msg: 'No Picture found with Name: ' + name});
+        } else {
+            res.json(picture);
+        }
+    });
+});
 
 // Get Pictures by category
 router.get('/getByCategory/:category', (req, res) => {
@@ -69,7 +82,11 @@ router.post('/admin/save', (req, res) => {
         picture: req.body.picture
     });
     Picture.saveOnePicture(pictureToSave, (err, savedPicture) => {
-        if (err) {
+        // code 11000 is duplicated key error (name is unique)
+        if (err.code === 11000){
+            res.json({success: false, msg: 'A Picture with the name ' + req.body.name + ' already exists'});
+        }
+        else if (err) {
             res.json({success: false, msg: 'Failed to save Picture ' + err});
         } else {
             res.json({success: true, msg: 'Picture saved', result: savedPicture});
@@ -77,7 +94,7 @@ router.post('/admin/save', (req, res) => {
     });
 });
 
-// Update Picture
+// Update Picture by ID
 router.put('/admin/update/:id', (req, res) => {
     let id = req.params.id;
     Picture.getOnePictureById(id, (err, pictureToUpdate) => {
@@ -95,6 +112,32 @@ router.put('/admin/update/:id', (req, res) => {
             Picture.updateOnePictureById(id, pictureToUpdate, (err, updatedPicture) => {
                 if (err) {
                     res.json({success: false, msg: 'Failed to update Picture with ID: ' + id, error: err});
+                } else {
+                    res.json({success: true, msg: 'Picture updated', oldPicture: oldPicture, updatedPicture: updatedPicture});
+                }
+            });
+        }
+    });
+});
+
+// Update Picture by Name
+router.put('/admin/update/:name', (req, res) => {
+    let name = req.params.name;
+    Picture.getOnePictureByName(name, (err, pictureToUpdate) => {
+        if (err) {
+            res.json({success: false, msg: 'Failed to find the Picture with Name: ' + name, error: err});
+        } else if(!pictureToUpdate) {
+            res.json({success: false, msg: 'Failed to find the Picture with Name: ' + name});
+        } else {
+            let oldPicture = JSON.parse(JSON.stringify(pictureToUpdate));
+            for (let param in req.body) {
+                // should it be possible to clear unrequired fields ?
+                //if (req.body[param] !== null && req.body[param] !== "")
+                pictureToUpdate[param] = req.body[param];
+            }
+            Picture.updateOnePictureByName(name, pictureToUpdate, (err, updatedPicture) => {
+                if (err) {
+                    res.json({success: false, msg: 'Failed to update Picture with Name: ' + name, error: err});
                 } else {
                     res.json({success: true, msg: 'Picture updated', oldPicture: oldPicture, updatedPicture: updatedPicture});
                 }
