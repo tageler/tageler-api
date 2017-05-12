@@ -16,8 +16,10 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 // Set needed routes
 const tagelers = require('./routes/tagelers');
 const groups = require('./routes/groups');
+const defaultPictures = require('./routes/defaultPictures');
 app.use('/api/v1/tageler', tagelers);
 app.use('/api/v1/group', groups);
+app.use('/api/v1/picture', defaultPictures);
 
 // TODO: No idea what this does
 app.use('/public', express.static(__dirname + '/public'));

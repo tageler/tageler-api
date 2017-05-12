@@ -44,9 +44,9 @@ module.exports.saveOneGroup = (groupToSave, callback) => {
 //delete
 module.exports.deleteOneGroupById = (id, callback) => {
     Group.findOneAndRemove({_id: id}, callback);
-}
+};
 
 //update
 module.exports.updateOneGroupById = (id, groupToUpdate, callback) => {
     Group.findOneAndUpdate({_id: id}, groupToUpdate, {new: true, runValidators: true}, callback);
-}
+};

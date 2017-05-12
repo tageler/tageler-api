@@ -261,4 +261,4 @@ function postGroup(group, callback) {
         .end((err, res) => {
             callback(err, res);
         });
-}
+};

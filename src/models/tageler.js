@@ -130,11 +130,11 @@ module.exports.saveOneTageler = (tagelerToSave, callback) => {
 // delete
 module.exports.deleteOneTagelerById = (_id, callback) => {
     Tageler.findOneAndRemove({ _id: _id }, callback);
-}
+};
 
 module.exports.deleteOneTageler = (tagelerToDelete, callback) => {
     Tageler.remove(tagelerToDelete, callback);
-}
+};
 
 // update
 module.exports.updateOneTagelerById = (id, tagelerToUpdate, callback) => {
@@ -143,7 +143,7 @@ module.exports.updateOneTagelerById = (id, tagelerToUpdate, callback) => {
             Tageler.findOneAndUpdate({ _id: id }, resTageler, { new: true, runValidators: true }, callback)
         },
         callback);
-}
+};
 
 function resizeImageAndMigrate(tageler, dbFunction, callback) {
     if (tageler.picture != null) {
@@ -163,4 +163,4 @@ function resizeImageAndMigrate(tageler, dbFunction, callback) {
         tageler.pictureSmall = tageler.picture;
         dbFunction(tageler, callback);
     }
-}
+};

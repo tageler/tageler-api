@@ -395,4 +395,4 @@ function postTageler(tageler, callback) {
         .end((err, res) => {
             callback(err, res);
         });
-}
+};
