@@ -70,10 +70,12 @@ const TagelerSchema = mongoose.Schema({
     background_color: {
         type: String,
         required: false,
+        default: "#ededed"
     },
     color: {
         type: String,
         required: false,
+        default: "#bb0000"
     },
     font_family: {
         type: String,
