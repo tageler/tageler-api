@@ -41,26 +41,26 @@ describe('tageler', () => {
 
         api.post('/api/v1/tageler/admin/create')
             .send(
-            {
-                title: title,
-                text: text,
-                group: group,
-                start: start,
-                end: end,
-                bringAlong: bringAlong,
-                uniform: uniform,
-                picture: picture,
-                checkout: {
-                    deadline: checkoutDeadline,
-                    contact: {
-                        name: checkoutContactName,
-                        phone: checkoutContactPhone,
-                        mail: checkoutContactMail,
-                        other: checkoutContactOther
-                    }
-                },
-                free: free
-            })
+                {
+                    title: title,
+                    text: text,
+                    group: group,
+                    start: start,
+                    end: end,
+                    bringAlong: bringAlong,
+                    uniform: uniform,
+                    picture: picture,
+                    checkout: {
+                        deadline: checkoutDeadline,
+                        contact: {
+                            name: checkoutContactName,
+                            phone: checkoutContactPhone,
+                            mail: checkoutContactMail,
+                            other: checkoutContactOther
+                        }
+                    },
+                    free: free
+                })
             .expect(200)
             .expect('Content-Type', /json/)
             .end((err, res) => {
@@ -68,13 +68,12 @@ describe('tageler', () => {
                 expect(res.body.result.title).to.equal(title);
                 expect(res.body.result.text).to.equal(text);
                 expect(res.body.result.group[0]).to.equal(group);
-                // TODO: Date format isn't correct yet
-                // expect(res.body.result.start).to.equal(start);
-                // expect(res.body.result.end).to.equal(end);
+                expect(Date(res.body.result.start)).to.equal(Date(start));
+                expect(Date(res.body.result.end)).to.equal(Date(end));
                 expect(res.body.result.bringAlong).to.equal(bringAlong);
                 expect(res.body.result.uniform).to.equal(uniform);
                 expect(res.body.result.picture).to.equal(picture);
-                // expect(res.body.result.checkout.deadline).to.equal(checkoutDeadline);
+                expect(Date(res.body.result.checkout.deadline)).to.equal(Date(checkoutDeadline));
                 expect(res.body.result.checkout.contact[0].name).to.equal(checkoutContactName);
                 expect(res.body.result.checkout.contact[0].phone).to.equal(checkoutContactPhone);
                 expect(res.body.result.checkout.contact[0].mail).to.equal(checkoutContactMail);
@@ -85,26 +84,26 @@ describe('tageler', () => {
         // Successful creation 2 for getTagelers unit test
         api.post('/api/v1/tageler/admin/create')
             .send(
-            {
-                title: faker.lorem.word(),
-                text: faker.hacker.phrase(),
-                group: faker.lorem.word(),
-                start: faker.date.future(),
-                end: faker.date.future(),
-                bringAlong: faker.lorem.word(),
-                uniform: faker.lorem.word(),
-                picture: picture,
-                checkout: {
-                    deadline: faker.date.future(),
-                    contact: {
-                        name: faker.name.findName(),
-                        phone: faker.phone.phoneNumber(),
-                        mail: faker.internet.email(),
-                        other: faker.hacker.phrase()
-                    }
-                },
-                free: faker.random.boolean()
-            })
+                {
+                    title: faker.lorem.word(),
+                    text: faker.hacker.phrase(),
+                    group: faker.lorem.word(),
+                    start: faker.date.future(),
+                    end: faker.date.future(),
+                    bringAlong: faker.lorem.word(),
+                    uniform: faker.lorem.word(),
+                    picture: picture,
+                    checkout: {
+                        deadline: faker.date.future(),
+                        contact: {
+                            name: faker.name.findName(),
+                            phone: faker.phone.phoneNumber(),
+                            mail: faker.internet.email(),
+                            other: faker.hacker.phrase()
+                        }
+                    },
+                    free: faker.random.boolean()
+                })
             .expect(200)
             .expect('Content-Type', /json/)
             .end((err, res) => {
@@ -113,7 +112,7 @@ describe('tageler', () => {
             });
     });
     it('/api/v1/tageler/admin/create, unsuccessful creation', done => {
-        // Successful creation 1
+        // Unsuccessful creation 1
         const title = '';
         const text = 'test';
         const group = '';
@@ -131,26 +130,26 @@ describe('tageler', () => {
 
         api.post('/api/v1/tageler/admin/create')
             .send(
-            {
-                title: title,
-                text: text,
-                group: group,
-                start: start,
-                end: end,
-                bringAlong: bringAlong,
-                uniform: uniform,
-                picture: picture,
-                checkout: {
-                    deadline: checkoutDeadline,
-                    contact: {
-                        name: checkoutContactName,
-                        phone: checkoutContactPhone,
-                        mail: checkoutContactMail,
-                        other: checkoutContactOther
-                    }
-                },
-                free: free
-            })
+                {
+                    title: title,
+                    text: text,
+                    group: group,
+                    start: start,
+                    end: end,
+                    bringAlong: bringAlong,
+                    uniform: uniform,
+                    picture: picture,
+                    checkout: {
+                        deadline: checkoutDeadline,
+                        contact: {
+                            name: checkoutContactName,
+                            phone: checkoutContactPhone,
+                            mail: checkoutContactMail,
+                            other: checkoutContactOther
+                        }
+                    },
+                    free: free
+                })
             .expect(200)
             .expect('Content-Type', /json/)
             .end((err, res) => {
@@ -180,17 +179,13 @@ describe('tageler', () => {
             .end((err, res) => {
                 expect(res.body.title).to.equal(tageler1.title);
                 expect(res.body.text).to.equal(tageler1.text);
-                // TODO: What's the difference?
-                // console.log(res.body.group);
-                // console.log(tageler1.group);
-                // expect(res.body.group).to.equal(tageler1.group);
-                // TODO: Date format isn't correct yet
-                // expect(res.body.start).to.equal(tageler1.start);
-                // expect(res.body.end).to.equal(tageler1.end);
+                expect(res.body.group[0]).to.equal(tageler1.group[0]);
+                expect(Date(res.body.start)).to.equal(Date(tageler1.start));
+                expect(Date(res.body.end)).to.equal(Date(tageler1.end));
                 expect(res.body.bringAlong).to.equal(tageler1.bringAlong);
                 expect(res.body.uniform).to.equal(tageler1.uniform);
                 expect(res.body.picture).to.equal(tageler1.picture);
-                // expect(res.body.checkout.deadline).to.equal(tageler1.checkoutDeadline);
+                expect(Date(res.body.checkout.deadline)).to.equal(Date(tageler1.checkoutDeadline));
                 expect(res.body.checkout.contact[0].name).to.equal(tageler1.checkout.contact[0].name);
                 expect(res.body.checkout.contact[0].phone).to.equal(tageler1.checkout.contact[0].phone);
                 expect(res.body.checkout.contact[0].mail).to.equal(tageler1.checkout.contact[0].mail);
@@ -213,9 +208,9 @@ describe('tageler', () => {
     it('/api/v1/tageler/admin/update', done => {
         api.put('/api/v1/tageler/admin/update/' + tageler2._id)
             .send(
-            {
-                group: 'foobar'
-            })
+                {
+                    group: 'foobar'
+                })
             .expect('Content-Type', /json/)
             .end((err, res) => {
                 // console.log(JSON.stringify(res.body));
@@ -227,9 +222,9 @@ describe('tageler', () => {
     it('/api/v1/tageler/admin/update, wrong ID', done => {
         api.put('/api/v1/tageler/admin/update/' + '12345nananaBatmanIdToForceErr')
             .send(
-            {
-                title: 'new group name'
-            })
+                {
+                    title: 'new group name'
+                })
             .expect('Content-Type', /json/)
             .end((err, res) => {
                 expect(res.body.success).to.equal(false);
@@ -237,7 +232,7 @@ describe('tageler', () => {
                 done();
             });
     });
-    /* need fix validations for this one :)
+    /* need fix validations for this one :) */
     it('/api/v1/tageler/admin/update, mongoose validation for update', done => {
         api.put('/api/v1/tageler/admin/update/' + tageler1._id)
             .send(
@@ -246,13 +241,14 @@ describe('tageler', () => {
                 })
             .expect('Content-Type', /json/)
             .end((err, res) => {
-            console.log(res.body);
-                expect(res.body.success).to.equal(false);
-                expect(res.body.msg).to.equal('Failed to update Tageler with ID: ' + tageler1._id);
+                // console.log(res.body);
+                // TODO: Input validation
+                // expect(res.body.success).to.equal(false);
+                // expect(res.body.msg).to.equal('Failed to update Tageler with ID: ' + tageler1._id);
                 done();
             });
     });
-    */
+
     it('/api/v1/tageler/getByGroup/', done => {
         if (dbService.MONGODB_VERSION >= '3.4') {
             // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
@@ -263,8 +259,7 @@ describe('tageler', () => {
                     // console.log(JSON.stringify(res.body));
                     expect(res.body[0].title).to.equal(tageler2.title);
                     expect(res.body[0].text).to.equal(tageler2.text);
-                    // expect(JSON.stringify(res.body[0].group)).to.equal('["foobar"]');
-                    // TODO: Date format isn't correct yet
+                    expect(res.body[0].group[0]).to.equal('foobar');
                     expect(res.body[0].start).to.equal(tageler2.start);
                     expect(res.body[0].end).to.equal(tageler2.end);
                     expect(res.body[0].bringAlong).to.equal(tageler2.bringAlong);
@@ -272,7 +267,7 @@ describe('tageler', () => {
                     // expect(res.body[0].picture).to.equal(tageler2.picture);
                     expect(res.body[0].picture.length).to.above(200);
                     expect(res.body[0].picture.length).to.below(tageler2.picture.length);
-                    // expect(res.body[0].checkout.deadline).to.equal(tageler2.checkoutDeadline);
+                    expect(Date(res.body[0].checkout.deadline)).to.equal(Date(tageler2.checkoutDeadline));
                     expect(res.body[0].checkout.contact[0].name).to.equal(tageler2.checkout.contact[0].name);
                     expect(res.body[0].checkout.contact[0].phone).to.equal(tageler2.checkout.contact[0].phone);
                     expect(res.body[0].checkout.contact[0].mail).to.equal(tageler2.checkout.contact[0].mail);
@@ -329,25 +324,10 @@ describe('tageler', () => {
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
-                // TODO: Why do we still get all tageler here, after deletion?
-                // console.log(res.body);
-                // expect(res.body.length === 0).to.equal(true);
+                expect(res.body.msg).to.equal('No Tagelers found');
                 done();
             });
     });
-    // ####################
-    // must run after all tagelelers are deleted
-    /* it('/api/v1/tageler/getTagelers, no tagelers in DB', done => {
-         api.get('/api/v1/tageler/getTagelers')
-             .set('Accept', 'application/json')
-             .expect('Content-Type', /json/)
-             .end((err, res) => {
-             expect(res.body.success).to.equal(false);
-             expect(res.body.msg).to.equal('No Tagelers found');
-             done();
-             });
-     });*/
-
 });
 
 
