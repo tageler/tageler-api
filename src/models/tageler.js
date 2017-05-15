@@ -80,6 +80,7 @@ const TagelerSchema = mongoose.Schema({
     font_family: {
         type: String,
         required: false,
+        default: 'Helvetica'
     }
 
 });
