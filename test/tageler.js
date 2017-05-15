@@ -241,10 +241,8 @@ describe('tageler', () => {
                 })
             .expect('Content-Type', /json/)
             .end((err, res) => {
-                // console.log(res.body);
-                // TODO: Input validation
-                // expect(res.body.success).to.equal(false);
-                // expect(res.body.msg).to.equal('Failed to update Tageler with ID: ' + tageler1._id);
+                expect(res.body.success).to.equal(false);
+                expect(res.body.msg).to.equal('Failed to update Tageler with ID: ' + tageler1._id);
                 done();
             });
     });
