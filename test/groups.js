@@ -61,7 +61,8 @@ describe('group', () => {
             .expect('Content-Type', /json/)
             .end((err, res) => {
                 expect(res.body.success).to.equal(false);
-                done();
+                // Necessary for next test
+                setTimeout(done, 1500);
             });
     });
     it('/api/v1/group/getGroups', done => {
@@ -70,7 +71,7 @@ describe('group', () => {
             .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res) => {
-                // expect(res.body.length === 2).to.equal(true);
+                expect(res.body.length === 2).to.equal(true);
                 done();
             });
     });
@@ -98,7 +99,7 @@ describe('group', () => {
             .expect('Content-Type', /json/)
             .end((err, res) => {
                 expect(res.body.success).to.equal(false);
-                expect(res.body.msg).to.equal('Failed to find the Group with ID: '+'12345nananaBatmanIdToForceErr');
+                expect(res.body.msg).to.equal('Failed to find the Group with ID: ' + '12345nananaBatmanIdToForceErr');
                 done();
             });
     });
@@ -147,7 +148,7 @@ describe('group', () => {
         api.get('/api/v1/group/getGroups')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .end((err,res) => {
+            .end((err, res) => {
                 expect(res.body !== 0);
                 done();
             });
@@ -166,32 +167,15 @@ describe('group', () => {
             .expect(200)
             .end((err, res) => {
                 expect(res.body.success).to.equal(true);
-
             });
-        /*api.get('/api/v1/group/getGroups')
+        api.get('/api/v1/group/getGroups')
             .set('Accept', 'application/json')
             .expect(200)
             .end((err, res) => {
-                // TODO: Why do we still get all groups here, after deletion?
-                // console.log(res.body);
-                // expect(res.body.length === 0).to.equal(true);
-                done();
-            });
-         */
-        done();
-    });
-    // must run after all groups are deleted
-    /*it('/api/v1/group/getGroups, no groups in DB', done => {
-        api.get('/api/v1/group/getGroups')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .end((err, res) => {
-                expect(res.body.success).to.equal(false);
                 expect(res.body.msg).to.equal('No Groups found');
                 done();
             });
-    });*/
-
+    });
 });
 
 describe('Fill MongoDB with Groups entries', () => {
@@ -261,4 +245,4 @@ function postGroup(group, callback) {
         .end((err, res) => {
             callback(err, res);
         });
-}
+};
