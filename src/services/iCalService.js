@@ -18,10 +18,7 @@ module.exports.createAndSendTagelerICal = (tageler, res) => {
 
 module.exports.createTagelerICal = (tageler, callback) => {
     try {
-        let cal = ical({
-            domain: 'Pfadi Patria',
-            name: tageler.title
-        });
+        let cal = ical({});
 
         cal.createEvent({
             start: tageler.start,
