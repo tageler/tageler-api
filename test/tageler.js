@@ -158,6 +158,62 @@ describe('tageler', () => {
                 done();
             });
     });
+    it('/api/v1/tageler/calForTageler/:id, correct id', done => {
+        if (dbService.MONGODB_VERSION >= '3.4') {
+            // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
+            api.get('/api/v1/tageler/calForTageler/' + tageler1._id)
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.text.includes('BEGIN:VCALENDAR')).to.equal(true);
+                    expect(res.text.includes('END:VCALENDAR')).to.equal(true);
+                    expect(res.text.includes(tageler1.title)).to.equal(true);
+                    done();
+                });
+        } else {
+            done();
+        }
+    });
+    it('/api/v1/tageler/calForTageler/:id, wrong id', done => {
+        if (dbService.MONGODB_VERSION >= '3.4') {
+            // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
+            api.get('/api/v1/tageler/calForTageler/' + '12345nananaBatmanIdToForceErr' )
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.body.success).to.equal(false);
+                    done();
+                });
+        } else {
+            done();
+        }
+    });
+    it('/api/v1/tageler/calForGroup/:group, correct group', done => {
+        if (dbService.MONGODB_VERSION >= '3.4') {
+            // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
+            api.get('/api/v1/tageler/calForGroup/' + tageler1.group)
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.text.includes('BEGIN:VCALENDAR')).to.equal(true);
+                    expect(res.text.includes('END:VCALENDAR')).to.equal(true);
+                    expect(res.text.includes(tageler1.title)).to.equal(true);
+                    done();
+                });
+        } else {
+            done();
+        }
+    });
+    it('/api/v1/tageler/calForGroup/:group, wrong group', done => {
+        if (dbService.MONGODB_VERSION >= '3.4') {
+            // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
+            api.get('/api/v1/tageler/calForGroup/' + '12345nananaBatmanGROUPToForceErr' )
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.body.success).to.equal(false);
+                    done();
+                });
+        } else {
+            done();
+        }
+    });
     it('/api/v1/tageler/getTagelers', done => {
         if (dbService.MONGODB_VERSION >= '3.4') {
             // console.log("MONGO_VERSION: " + dbService.MONGODB_VERSION);
