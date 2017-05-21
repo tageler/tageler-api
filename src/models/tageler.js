@@ -66,7 +66,23 @@ const TagelerSchema = mongoose.Schema({
     free: {
         type: Boolean,
         required: true
+    },
+    background_color: {
+        type: String,
+        required: false,
+        default: "#ededed"
+    },
+    color: {
+        type: String,
+        required: false,
+        default: "#bb0000"
+    },
+    font_family: {
+        type: String,
+        required: false,
+        default: 'Helvetica'
     }
+
 });
 
 const Tageler = mongoose.model('Tageler', TagelerSchema);

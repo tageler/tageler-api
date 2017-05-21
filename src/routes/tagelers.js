@@ -127,7 +127,11 @@ router.post('/admin/create', (req, res) => {
         uniform: req.body.uniform,
         picture: req.body.picture,
         checkout: req.body.checkout,
-        free: req.body.free
+        free: req.body.free,
+        background_color: req.body.background_color,
+        color: req.body.color,
+        font_family: req.body.font_family
+
     });
     Tageler.saveOneTageler(tagelerToSave, (err, savedTageler) => {
         if (err) {
