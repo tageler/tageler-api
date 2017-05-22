@@ -1,5 +1,9 @@
 Tageler API
 ===========
+
+This project is the backend part of the Tageler app, which is created for [Pfadicorps Patria Bern](https://www.pfadipatria.ch/).
+Its purpose is to provide the possibility to manage so-called 'tagelers', thus events for members of the Pfadicoprs Patria Bern.
+
 Preconditions
 ---
 - Install NodeJS
@@ -20,7 +24,7 @@ Run Tests
 Run tests with
 ```npm test```
 or
-```bash ./node_modules/mocha/bin/mocha``` if in package.json the script 
+```bash ./node_modules/mocha/bin/mocha``` if in package.json the script
 ```bash
 "scripts": {
     "test": "mocha"
@@ -63,3 +67,33 @@ Glossary
 | Abmelden | `checkout` |
 | Abmelden bis | `checkout.deadline` |
 | Übungsfrei | `free` |
+
+
+## Important files and directories
+| File/Folder | Purpose |
+|--------|-------------|
+| src/ | Contains all models, routes and services. |
+| src/app.js | Initializes the app and glues everything together. |
+| src/server.js | Contains the port number and starts the server. |
+| node_modules/ | The npm packages installed with the `npm install` command. |
+| test/ | Contains the unit-tests. |
+| .travis.yml | This file specifies the programming language used, the desired building and testing environment and various other parameters. |
+| gulpfile.babel.js | Contains the gulp tasks. |
+| package.json | Identifies npmpackage dependencies for the project. |
+
+
+## License
+Copyright © 2017 Pfadicorps Patria Bern
+
+## Authors
+#### Developers:
+  * Ramona Beck
+  * Balthasar Hofer
+  * Kevin Meister
+  * Sven Schmid
+  * Artthik Sellathurai
+  * Flurin Trübner
+
+#### Contributors:
+  * Lucas Bickel
+  * Mathias Petermann
