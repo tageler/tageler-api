@@ -18,6 +18,20 @@ router.get('/getById/:id', (req, res) => {
     });
 });
 
+// Get Group by Name
+router.get('/getByName/:name', (req, res) => {
+    let name = req.params.name.toLowerCase();
+    Group.getOneGroupByName(name, (err, group) => {
+        if (err) {
+            res.json({success: false, msg: 'No Group found matching name: ' + name, error: err});
+        } else if (!group){
+            res.json({success: false, msg: 'No Group found matching name: ' + name});
+        } else {
+            res.json(group);
+        }
+    });
+});
+
 // Get all Groups
 router.get('/getGroups', (req, res) => {
     Group.getAllGroups((err, allGroups) => {
@@ -36,7 +50,7 @@ router.get('/getGroups', (req, res) => {
 router.post('/admin/create', (req, res) => {
     let groupToSave = new Group({
         type: req.body.type,
-        name: req.body.name,
+        name: req.body.name.toLowerCase(),
         picture: req.body.picture
     });
     Group.saveOneGroup(groupToSave, (err, savedGroup) => {

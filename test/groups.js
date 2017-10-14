@@ -128,6 +128,18 @@ describe('group', () => {
                 done();
             });
     });
+    it('/api/v1/group/getByName/:name', done => {
+        api.get('/api/v1/group/getByName/' + group2.name)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body._id).to.equal(group2._id);
+                expect(res.body.type).to.equal(group2.type);
+                expect(res.body.name).to.equal(group2.name);
+                done();
+            });
+    });
     it('/api/v1/group/getById/:id, wrong ID', done => {
         api.get('/api/v1/group/getById/' + '12345nananaBatmanIdToForceErr')
             .set('Accept', 'application/json')
