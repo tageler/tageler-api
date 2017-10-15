@@ -32,6 +32,11 @@ module.exports.getOneGroupById = (id, callback) => {
     Group.findOne({_id: id}, callback);
 };
 
+// getByName
+module.exports.getOneGroupByName = (name, callback) => {
+    Group.findOne({name: name}, callback);
+};
+
 module.exports.getAllGroups = (callback) => {
     Group.find(callback);
 };
