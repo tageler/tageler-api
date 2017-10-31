@@ -82,15 +82,19 @@ router.post('/admin/save', (req, res) => {
         picture: req.body.picture
     });
     Picture.saveOnePicture(pictureToSave, (err, savedPicture) => {
-        // code 11000 is duplicated key error (name is unique)
-        if (err.code === 11000){
-            res.json({success: false, msg: 'A Picture with the name ' + req.body.name + ' already exists'});
-        }
-        else if (err) {
-            res.json({success: false, msg: 'Failed to save Picture ' + err});
-        } else {
+        if (err) {
+            // code 11000 is duplicated key error (name is unique)
+            if (err.code === 11000) {
+                res.json({success: false, msg: 'A Picture with the name ' + req.body.name + ' already exists'});
+            }
+            else {
+                res.json({success: false, msg: 'Failed to save Picture ' + err});
+            }
+        } else if(savedPicture) {
             res.json({success: true, msg: 'Picture saved', result: savedPicture});
         }
+
+
     });
 });
 
