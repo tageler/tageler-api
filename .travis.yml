@@ -1,0 +1,24 @@
+
+language: node_js
+node_js:
+- 8
+env:
+  - CXX=g++-4.8
+before_install:
+  - npm install -g npm@latest
+
+install:
+  - export CXX="g++-4.8"
+  - npm install
+
+services:
+- mongodb
+addons:
+  apt:
+    sources:
+    - mongodb-3.4-precise
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - mongodb-org-server
+script: npm run coverage
