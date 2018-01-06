@@ -20,6 +20,20 @@ router.get('/getByGroup/:group', (req, res) => {
     });
 });
 
+// Get Tagelers by group that haven't ended yet
+router.get('/getActiveByGroup/:group', (req, res) => {
+    let group = req.params.group;
+    Tageler.getActiveTagelersByGroup(group, (err, tagelers) => {
+        if (err) {
+            res.json({success: false, msg: 'No future Tagelers found for Group: ' + group, error: err});
+        } else if (!tagelers.length) {
+            res.json({success: false, msg: 'No future Tagelers found for Group: ' + group});
+        } else {
+            res.json(tagelers);
+        }
+    });
+});
+
 
 // Get Tagelers by ID
 router.get('/getById/:id', (req, res) => {
@@ -48,23 +62,21 @@ router.get('/getTagelers', (req, res) => {
     });
 });
 
+// Get all Tagelers that haven't ended yet
+router.get('/getActiveTagelers', (req, res) => {
+    Tageler.getActiveTagelers((err, allTagelers) => {
+        if (err) {
+            res.json({success: false, msg: 'No future Tagelers found', error: err});
+        } else if (!allTagelers.length) {
+            res.json({success: false, msg: 'No future Tagelers found'});
+        } else {
+            res.json(allTagelers);
+        }
+    });
+});
+
 /************* iCal *************/
 // Get iCal for one Tageler, service handles the response
-/*router.get('/calForTageler/:id', (req, res) => {
- let id = req.params.id;
- Tageler.getOneTagelerById(id,(err, tageler) => {
- if(err){
- res.json({success: false, msg: 'No Tageler found with ID: ' + id, error: err});
- } else if (!tageler){
- res.json({success: false, msg: 'No Tageler found with ID: ' + id});
- } else {
- iCalService.createAndSendTagelerICal(tageler, res);
- }
- });
- });
- */
-
-// Alternative to handle the response here
 router.get('/calForTageler/:id', (req, res) => {
     let id = req.params.id;
     Tageler.getOneTagelerById(id, (err, tageler) => {
