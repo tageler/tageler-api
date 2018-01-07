@@ -136,6 +136,49 @@ module.exports.getOneTagelerById = (_id, callback) => {
     Tageler.findOne({ _id: _id }, callback);
 };
 
+module.exports.getActiveTagelers = (callback) => {
+    var one_hour_ago = new Date().getTime() - 3600 * 1000;
+    Tageler.aggregate(
+        [
+            {
+                $match: {
+                    end: {$gt: new Date(one_hour_ago)}
+                }
+            }, {
+                $addFields: {
+                    picture: "$pictureSmall"
+                }
+            }, {
+                $project: {
+                    pictureSmall: 0
+                }
+            }
+        ]
+    ).exec(callback);
+};
+
+module.exports.getActiveTagelersByGroup = (group, callback) => {
+    var one_hour_ago = new Date().getTime() - 3600 * 1000;
+    Tageler.aggregate(
+        [
+            {
+                $match: {
+                    group: group,
+                    end: {$gt: new Date(one_hour_ago)}
+                }
+            }, {
+                $addFields: {
+                    picture: "$pictureSmall"
+                }
+            }, {
+                $project: {
+                    pictureSmall: 0
+                }
+            }
+        ]
+    ).exec(callback);
+};
+
 // save
 module.exports.saveOneTageler = (tagelerToSave, callback) => {
     resizeImageAndMigrate(tagelerToSave,
