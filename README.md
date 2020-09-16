@@ -1,6 +1,12 @@
 Tageler API
 ===========
 
+This project is archived, and no longer maintained.
+---------------------------------------------------
+It will be replaced with a django based project, that will be open sourced at some point.
+
+Introduction
+-----------
 This project is the backend part of the Tageler app, which is created for [Pfadicorps Patria Bern](https://www.pfadipatria.ch/).
 Its purpose is to provide the possibility to manage so-called 'tagelers', thus events for members of the Pfadicoprs Patria Bern.
 
